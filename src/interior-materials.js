@@ -12,7 +12,7 @@ export function prepareInteriorMaterials() {
  shared={
   oak:make(0xe9dcc4,{...maps.oak,normalScale:new THREE.Vector2(.2,.2)}),
   walnut:make(0xc4ad92,{...maps.walnut,normalScale:new THREE.Vector2(.15,.15),roughness:.65}),
-  plaster:make(0xf2eee4,{...maps.plaster,normalScale:new THREE.Vector2(.07,.07)}),
+  plaster:make(0xf2eee4,{...maps.plaster,name:'Solid interior walls',transparent:false,opacity:1,depthTest:true,depthWrite:true,normalScale:new THREE.Vector2(.07,.07)}),
   fabric:new THREE.MeshPhysicalMaterial({color:0xc8bda6,...maps.boucle,normalScale:new THREE.Vector2(.32,.32),roughness:.96,sheen:.5,sheenColor:0xd5c9b4}),
   linen:new THREE.MeshPhysicalMaterial({color:0xede7da,...maps.linen,normalScale:new THREE.Vector2(.2,.2),roughness:.94,sheen:.3}),
   tile:make(0xffffff,{map:tile,bumpMap:tile,bumpScale:.002,roughness:.55}),

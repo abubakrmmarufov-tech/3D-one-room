@@ -13,5 +13,7 @@
     "bytes": 6991640
   },
   "curvedCurtainPanels": 2,
-  "lateMaterialMapsVerified": true
+  "lateMaterialMapsVerified": true,
+  "wallOcclusionSamples": 429,
+  "nearPlaneSamples": 288
 }

@@ -13,6 +13,7 @@ import {createServer} from 'vite';
 import {showcaseFrame} from '../src/showcase-room.js';
 import {windowDressing} from '../src/window-dressing.js';
 import {materialVariant,refreshMaterialVariants} from '../src/material-variants.js';
+import {interiorNearPlane} from '../src/camera-clearance.js';
 const read=p=>JSON.parse(fs.readFileSync(p)),complex=read('src/model/complex.json'),plans=read('src/model/plans.json'),catalog=read('src/model/apartment-catalog.json');
 assert.deepEqual(complex.towers.map(t=>t.key),['B']);assert.deepEqual(Object.keys(plans),['B']);
 assert.equal(complex.towers[0].floors.length,16);assert.equal(catalog.length,128);
@@ -69,11 +70,44 @@ early.dispose();late.dispose();source.normalMap.dispose();source.roughnessMap.di
 const ctx=new Proxy({createRadialGradient(){return{addColorStop(){}};}},{get:(o,k)=>o[k]??(()=>{})});
 globalThis.document={createElement:()=>({getContext:()=>ctx})};
 const server=await createServer({configFile:false,server:{middlewareMode:true},appType:'custom'});
-let geometry;
+let geometry,wallOcclusionSamples=0,nearPlaneSamples=0;
 try{
- const {prepareInteriorMaterials}=await server.ssrLoadModule('/src/interior-materials.js');prepareInteriorMaterials();
+ const {prepareInteriorMaterials}=await server.ssrLoadModule('/src/interior-materials.js'),materials=prepareInteriorMaterials();
  const {buildFloor}=await server.ssrLoadModule('/src/floor.js'),{apartments,aptsOnFloor}=await server.ssrLoadModule('/src/data.js');
  const unit=apartments.find(a=>a.id==='B12-0'),built=buildFloor('B',12,aptsOnFloor('B',12),unit);
+ // Test the rendered shell, not just material settings: rays from valid walking
+ // positions must hit the actual wall faces at low, eye and ceiling height.
+ for(const m of[materials.plaster,materials.ceiling]){
+  assert.equal(m.transparent,false);assert.equal(m.opacity,1);
+  assert.equal(m.depthWrite,true);assert.equal(m.depthTest,true);
+ }
+ const walls=built.group.children.filter(m=>m.isMesh&&m.material===materials.plaster),ray=new THREE.Raycaster();
+ assert(walls.length,'Solid wall geometry is present');
+ for(const poly of[...built.plan.walls,...built.plan.struct])for(let i=0;i<poly.length;i++){
+  const a=poly[i],b=poly[(i+1)%poly.length],dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);
+  if(length<.08)continue;
+  for(const t of[.2,.5,.8])for(const sign of[-1,1]){
+   const x=a[0]+dx*t,y=a[1]+dy*t,px=x+sign*dy/length*.24,py=y-sign*dx/length*.24;
+   if(!built.nav.clear(px,py))continue;
+   for(const height of[.4,1.65,built.H-.1]){
+    const from=built.group.localToWorld(new THREE.Vector3(px,height,-py)),to=built.group.localToWorld(new THREE.Vector3(x,height,-y));
+    ray.set(from,to.sub(from).normalize());ray.near=0;ray.far=.26;
+    assert(ray.intersectObjects(walls,false).length,`Opaque wall face missing near ${x}, ${y} at ${height}`);
+    wallOcclusionSamples++;
+   }
+  }
+ }
+ assert(wallOcclusionSamples>100,'Wall occlusion sampling covers the apartment');
+ // A near-plane corner must remain within half the collision radius in every
+ // orientation; this catches see-through clipping after a wide-screen resize.
+ const camera=new THREE.PerspectiveCamera(65,1,.1,1800);
+ for(const aspect of[.33,.46,.75,1,16/9,844/390,32/9,6])for(const pitch of[-1.05,0,1.05])for(const yaw of[0,.7,1.57]){
+  camera.aspect=aspect;camera.near=interiorNearPlane(camera.fov,aspect,built.nav.radius);camera.rotation.set(pitch,yaw,0,'YXZ');camera.updateProjectionMatrix();camera.updateMatrixWorld(true);
+  for(const x of[-1,1])for(const y of[-1,1]){
+   const corner=new THREE.Vector3(x,y,-1).unproject(camera);
+   assert(corner.length()<=built.nav.radius*.5+1e-7,'Near plane can cut through a collision wall');nearPlaneSamples++;
+  }
+ }
  walk.start(built,new THREE.Scene());
  for(const r of built.nav.rooms){
   assert(walk.goToRoom(r.index),`Dressed showcase route ${r.index}`);
@@ -90,4 +124,5 @@ try{
 const report={tower:'B',apartments:catalog.length,residentialFloors:16,modelBytes:fs.statSync('public/models/shahrofar.glb').size,modelNodes:root.listNodes().length,modelMeshes:root.listMeshes().length,showcaseRoomsReachable:nav.rooms.length,showcaseFurnitureParts:hero.commands.length};
 report.showcaseGeometry=geometry;
 report.curvedCurtainPanels=dressing.panels.length;report.lateMaterialMapsVerified=true;
+report.wallOcclusionSamples=wallOcclusionSamples;report.nearPlaneSamples=nearPlaneSamples;
 fs.writeFileSync('docs/qa/single-building.json',JSON.stringify(report,null,2)+'\n');console.log(report);
