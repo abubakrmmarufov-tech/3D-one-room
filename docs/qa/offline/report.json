@@ -1,0 +1,1896 @@
+{
+  "url": "file:///Users/m.a/Documents/Codex/2026-10-15/m/outputs/shakhrofar-residence/Shakhrofar.html",
+  "networkOffline": true,
+  "date": "2026-10-16T04:14:53.114Z",
+  "errors": [],
+  "warnings": [],
+  "requests": [],
+  "desktop": [
+    {
+      "file": "desktop-000.png",
+      "progress": 0,
+      "scrollProgress": 0,
+      "camera": [
+        10,
+        85,
+        -6.25
+      ],
+      "quaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "renderCamera": [
+        10,
+        85,
+        -6.25
+      ],
+      "renderQuaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "displayTime": 818.7,
+      "fov": 14,
+      "room": 0,
+      "clipHeight": 0.05,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 1,
+      "opening": 1,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 2,
+      "triangles": 14
+    },
+    {
+      "file": "desktop-012.png",
+      "progress": 0.12,
+      "scrollProgress": 0.12,
+      "camera": [
+        10,
+        85,
+        -6.25
+      ],
+      "quaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "renderCamera": [
+        10,
+        85,
+        -6.25
+      ],
+      "renderQuaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "displayTime": 4454.1,
+      "fov": 14,
+      "room": 0,
+      "clipHeight": 0.05,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 1,
+      "opening": 0.784,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 2,
+      "triangles": 14
+    },
+    {
+      "file": "desktop-016.png",
+      "progress": 0.16,
+      "scrollProgress": 0.16,
+      "camera": [
+        10,
+        65.84262658883291,
+        0.36505802382838043
+      ],
+      "quaternion": [
+        -0.5712966094597539,
+        0,
+        0,
+        0.8207436774168836
+      ],
+      "renderCamera": [
+        10,
+        65.84262658883291,
+        0.36505802382838043
+      ],
+      "renderQuaternion": [
+        -0.5712966094597539,
+        0,
+        0,
+        0.8207436774168836
+      ],
+      "displayTime": 7804.1,
+      "fov": 19.297060467472956,
+      "room": 0,
+      "clipHeight": 0.7837278106508878,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0.5932617187499998,
+      "opening": 0.21599999999999986,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 1322,
+      "triangles": 480304
+    },
+    {
+      "file": "desktop-020.png",
+      "progress": 0.19999939157345684,
+      "scrollProgress": 0.2,
+      "camera": [
+        10,
+        27.264552453920544,
+        9.977960711259716
+      ],
+      "quaternion": [
+        -0.25629096343165764,
+        0,
+        0,
+        0.9665996803554575
+      ],
+      "renderCamera": [
+        10,
+        27.264552453920544,
+        9.977960711259716
+      ],
+      "renderQuaternion": [
+        -0.25629096343165764,
+        0,
+        0,
+        0.9665996803554575
+      ],
+      "displayTime": 11070.3,
+      "fov": 36.284213552690574,
+      "room": 0,
+      "clipHeight": 2.227493191907763,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0.011233142651289163,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": true,
+      "routeVelocity": 0.00017102755611758964,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 978,
+      "triangles": 354582
+    },
+    {
+      "file": "desktop-025.png",
+      "progress": 0.25,
+      "scrollProgress": 0.25,
+      "camera": [
+        10,
+        1.65,
+        0.8
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        0.8
+      ],
+      "renderQuaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "displayTime": 14004.2,
+      "fov": 58,
+      "room": 1,
+      "clipHeight": 3.3,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 1676,
+      "triangles": 1274584
+    },
+    {
+      "file": "desktop-032.png",
+      "progress": 0.32,
+      "scrollProgress": 0.32,
+      "camera": [
+        10,
+        1.65,
+        -1.75
+      ],
+      "quaternion": [
+        -0.017071029483660093,
+        0.20788002486020488,
+        0.003628559331214361,
+        0.9779986241164497
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        -1.75
+      ],
+      "renderQuaternion": [
+        -0.017071029483660093,
+        0.20788002486020488,
+        0.003628559331214361,
+        0.9779986241164497
+      ],
+      "displayTime": 17187.5,
+      "fov": 58,
+      "room": 1,
+      "clipHeight": 3.3,
+      "waves": [
+        0.9570312499999999,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 718,
+      "triangles": 931695
+    },
+    {
+      "file": "desktop-037.png",
+      "progress": 0.36499999999999994,
+      "scrollProgress": 0.365,
+      "camera": [
+        10,
+        1.65,
+        -3.6999999999999997
+      ],
+      "quaternion": [
+        -0.02617694830787314,
+        -8.890925335556508e-17,
+        -2.328170735143796e-18,
+        0.9996573249755573
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        -3.6999999999999997
+      ],
+      "renderQuaternion": [
+        -0.02617694830787314,
+        -8.890925335556508e-17,
+        -2.328170735143796e-18,
+        0.9996573249755573
+      ],
+      "displayTime": 20020.9,
+      "fov": 58,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        0.13518434228493328,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 947,
+      "triangles": 1035041
+    },
+    {
+      "file": "desktop-043.png",
+      "progress": 0.425,
+      "scrollProgress": 0.425,
+      "camera": [
+        10,
+        1.65,
+        -4.2
+      ],
+      "quaternion": [
+        -0.051374397319801146,
+        0.19054749827986656,
+        0.00998617123278692,
+        0.9802818975087834
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        -4.2
+      ],
+      "renderQuaternion": [
+        -0.051374397319801146,
+        0.19054749827986656,
+        0.00998617123278692,
+        0.9802818975087834
+      ],
+      "displayTime": 22204.3,
+      "fov": 58,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 432,
+      "triangles": 871021
+    },
+    {
+      "file": "desktop-047.png",
+      "progress": 0.465,
+      "scrollProgress": 0.465,
+      "camera": [
+        9.800000000000002,
+        1.65,
+        -7.719999999999998
+      ],
+      "quaternion": [
+        -0.02207741428034631,
+        0.5371154891904005,
+        0.014064864073535296,
+        0.8431024366285771
+      ],
+      "renderCamera": [
+        9.800000000000002,
+        1.65,
+        -7.719999999999998
+      ],
+      "renderQuaternion": [
+        -0.02207741428034631,
+        0.5371154891904005,
+        0.014064864073535296,
+        0.8431024366285771
+      ],
+      "displayTime": 26169.4,
+      "fov": 58,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 293,
+      "triangles": 835975
+    },
+    {
+      "file": "desktop-051.png",
+      "progress": 0.51,
+      "scrollProgress": 0.51,
+      "camera": [
+        6.844152074232375,
+        1.65,
+        -7.844805046909339
+      ],
+      "quaternion": [
+        -0.03203606053663897,
+        0.6180566320947141,
+        0.025220629818184057,
+        0.7850755442507467
+      ],
+      "renderCamera": [
+        6.844152074232375,
+        1.65,
+        -7.844805046909339
+      ],
+      "renderQuaternion": [
+        -0.03203606053663897,
+        0.6180566320947141,
+        0.025220629818184057,
+        0.7850755442507467
+      ],
+      "displayTime": 29554.4,
+      "fov": 58,
+      "room": 3,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        0.37615740740740744,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 216,
+      "triangles": 795065
+    },
+    {
+      "file": "desktop-057.png",
+      "progress": 0.5699999999999998,
+      "scrollProgress": 0.57,
+      "camera": [
+        5.900000000000002,
+        1.65,
+        -8.499999999999998
+      ],
+      "quaternion": [
+        -0.06927526971078882,
+        0.4680243386360352,
+        0.036834314286119184,
+        0.8802257600990047
+      ],
+      "renderCamera": [
+        5.900000000000002,
+        1.65,
+        -8.499999999999998
+      ],
+      "renderQuaternion": [
+        -0.06927526971078882,
+        0.4680243386360352,
+        0.036834314286119184,
+        0.8802257600990047
+      ],
+      "displayTime": 32037.7,
+      "fov": 58,
+      "room": 3,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 115,
+      "triangles": 779357
+    },
+    {
+      "file": "desktop-063.png",
+      "progress": 0.63,
+      "scrollProgress": 0.63,
+      "camera": [
+        6.5,
+        1.65,
+        -7.9
+      ],
+      "quaternion": [
+        -0.012867263739008252,
+        -0.6754873119547458,
+        -0.011790674888357253,
+        0.7371650459006448
+      ],
+      "renderCamera": [
+        6.5,
+        1.65,
+        -7.9
+      ],
+      "renderQuaternion": [
+        -0.012867263739008252,
+        -0.6754873119547458,
+        -0.011790674888357253,
+        0.7371650459006448
+      ],
+      "displayTime": 36387.7,
+      "fov": 58,
+      "room": 3,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 1582,
+      "triangles": 1210819
+    },
+    {
+      "file": "desktop-067.png",
+      "progress": 0.6649997570445495,
+      "scrollProgress": 0.665,
+      "camera": [
+        9.29998056626608,
+        1.65,
+        -7.850001212166754
+      ],
+      "quaternion": [
+        -0.006684911761429372,
+        -0.6427634436558965,
+        -0.005609311593950323,
+        0.766015014916677
+      ],
+      "renderCamera": [
+        9.29998056626608,
+        1.65,
+        -7.850001212166754
+      ],
+      "renderQuaternion": [
+        -0.006684911761429372,
+        -0.6427634436558965,
+        -0.005609311593950323,
+        0.766015014916677
+      ],
+      "displayTime": 39787.8,
+      "fov": 58,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": true,
+      "routeVelocity": 0.00007531561024451314,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 1452,
+      "triangles": 1168885
+    },
+    {
+      "file": "desktop-070.png",
+      "progress": 0.6999997419876729,
+      "scrollProgress": 0.7,
+      "camera": [
+        12.09998177286451,
+        1.65,
+        -7.550002793278461
+      ],
+      "quaternion": [
+        -0.007148354538329789,
+        -0.573555390790423,
+        -0.005005342066105014,
+        0.8191202971929342
+      ],
+      "renderCamera": [
+        12.09998177286451,
+        1.65,
+        -7.550002793278461
+      ],
+      "renderQuaternion": [
+        -0.007148354538329789,
+        -0.573555390790423,
+        -0.005005342066105014,
+        0.8191202971929342
+      ],
+      "displayTime": 43020.8,
+      "fov": 58,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": true,
+      "routeVelocity": 0.00007050943651393107,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 1113,
+      "triangles": 1064129
+    },
+    {
+      "file": "desktop-074.png",
+      "progress": 0.74,
+      "scrollProgress": 0.74,
+      "camera": [
+        14.6,
+        1.65,
+        -7.05
+      ],
+      "quaternion": [
+        -0.024965399320078737,
+        -0.30060275513707796,
+        -0.007871560169501027,
+        0.9533901357688179
+      ],
+      "renderCamera": [
+        14.6,
+        1.65,
+        -7.05
+      ],
+      "renderQuaternion": [
+        -0.024965399320078737,
+        -0.30060275513707796,
+        -0.007871560169501027,
+        0.9533901357688179
+      ],
+      "displayTime": 46121.2,
+      "fov": 58,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0.6064139941690961,
+        0.25925925925925924
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 873,
+      "triangles": 1010151
+    },
+    {
+      "file": "desktop-079.png",
+      "progress": 0.7849999999999999,
+      "scrollProgress": 0.785,
+      "camera": [
+        16.5,
+        1.65,
+        -5.5
+      ],
+      "quaternion": [
+        -0.02603354824610332,
+        0.10449264397394847,
+        0.0027362361796587874,
+        0.9941810975534692
+      ],
+      "renderCamera": [
+        16.5,
+        1.65,
+        -5.5
+      ],
+      "renderQuaternion": [
+        -0.02603354824610332,
+        0.10449264397394847,
+        0.0027362361796587874,
+        0.9941810975534692
+      ],
+      "displayTime": 49254.5,
+      "fov": 58,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 528,
+      "triangles": 936479
+    },
+    {
+      "file": "desktop-082.png",
+      "progress": 0.82,
+      "scrollProgress": 0.82,
+      "camera": [
+        16.699999999999996,
+        1.65,
+        -6.4
+      ],
+      "quaternion": [
+        -0.01744177490283015,
+        -0.03489418134011376,
+        -0.0006090802009086839,
+        0.9992386149554824
+      ],
+      "renderCamera": [
+        16.699999999999996,
+        1.65,
+        -6.4
+      ],
+      "renderQuaternion": [
+        -0.01744177490283015,
+        -0.03489418134011376,
+        -0.0006090802009086839,
+        0.9992386149554824
+      ],
+      "displayTime": 51587.9,
+      "fov": 58,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 500,
+      "triangles": 930151
+    },
+    {
+      "file": "desktop-086.png",
+      "progress": 0.8600000000000001,
+      "scrollProgress": 0.86,
+      "camera": [
+        17.250000000000004,
+        1.65,
+        -7.400000000000004
+      ],
+      "quaternion": [
+        2.099472985682287e-17,
+        -0.32556815445715653,
+        7.229065223261091e-18,
+        0.9455185755993168
+      ],
+      "renderCamera": [
+        17.250000000000004,
+        1.65,
+        -7.400000000000004
+      ],
+      "renderQuaternion": [
+        2.099472985682287e-17,
+        -0.32556815445715653,
+        7.229065223261091e-18,
+        0.9455185755993168
+      ],
+      "displayTime": 54104.5,
+      "fov": 58,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 8.752155013546702e-30,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 834,
+      "triangles": 1065473
+    },
+    {
+      "file": "desktop-091.png",
+      "progress": 0.9099999999999999,
+      "scrollProgress": 0.91,
+      "camera": [
+        17.999999999999996,
+        1.65,
+        -8.399999999999999
+      ],
+      "quaternion": [
+        0.0082511014143394,
+        -0.32555575781943147,
+        0.002841082057010466,
+        0.9454825731491887
+      ],
+      "renderCamera": [
+        17.999999999999996,
+        1.65,
+        -8.399999999999999
+      ],
+      "renderQuaternion": [
+        0.0082511014143394,
+        -0.32555575781943147,
+        0.002841082057010466,
+        0.9454825731491887
+      ],
+      "displayTime": 56637.9,
+      "fov": 58,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 0.8648156577150642,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 735,
+      "triangles": 1042479
+    },
+    {
+      "file": "desktop-096.png",
+      "progress": 0.9600000000000001,
+      "scrollProgress": 0.96,
+      "camera": [
+        18.9,
+        1.65,
+        -8.85
+      ],
+      "quaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.002624119833940955,
+        0.9536806361290945
+      ],
+      "renderCamera": [
+        18.9,
+        1.65,
+        -8.85
+      ],
+      "renderQuaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.002624119833940955,
+        0.9536806361290945
+      ],
+      "displayTime": 59004.6,
+      "fov": 58,
+      "room": 5,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 1,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 85,
+      "triangles": 765773
+    },
+    {
+      "file": "desktop-100.png",
+      "progress": 1,
+      "scrollProgress": 1,
+      "camera": [
+        19.15,
+        1.65,
+        -8.800000000000004
+      ],
+      "quaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.0026241198339409556,
+        0.9536806361290945
+      ],
+      "renderCamera": [
+        19.15,
+        1.65,
+        -8.800000000000004
+      ],
+      "renderQuaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.0026241198339409556,
+        0.9536806361290945
+      ],
+      "displayTime": 60987.9,
+      "fov": 58,
+      "room": 5,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 1,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 67,
+      "triangles": 760421
+    }
+  ],
+  "mobile": [
+    {
+      "file": "mobile-390-0.png",
+      "progress": 0,
+      "scrollProgress": 0,
+      "camera": [
+        10,
+        85,
+        -6.25
+      ],
+      "quaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "renderCamera": [
+        10,
+        85,
+        -6.25
+      ],
+      "renderQuaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "displayTime": 128621.3,
+      "fov": 14,
+      "room": 0,
+      "clipHeight": 0.05,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 1,
+      "opening": 1,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 2,
+      "triangles": 14
+    },
+    {
+      "file": "mobile-390-25.png",
+      "progress": 0.2500696961248954,
+      "scrollProgress": 0.25006969612489544,
+      "camera": [
+        10,
+        1.65,
+        0.7999951675755461
+      ],
+      "quaternion": [
+        -3.6747559606357794e-8,
+        6.224617706608425e-7,
+        2.287395102004277e-14,
+        0.9999999999998055
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        0.7999951675755461
+      ],
+      "renderQuaternion": [
+        -3.6747559606357794e-8,
+        6.224617706608425e-7,
+        2.287395102004277e-14,
+        0.9999999999998055
+      ],
+      "displayTime": 134870.3,
+      "fov": 74,
+      "room": 1,
+      "clipHeight": 3.3,
+      "waves": [
+        0.0000022756540103615873,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 517,
+      "triangles": 840250
+    },
+    {
+      "file": "mobile-390-43.png",
+      "progress": 0.4250069696124896,
+      "scrollProgress": 0.42500696961248957,
+      "camera": [
+        10.000000002242546,
+        1.65,
+        -4.200177107203698
+      ],
+      "quaternion": [
+        -0.05137419208803077,
+        0.19056716783261277,
+        0.009987201125512934,
+        0.9802780741938673
+      ],
+      "renderCamera": [
+        10.000000002242546,
+        1.65,
+        -4.200177107203698
+      ],
+      "renderQuaternion": [
+        -0.05137419208803077,
+        0.19056716783261277,
+        0.009987201125512934,
+        0.9802780741938673
+      ],
+      "displayTime": 139553.7,
+      "fov": 74,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 217,
+      "triangles": 814741
+    },
+    {
+      "file": "mobile-390-57.png",
+      "progress": 0.5699749093950377,
+      "scrollProgress": 0.5699749093950376,
+      "camera": [
+        5.899682753215407,
+        1.65,
+        -8.499817056972036
+      ],
+      "quaternion": [
+        -0.0692734985274575,
+        0.4680663231118396,
+        0.03683761093474466,
+        0.8802034367070772
+      ],
+      "renderCamera": [
+        5.899682753215407,
+        1.65,
+        -8.499817056972036
+      ],
+      "renderQuaternion": [
+        -0.0692734985274575,
+        0.4680663231118396,
+        0.03683761093474466,
+        0.8802034367070772
+      ],
+      "displayTime": 145803.8,
+      "fov": 74,
+      "room": 3,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 91,
+      "triangles": 765901
+    },
+    {
+      "file": "mobile-390-79.png",
+      "progress": 0.7850571508224143,
+      "scrollProgress": 0.7850571508224142,
+      "camera": [
+        16.501833357492387,
+        1.65,
+        -5.5006540444795595
+      ],
+      "quaternion": [
+        -0.02603351004750937,
+        0.10449201550597731,
+        0.0027362155231294445,
+        0.9941811646650303
+      ],
+      "renderCamera": [
+        16.501833357492387,
+        1.65,
+        -5.5006540444795595
+      ],
+      "renderQuaternion": [
+        -0.02603351004750937,
+        0.10449201550597731,
+        0.0027362155231294445,
+        0.9941811646650303
+      ],
+      "displayTime": 155937.2,
+      "fov": 74,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 444,
+      "triangles": 902347
+    },
+    {
+      "file": "mobile-390-100.png",
+      "progress": 1,
+      "scrollProgress": 1,
+      "camera": [
+        19.15,
+        1.65,
+        -8.800000000000004
+      ],
+      "quaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.0026241198339409556,
+        0.9536806361290945
+      ],
+      "renderCamera": [
+        19.15,
+        1.65,
+        -8.800000000000004
+      ],
+      "renderQuaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.0026241198339409556,
+        0.9536806361290945
+      ],
+      "displayTime": 160353.8,
+      "fov": 74,
+      "room": 5,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 1,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 57,
+      "triangles": 755713
+    },
+    {
+      "file": "mobile-360-0.png",
+      "progress": 0,
+      "scrollProgress": 0,
+      "camera": [
+        10,
+        85,
+        -6.25
+      ],
+      "quaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "renderCamera": [
+        10,
+        85,
+        -6.25
+      ],
+      "renderQuaternion": [
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "displayTime": 184937.3,
+      "fov": 14,
+      "room": 0,
+      "clipHeight": 0.05,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 1,
+      "opening": 1,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 2,
+      "triangles": 14
+    },
+    {
+      "file": "mobile-360-25.png",
+      "progress": 0.25,
+      "scrollProgress": 0.25,
+      "camera": [
+        10,
+        1.65,
+        0.8
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        0.8
+      ],
+      "renderQuaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "displayTime": 191154.1,
+      "fov": 74,
+      "room": 1,
+      "clipHeight": 3.3,
+      "waves": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 1316,
+      "triangles": 1155248
+    },
+    {
+      "file": "mobile-360-43.png",
+      "progress": 0.425,
+      "scrollProgress": 0.425,
+      "camera": [
+        10,
+        1.65,
+        -4.2
+      ],
+      "quaternion": [
+        -0.051374397319801146,
+        0.19054749827986656,
+        0.00998617123278692,
+        0.9802818975087834
+      ],
+      "renderCamera": [
+        10,
+        1.65,
+        -4.2
+      ],
+      "renderQuaternion": [
+        -0.051374397319801146,
+        0.19054749827986656,
+        0.00998617123278692,
+        0.9802818975087834
+      ],
+      "displayTime": 195820.9,
+      "fov": 74,
+      "room": 2,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 241,
+      "triangles": 828241
+    },
+    {
+      "file": "mobile-360-57.png",
+      "progress": 0.5700367647058823,
+      "scrollProgress": 0.5700367647058824,
+      "camera": [
+        5.900503883480186,
+        1.65,
+        -8.500115031435053
+      ],
+      "quaternion": [
+        -0.06927776873222448,
+        0.4679612749513032,
+        0.036829276186400015,
+        0.8802593028880872
+      ],
+      "renderCamera": [
+        5.900503883480186,
+        1.65,
+        -8.500115031435053
+      ],
+      "renderQuaternion": [
+        -0.06927776873222448,
+        0.4679612749513032,
+        0.036829276186400015,
+        0.8802593028880872
+      ],
+      "displayTime": 202020.7,
+      "fov": 74,
+      "room": 3,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 95,
+      "triangles": 768253
+    },
+    {
+      "file": "mobile-360-79.png",
+      "progress": 0.7849264705882353,
+      "scrollProgress": 0.7849264705882353,
+      "camera": [
+        16.497303367229847,
+        1.65,
+        -5.499105282954811
+      ],
+      "quaternion": [
+        -0.026033554497967838,
+        0.10449037240328829,
+        0.002736176696487642,
+        0.9941813363025425
+      ],
+      "renderCamera": [
+        16.497303367229847,
+        1.65,
+        -5.499105282954811
+      ],
+      "renderQuaternion": [
+        -0.026033554497967838,
+        0.10449037240328829,
+        0.002736176696487642,
+        0.9941813363025425
+      ],
+      "displayTime": 212087.7,
+      "fov": 74,
+      "room": 4,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 0,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 458,
+      "triangles": 907567
+    },
+    {
+      "file": "mobile-360-100.png",
+      "progress": 1,
+      "scrollProgress": 1,
+      "camera": [
+        19.15,
+        1.65,
+        -8.800000000000004
+      ],
+      "quaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.0026241198339409556,
+        0.9536806361290945
+      ],
+      "renderCamera": [
+        19.15,
+        1.65,
+        -8.800000000000004
+      ],
+      "renderQuaternion": [
+        0.008322644826105348,
+        -0.30069434954884205,
+        0.0026241198339409556,
+        0.9536806361290945
+      ],
+      "displayTime": 216471,
+      "fov": 74,
+      "room": 5,
+      "clipHeight": 3.3,
+      "waves": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "glass": 1,
+      "cad": 0,
+      "opening": 0,
+      "reduced": false,
+      "contextLost": false,
+      "navigating": false,
+      "paused": false,
+      "moving": false,
+      "routeVelocity": 0,
+      "routeDuration": 22.787612167578022,
+      "drawCalls": 59,
+      "triangles": 756889
+    }
+  ],
+  "checks": [
+    {
+      "name": "zero runtime/shader errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "no failed network requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "WebGL active",
+      "pass": true
+    },
+    {
+      "name": "Russian document language",
+      "pass": true
+    },
+    {
+      "name": "all five room records are Russian",
+      "pass": true
+    },
+    {
+      "name": "bedroom camera enters through the portal",
+      "pass": true
+    },
+    {
+      "name": "all five spaces visited by continuous scrolling",
+      "pass": true
+    },
+    {
+      "name": "no English room interface text",
+      "pass": true
+    },
+    {
+      "name": "opening exact nadir camera",
+      "pass": true
+    },
+    {
+      "name": "opening paper CAD visible",
+      "pass": true
+    },
+    {
+      "name": "full-size CAD viewer opens",
+      "pass": true
+    },
+    {
+      "name": "CAD viewer Escape and focus return",
+      "pass": true
+    },
+    {
+      "name": "walls reach full height at 25%",
+      "pass": true
+    },
+    {
+      "name": "walk eye height preserved",
+      "pass": true
+    },
+    {
+      "name": "upcoming living room stays ink through kitchen",
+      "pass": true
+    },
+    {
+      "name": "hero materials fully revealed by 82%",
+      "pass": true
+    },
+    {
+      "name": "sliding glass fully opens",
+      "pass": true
+    },
+    {
+      "name": "exact terrace final point",
+      "pass": true
+    },
+    {
+      "name": "room 1 jump",
+      "pass": true
+    },
+    {
+      "name": "room 1 drawer",
+      "pass": true
+    },
+    {
+      "name": "room 1 clear height",
+      "pass": true
+    },
+    {
+      "name": "room 1 Escape closes drawer",
+      "pass": true
+    },
+    {
+      "name": "room 2 jump",
+      "pass": true
+    },
+    {
+      "name": "room 2 drawer",
+      "pass": true
+    },
+    {
+      "name": "room 2 clear height",
+      "pass": true
+    },
+    {
+      "name": "room 2 Escape closes drawer",
+      "pass": true
+    },
+    {
+      "name": "room 3 jump",
+      "pass": true
+    },
+    {
+      "name": "room 3 drawer",
+      "pass": true
+    },
+    {
+      "name": "room 3 clear height",
+      "pass": true
+    },
+    {
+      "name": "room 3 Escape closes drawer",
+      "pass": true
+    },
+    {
+      "name": "room 4 jump",
+      "pass": true
+    },
+    {
+      "name": "room 4 drawer",
+      "pass": true
+    },
+    {
+      "name": "room 4 clear height",
+      "pass": true
+    },
+    {
+      "name": "room 4 Escape closes drawer",
+      "pass": true
+    },
+    {
+      "name": "room 5 jump",
+      "pass": true
+    },
+    {
+      "name": "room 5 drawer",
+      "pass": true
+    },
+    {
+      "name": "room 5 clear height",
+      "pass": true
+    },
+    {
+      "name": "room 5 Escape closes drawer",
+      "pass": true
+    },
+    {
+      "name": "drawing download",
+      "pass": true
+    },
+    {
+      "name": "return resets ink and glass",
+      "pass": true
+    },
+    {
+      "name": "no overflow 390 at 0",
+      "pass": true
+    },
+    {
+      "name": "no overflow 390 at 0.25",
+      "pass": true
+    },
+    {
+      "name": "no overflow 390 at 0.425",
+      "pass": true
+    },
+    {
+      "name": "no overflow 390 at 0.57",
+      "pass": true
+    },
+    {
+      "name": "no overflow 390 at 0.785",
+      "pass": true
+    },
+    {
+      "name": "no overflow 390 at 1",
+      "pass": true
+    },
+    {
+      "name": "no overflow 360 at 0",
+      "pass": true
+    },
+    {
+      "name": "no overflow 360 at 0.25",
+      "pass": true
+    },
+    {
+      "name": "no overflow 360 at 0.425",
+      "pass": true
+    },
+    {
+      "name": "no overflow 360 at 0.57",
+      "pass": true
+    },
+    {
+      "name": "no overflow 360 at 0.785",
+      "pass": true
+    },
+    {
+      "name": "no overflow 360 at 1",
+      "pass": true
+    },
+    {
+      "name": "reduced motion recognized",
+      "pass": true
+    },
+    {
+      "name": "reduced motion uses static room frame",
+      "pass": true
+    },
+    {
+      "name": "no-WebGL drawing fallback",
+      "pass": true
+    },
+    {
+      "name": "no-WebGL specs work",
+      "pass": true
+    }
+  ],
+  "summary": {
+    "checks": 56,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 0
+  }
+}

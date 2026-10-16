@@ -1,0 +1,1006 @@
+{
+  "url": "file:///Users/m.a/Documents/Codex/2026-10-15/m/outputs/shakhrofar-residence/Shakhrofar.html",
+  "date": "2026-10-16T04:18:36.472Z",
+  "networkOffline": true,
+  "scope": "Browser automation and axe scans. Lab timing on this machine; no field INP, screen-reader or physical-device certification.",
+  "errors": [],
+  "httpFailures": [],
+  "externalRequests": [],
+  "checks": [
+    {
+      "name": "axe desktop opening",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "axe desktop living",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "axe specifications",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "specification focus stays in dialog",
+      "pass": true,
+      "details": [
+        {
+          "id": "",
+          "inDialog": true
+        },
+        {
+          "id": "close-drawer",
+          "inDialog": true
+        },
+        {
+          "id": "",
+          "inDialog": true
+        },
+        {
+          "id": "close-drawer",
+          "inDialog": true
+        },
+        {
+          "id": "",
+          "inDialog": true
+        },
+        {
+          "id": "close-drawer",
+          "inDialog": true
+        },
+        {
+          "id": "",
+          "inDialog": true
+        },
+        {
+          "id": "close-drawer",
+          "inDialog": true
+        }
+      ]
+    },
+    {
+      "name": "specification returns keyboard focus",
+      "pass": true
+    },
+    {
+      "name": "axe drawing viewer",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "drawing scrolls by keyboard",
+      "pass": true
+    },
+    {
+      "name": "axe opening 768",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "axe living 768",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "HUD and card do not overlap at 768",
+      "pass": true
+    },
+    {
+      "name": "no horizontal overflow at 768",
+      "pass": true
+    },
+    {
+      "name": "axe opening 390",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "axe living 390",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "HUD and card do not overlap at 390",
+      "pass": true
+    },
+    {
+      "name": "no horizontal overflow at 390",
+      "pass": true
+    },
+    {
+      "name": "axe opening 360",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "axe living 360",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "HUD and card do not overlap at 360",
+      "pass": true
+    },
+    {
+      "name": "no horizontal overflow at 360",
+      "pass": true
+    },
+    {
+      "name": "motion button enables static viewpoints",
+      "pass": true
+    },
+    {
+      "name": "motion preference persists on reload",
+      "pass": true
+    },
+    {
+      "name": "motion button restores continuous journey",
+      "pass": true
+    },
+    {
+      "name": "no-JavaScript drawing is visible",
+      "pass": true
+    },
+    {
+      "name": "actual WebGL context loss retains drawing",
+      "pass": true
+    },
+    {
+      "name": "context-loss room archive remains usable",
+      "pass": true
+    },
+    {
+      "name": "no runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "no HTTP failures",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "no external asset requests",
+      "pass": true,
+      "details": []
+    }
+  ],
+  "accessibility": [
+    {
+      "name": "desktop opening",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              ".masthead-center"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              ".eyebrow"
+            ],
+            [
+              "#hero-title"
+            ],
+            [
+              "em"
+            ],
+            [
+              ".hero-description"
+            ],
+            [
+              "#enter"
+            ],
+            [
+              ".meta-title"
+            ],
+            [
+              ".meta-title > span"
+            ],
+            [
+              "div:nth-child(1) > dt"
+            ],
+            [
+              "div:nth-child(1) > dd"
+            ],
+            [
+              "div:nth-child(2) > dt"
+            ],
+            [
+              "div:nth-child(2) > dd"
+            ],
+            [
+              "div:nth-child(3) > dt"
+            ],
+            [
+              "div:nth-child(3) > dd"
+            ],
+            [
+              "div:nth-child(4) > dt"
+            ],
+            [
+              "div:nth-child(4) > dd"
+            ],
+            [
+              ".north"
+            ],
+            [
+              ".sheet-note > span:nth-child(2)"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".plan-prefix"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              ".rooms-counter > span"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              ".elevation"
+            ],
+            [
+              "#elevation"
+            ],
+            [
+              ".elevation-label"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "desktop living",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              "#room-number"
+            ],
+            [
+              "#room-name"
+            ],
+            [
+              "#room-description"
+            ],
+            [
+              "#room-size"
+            ],
+            [
+              "#room-area"
+            ],
+            [
+              "#open-file"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".plan-prefix"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              ".rooms-counter > span"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              ".elevation"
+            ],
+            [
+              "#elevation"
+            ],
+            [
+              ".elevation-label"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "specifications",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "drawing viewer",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "opening 768",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              ".eyebrow"
+            ],
+            [
+              "#hero-title"
+            ],
+            [
+              "em"
+            ],
+            [
+              ".hero-description"
+            ],
+            [
+              "#enter"
+            ],
+            [
+              ".meta-title"
+            ],
+            [
+              ".meta-title > span"
+            ],
+            [
+              "div:nth-child(1) > dt"
+            ],
+            [
+              "div:nth-child(1) > dd"
+            ],
+            [
+              "div:nth-child(2) > dt"
+            ],
+            [
+              "div:nth-child(2) > dd"
+            ],
+            [
+              "div:nth-child(3) > dt"
+            ],
+            [
+              "div:nth-child(3) > dd"
+            ],
+            [
+              "div:nth-child(4) > dt"
+            ],
+            [
+              "div:nth-child(4) > dd"
+            ],
+            [
+              ".north"
+            ],
+            [
+              ".sheet-note > span:nth-child(2)"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".plan-prefix"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              ".rooms-counter > span"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "living 768",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              "#room-number"
+            ],
+            [
+              "#room-name"
+            ],
+            [
+              "#room-description"
+            ],
+            [
+              "#room-size"
+            ],
+            [
+              "#room-area"
+            ],
+            [
+              "#open-file"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".plan-prefix"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              ".rooms-counter > span"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "opening 390",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              ".eyebrow"
+            ],
+            [
+              "#hero-title"
+            ],
+            [
+              "em"
+            ],
+            [
+              ".hero-description"
+            ],
+            [
+              "#enter"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "living 390",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              "#room-number"
+            ],
+            [
+              "#room-name"
+            ],
+            [
+              "#open-file"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "opening 360",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              ".eyebrow"
+            ],
+            [
+              "#hero-title"
+            ],
+            [
+              "em"
+            ],
+            [
+              ".hero-description"
+            ],
+            [
+              "#enter"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "living 360",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "targets": [
+            [
+              "strong[lang=\"ru\"]"
+            ],
+            [
+              "#home > span > small"
+            ],
+            [
+              "#index-button > span:nth-child(1)"
+            ],
+            [
+              "#room-number"
+            ],
+            [
+              "#room-name"
+            ],
+            [
+              "#open-file"
+            ],
+            [
+              "#mode-label"
+            ],
+            [
+              "#inspect-plan"
+            ],
+            [
+              ".rooms-counter"
+            ],
+            [
+              "#room-count"
+            ],
+            [
+              "#coordinates"
+            ],
+            [
+              "button[data-room=\"1\"] > b"
+            ],
+            [
+              "button[data-room=\"1\"] > span"
+            ],
+            [
+              "button[data-room=\"2\"] > b"
+            ],
+            [
+              "button[data-room=\"2\"] > span"
+            ],
+            [
+              "button[data-room=\"3\"] > b"
+            ],
+            [
+              "button[data-room=\"3\"] > span"
+            ],
+            [
+              "button[data-room=\"4\"] > b"
+            ],
+            [
+              "button[data-room=\"4\"] > span"
+            ],
+            [
+              "button[data-room=\"5\"] > b"
+            ],
+            [
+              "button[data-room=\"5\"] > span"
+            ],
+            [
+              "#motion-toggle"
+            ],
+            [
+              "#motion-toggle > span"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "lcp": 244,
+    "cls": 0,
+    "measuredAtMs": 2441.6999999955297,
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)"
+  },
+  "frameTiming": {
+    "samples": 69,
+    "medianMs": 16.69999999552965,
+    "p95Ms": 17.299999997019768,
+    "maxMs": 18.299999997019768
+  },
+  "summary": {
+    "checks": 28,
+    "failed": 0,
+    "axeViolations": 0
+  }
+}

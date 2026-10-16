@@ -1,0 +1,100 @@
+{
+  "createdAt": "2026-10-16T04:22:47.660394+00:00",
+  "status": "ready_for_local_owner_review",
+  "scope": "Редакция движения и синхронизации: сайт и автономный HTML. Публикация и физические устройства не проверены.",
+  "totalAssertions": 260,
+  "frozenApplicationFilesVerified": 44,
+  "reports": {
+    "geometry-report.json": {
+      "checks": 29,
+      "failed": 0
+    },
+    "package-report.json": {
+      "checks": 11,
+      "failed": 0
+    },
+    "motion-report.json": {
+      "checks": 15,
+      "failed": 0
+    },
+    "production/motion/motion-browser-report.json": {
+      "checks": 18,
+      "failed": 0,
+      "errors": 0
+    },
+    "production/report.json": {
+      "checks": 56,
+      "failed": 0,
+      "errors": 0,
+      "warnings": 0
+    },
+    "production/audit-report.json": {
+      "checks": 29,
+      "failed": 0,
+      "axeViolations": 0
+    },
+    "offline/motion/motion-browser-report.json": {
+      "checks": 18,
+      "failed": 0,
+      "errors": 0
+    },
+    "offline/report.json": {
+      "checks": 56,
+      "failed": 0,
+      "errors": 0,
+      "warnings": 0
+    },
+    "offline/audit-report.json": {
+      "checks": 28,
+      "failed": 0,
+      "axeViolations": 0
+    }
+  },
+  "testedArtifacts": [
+    {
+      "path": "Shakhrofar.html",
+      "bytes": 12204499,
+      "sha256": "b3aa515ace48978a3b906163c52d3b87bcd2e7f2824bbd5102a83599893d35e1"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 9197,
+      "sha256": "a03c15c2eaee417c03704975eac7b4f4a0e122d161db21e554ad947460d68002"
+    },
+    {
+      "path": "public/assets/residence-plan.svg",
+      "bytes": 27701,
+      "sha256": "e504ac6be86d7da6a675a4fa92b30ebee7f181f6aa08f57b761916fe251bf387"
+    },
+    {
+      "path": "src/main.js",
+      "bytes": 15926,
+      "sha256": "5a82e17c13a43f5c77aaf7f0773d1c80c86d93a70bbcd9ca258d95e8475bfebf"
+    },
+    {
+      "path": "src/timeline.js",
+      "bytes": 7885,
+      "sha256": "d39ec0a87f55862308ec3ce1b3b39421cc7c5be1c0ef5a37c9e98ae09c9ca009"
+    },
+    {
+      "path": "src/motion.js",
+      "bytes": 2630,
+      "sha256": "f01d2637c9cfd9c75b68afbd976485237355c78727285e6b30db689f400a2d54"
+    },
+    {
+      "path": "dist/assets/index-CryLCu3g.js",
+      "bytes": 625528,
+      "sha256": "ddeb865198945211e91fee0ee212104fefbf85e1ff44e1c9834afef075f1045c"
+    },
+    {
+      "path": "dist/assets/index-C-ADJS72.css",
+      "bytes": 22196,
+      "sha256": "c259da48eb9bf9a01ddd9bbf1c7884824f4dd68d1cdefce1271cf3a4653a5051"
+    }
+  ],
+  "limitations": [
+    "Chromium на Apple M1; размеры телефонов эмулированы.",
+    "Нет проверки физических телефонов, Safari, Firefox и программ чтения с экрана.",
+    "Город, мебель и план являются архитектурной концепцией."
+  ]
+}

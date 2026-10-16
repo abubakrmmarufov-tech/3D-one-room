@@ -1,0 +1,76 @@
+{
+  "scope": "Static packaging and JavaScript syntax only. No browser, GPU, interaction, network, or visual verification.",
+  "checks": [
+    {
+      "name": "one embedded application module",
+      "pass": true
+    },
+    {
+      "name": "embedded JavaScript parses",
+      "pass": true
+    },
+    {
+      "name": "all standalone markup assets are embedded",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "standalone embeds the exact generated plan",
+      "pass": true
+    },
+    {
+      "name": "no-JavaScript drawing is embedded",
+      "pass": true
+    },
+    {
+      "name": "standalone includes Three.js license",
+      "pass": true
+    },
+    {
+      "name": "every distribution markup asset exists",
+      "pass": true,
+      "details": [
+        "./mark.svg",
+        "./assets/index-CryLCu3g.js",
+        "./assets/index-C-ADJS72.css",
+        "./assets/residence-plan.svg",
+        "./assets/residence-plan.svg",
+        "./assets/residence-plan.svg",
+        "./assets/residence-plan.svg"
+      ]
+    },
+    {
+      "name": "source contains all five room controls",
+      "pass": true
+    },
+    {
+      "name": "production Three.js version is pinned",
+      "pass": true
+    },
+    {
+      "name": "all eleven sourced PBR maps match source pins",
+      "pass": true
+    },
+    {
+      "name": "offline embeds every PBR map",
+      "pass": true
+    }
+  ],
+  "manifest": [
+    {
+      "path": "Shakhrofar.html",
+      "bytes": 12204499,
+      "sha256": "b3aa515ace48978a3b906163c52d3b87bcd2e7f2824bbd5102a83599893d35e1"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 9197,
+      "sha256": "a03c15c2eaee417c03704975eac7b4f4a0e122d161db21e554ad947460d68002"
+    },
+    {
+      "path": "public/assets/residence-plan.svg",
+      "bytes": 27701,
+      "sha256": "e504ac6be86d7da6a675a4fa92b30ebee7f181f6aa08f57b761916fe251bf387"
+    }
+  ]
+}
