@@ -4,6 +4,8 @@ export function createServiceWorker(assets, version) {
 const PREFIX='shahrofar-'+new URL(self.registration.scope).pathname.replace(/[^a-z0-9]/gi,'-')+'-';
 const CACHE=PREFIX+${JSON.stringify(version)};
 const INDEX=new URL('./',self.registration.scope).href;
+const ADMIN=new URL('./admin.html',self.registration.scope).href;
+const INVENTORY=new URL('./inventory.json',self.registration.scope).pathname;
 const absolute=path=>new URL(path,self.registration.scope).href;
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE),oldNames=(await caches.keys()).filter(name=>name.startsWith(PREFIX)&&name!==CACHE);
@@ -11,8 +13,8 @@ self.addEventListener('install',event=>event.waitUntil((async()=>{
   let next=0;
   await Promise.all(Array.from({length:3},async()=>{
    while(next<ASSETS.length){const path=ASSETS[next++],url=absolute(path);let response;
-    if(path!=='./')for(const name of oldNames){response=await(await caches.open(name)).match(url);if(response)break;}
-    response??=await fetch(url,{cache:path==='./'?'reload':'force-cache'});
+    if(path!=='./'&&path!=='./admin.html')for(const name of oldNames){response=await(await caches.open(name)).match(url);if(response)break;}
+    response??=await fetch(url,{cache:path==='./'||path==='./admin.html'?'reload':'force-cache'});
     if(!response.ok)throw new Error('Offline asset unavailable');
     await cache.put(url,response);
    }
@@ -27,12 +29,15 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{
 self.addEventListener('fetch',event=>{
  const request=event.request,url=new URL(request.url);
  if(request.method!=='GET'||url.origin!==self.location.origin||!url.href.startsWith(self.registration.scope))return;
+ // Availability is mutable business data. The reader owns its dated offline fallback.
+ if(url.pathname===INVENTORY)return;
  event.respondWith((async()=>{
   const cache=await caches.open(CACHE);
   if(request.mode==='navigate'){
    // Keep the shell and its hashed chunks from one atomic release together.
    // A newly installed worker supplies the next shell after old tabs close.
-   const saved=await cache.match(INDEX);if(saved)return saved;
+   const shell=url.pathname===new URL(ADMIN).pathname?ADMIN:INDEX;
+   const saved=await cache.match(shell);if(saved)return saved;
    return fetch(request,{cache:'no-cache'});
   }
   const saved=await cache.match(request);if(saved)return saved;

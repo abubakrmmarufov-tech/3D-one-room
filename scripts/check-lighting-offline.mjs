@@ -27,7 +27,7 @@ const network=async request=>{
  if(failAsset&&url.endsWith('post-123.js'))return new Response('missing',{status:404});
  return new Response(url.endsWith('/')?'viewer shell':url,{status:200});
 };
-const assets=['./','./assets/app-123.js','./assets/post-123.js','./models/shahrofar.glb?v=stable'];
+const assets=['./','./admin.html','./assets/app-123.js','./assets/post-123.js','./models/shahrofar.glb?v=stable'];
 function worker(version){const handlers={};const self={registration:{scope},location:{origin:new URL(scope).origin},clients:{async claim(){}},addEventListener(name,fn){handlers[name]=fn;}};
  vm.runInNewContext(createServiceWorker(assets,version),{self,caches:cacheAPI,fetch:network,URL,Response,AbortController,setTimeout,clearTimeout});
  return handlers;
@@ -38,6 +38,8 @@ const first=worker('one');await lifecycle(first.install);await lifecycle(first.a
 offline=true;
 assert.equal(await(await get(first.fetch,scope,'navigate')).text(),'viewer shell');
 for(const asset of assets.slice(1))assert.equal((await get(first.fetch,new URL(asset,scope).href)).status,200);
+assert.equal(await(await get(first.fetch,scope+'admin.html','navigate')).text(),scope+'admin.html','Admin navigation uses its own cached HTML, never viewer HTML');
+assert.equal(await get(first.fetch,scope+'inventory.json'),undefined,'Mutable inventory bypasses the atomic shell cache');
 // An online navigation must not replace this release's shell with a newer shell
 // whose hashed scripts have not been installed in this cache yet.
 offline=false;requests=[];
@@ -45,7 +47,7 @@ assert.equal(await(await get(first.fetch,scope,'navigate')).text(),'viewer shell
 assert.equal(requests.length,0,'Navigation remains on the atomically cached release');
 // New release reuses immutable assets and the versioned model without a redownload.
 offline=false;requests=[];const second=worker('two');await lifecycle(second.install);
-assert.deepEqual(requests,[scope]);assert.equal((await cacheAPI.keys()).length,2);
+assert.deepEqual([...requests].sort(),[scope,scope+'admin.html'].sort());assert.equal((await cacheAPI.keys()).length,2);
 await lifecycle(second.activate);assert.equal((await cacheAPI.keys()).length,1);
 // A partial install is never advertised as a complete offline copy.
 stores.clear();failAsset=true;const broken=worker('broken');await assert.rejects(()=>lifecycle(broken.install));

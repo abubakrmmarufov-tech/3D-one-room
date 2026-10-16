@@ -1,0 +1,18 @@
+:root{
+ --ink:#252d29;--muted:#5d665f;--accent:#775a34;--line:#d9ddd5;
+ --panel:#fbfcf8f5;--paper:#f5f6f0;--surface:#fff;--radius:16px;
+ --shadow:0 12px 40px #1c302014;--font-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+ --font-display:Georgia,"Times New Roman",serif;
+ --available:#256142;--available-bg:#eaf3eb;--reserved:#795411;--reserved-bg:#fcf2d9;
+ --sold:#8a4141;--sold-bg:#f9ece9;--unknown:#59645d;--unknown-bg:#edf0ec;
+ font-family:var(--font-ui);font-synthesis:none;color:var(--ink);color-scheme:light;
+}
+button,input,select,textarea{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #9a7846;outline-offset:3px}
+.status-badge{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:5px 8px;font-size:12px;font-weight:600;line-height:1.3;white-space:nowrap;color:var(--unknown);background:var(--unknown-bg)}
+.status-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.status-badge[data-status=available]{color:var(--available);background:var(--available-bg)}
+.status-badge[data-status=reserved]{color:var(--reserved);background:var(--reserved-bg)}
+.status-badge[data-status=sold]{color:var(--sold);background:var(--sold-bg)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}

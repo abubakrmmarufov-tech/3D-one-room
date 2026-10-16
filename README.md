@@ -25,6 +25,14 @@ Node 22 or newer is suitable. Production files are in `dist/`. All runtime model
 - Room buttons follow collision checked routes. The tour pauses in each room. Manual input stops it. Escape returns to the building.
 - Comfort uses a lower pixel ratio. Detailed adds contact occlusion inside apartments.
 
+## Apartment administration
+
+[Open the owner panel](https://abubakrmmarufov-tech.github.io/3D-one-room/admin.html) to search/filter all 288 residential units, edit public status and optional TJS asking prices, keep recoverable local drafts, export CSV and review changes before publishing. The panel loads separately without the 3D model. The viewer uses the same public availability data and exact apartment links.
+
+Publishing uses an owner-created repository-scoped GitHub token held only in page memory, a conflict-checked Contents API commit and the existing Pages deployment. It is an owner tool; separate staff accounts/private customer records require a dedicated backend. Initial statuses are unknown. Read the concise [Russian usage guide](docs/ADMIN_GUIDE.md), [architecture/research plan](docs/ADMIN_PLAN.md) and [validation record](docs/qa/ADMIN_VERIFICATION.md).
+
+`npm run catalog` regenerates the lightweight admin catalog after an intentional model change. `npm run check:inventory` verifies it against the real model, validates the published inventory and tests permissions, concurrent edits, drafts and stale-data handling. It runs before every Pages build.
+
 ## Drawings and source integrity
 
 [Upstream baseline](docs/UPSTREAM.md) records the imported repository and GLB hash. The GLB is preserved; corrected web plans are in `src/model/plans.json`. Typical floors use sheet 7; block В floors 23 and 24 use sheet 8. The June sheet is excluded.

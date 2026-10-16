@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [{name:'offline-viewer',writeBundle(options,bundle){
     const model=readFileSync('public/models/shahrofar.glb');
     const modelHash=createHash('sha256').update(model).digest('hex').slice(0,16);
-    const assets=['./',...Object.keys(bundle).filter(p=>/\.(js|css|webp)$/.test(p)).map(p=>'./'+p),`./models/shahrofar.glb?v=${modelHash}`];
+    const assets=['./','./admin.html',...Object.keys(bundle).filter(p=>/\.(js|css|webp)$/.test(p)).map(p=>'./'+p),`./models/shahrofar.glb?v=${modelHash}`];
     const template=createServiceWorker(assets,'BUILD');
     const version=createHash('sha256').update(template).digest('hex').slice(0,16);
     writeFileSync(`${options.dir}/sw.js`,createServiceWorker(assets,version));
@@ -18,6 +18,7 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
+      input:{viewer:'index.html',admin:'admin.html'},
       output: { entryFileNames: 'assets/app-[hash].js', assetFileNames: 'assets/[name]-[hash][extname]' },
     },
   },
