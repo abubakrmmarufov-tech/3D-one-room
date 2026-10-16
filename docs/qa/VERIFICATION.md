@@ -33,6 +33,8 @@ During visual testing, doorway floor finishes were given separate height layers 
 
 ## Public release
 
-Implementation commit: `1d20e97ba415cdc7aa05772f8f0d8bb3c73fee63`. Pushed to the implementation branch and `main`. [GitHub Pages deployment 38876894276](https://github.com/abubakrmmarufov-tech/3D-one-room/actions/runs/38876894276) completed successfully.
+Initial implementation commit: `1d20e97ba415cdc7aa05772f8f0d8bb3c73fee63`. Pushed to the implementation branch and `main`. [GitHub Pages deployment 38876894276](https://github.com/abubakrmmarufov-tech/3D-one-room/actions/runs/38876894276) completed successfully.
 
-The public viewer at https://abubakrmmarufov-tech.github.io/3D-one-room/ loaded the current `assets/app-DYC5p5P9.js` script and local model/material assets without logged browser errors or warnings. The Russian overview displayed 288 apartments; block Б floor 12 apartment 57 opened into the furnished interior and accepted the living-room route. No GitHub sign-in is needed to view the GitHub Pages site.
+The initial public release at https://abubakrmmarufov-tech.github.io/3D-one-room/ loaded `assets/app-DYC5p5P9.js` and local model/material assets without logged browser errors or warnings. The Russian overview displayed 288 apartments; block Б floor 12 apartment 57 opened into the furnished interior and accepted the living-room route. No GitHub sign-in is needed to view the GitHub Pages site.
+
+A subsequent public visual check found rectangular bounding-box frames and curtains crossing curved glazing. The follow-up limits these details to straight rectangular windows and keeps the source curved glazing. Artwork and upper kitchen cabinets require nearby solid walls, and televisions have a stand. The 166-room movement checks and production build passed again after this repair.

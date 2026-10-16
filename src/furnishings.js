@@ -14,7 +14,7 @@ export function furnishRoom(B, room, H, materials = null, layout = room.furnitur
  const plant=(u,v)=>{cyl(0x9d8569,u,v,.18,.02,.38);cyl(M.walnut,u,v,.025,.35,1.1);for(let k=0;k<8;k++){const a=k*2.4,rr=.14+.035*(k%3);ball(0x536548,u+Math.cos(a)*rr,v+Math.sin(a)*rr,.15,.65+k*.07,1.1,.45,1.8);}};
  const lamp=(u,v)=>{cyl(M.bronze,u,v,.13,.0,.035);cyl(M.bronze,u,v,.016,.03,.45);cyl(M.linen,u,v,.14,.39,.62);cyl(M.lamp,u,v,.11,.40,.42);};
  const rug=(u0,v0,u1,v1)=>box(0xbeb09a,u0,v0,u1,v1,.009,.018,true);
- const artwork=(u,v,len)=>{box(M.walnut,u,v,u+len,v+.035,1.15,1.85);box(0xe6dcc7,u+.035,v+.036,u+len-.035,v+.042,1.185,1.815);box(0x9c8469,u+.1,v+.043,u+len*.46,v+.046,1.28,1.67);box(0x6f7966,u+len*.55,v+.043,u+len-.1,v+.046,1.4,1.76);};
+ const artwork=(u,v,len)=>{if(B.canMountAt&&![.1,len/2,len-.1].every(t=>B.canMountAt(...uv(u+t,v))))return;box(M.walnut,u,v,u+len,v+.035,1.15,1.85);box(0xe6dcc7,u+.035,v+.036,u+len-.035,v+.042,1.185,1.815);box(0x9c8469,u+.1,v+.043,u+len*.46,v+.046,1.28,1.67);box(0x6f7966,u+len*.55,v+.043,u+len-.1,v+.046,1.4,1.76);};
  const chairs=(cu,cv)=>{for(const du of [-.42,.42])for(const s of [-1,1]){const u=cu+du,v=cv+s*.67;box(M.walnut,u-.21,v-.2,u+.21,v+.2,.43,.47,true);box(M.fabric,u-.19,v-.18,u+.19,v+.18,.47,.51,true);box(M.walnut,u-.21,v+s*.17,u+.21,v+s*.21,.47,.88,true);legs(u,v,.4,.4,.43);}};
  switch(room.kind){
  case 'bedroom':{
@@ -45,7 +45,7 @@ export function furnishRoom(B, room, H, materials = null, layout = room.furnitur
   legs(u+len/2,.54,len-.2,.8,.17);
   const cv=Math.min(S-.8,1.85);cyl(M.walnut,L/2,cv,.46,.32,.38);cyl(M.bronze,L/2,cv,.24,.02,.32);
   box(M.linen,L/2-.2,cv-.14,L/2+.08,cv+.04,.38,.41);cyl(M.ceramic,L/2+.17,cv,.07,.38,.49);
-  if(S>2.8){box(M.walnut,L/2-1,S-.38,L/2+1,S-.03,.12,.46,true);box(M.dark,L/2-.72,S-.08,L/2+.72,S-.04,.90,1.75);box(0x1b2926,L/2-.69,S-.083,L/2+.69,S-.081,.93,1.72);}
+  if(S>2.8){box(M.walnut,L/2-1,S-.38,L/2+1,S-.03,.12,.46,true);cyl(M.bronze,L/2,S-.10,.025,.46,1.05);box(M.bronze,L/2-.25,S-.27,L/2+.25,S-.03,.46,.48);box(M.dark,L/2-.72,S-.08,L/2+.72,S-.04,.90,1.75);box(0x1b2926,L/2-.69,S-.083,L/2+.69,S-.081,.93,1.72);}
   if(L>4.5){plant(.25,S-.3);lamp(L-.35,.4);}
   artwork(u+.5,.05,Math.min(1.15,len-1));break;
  }
@@ -53,8 +53,8 @@ export function furnishRoom(B, room, H, materials = null, layout = room.furnitur
   const kl=Math.min(L-.85,3.6);if(kl<1.2)break;
   box(M.walnut,.03,.03,kl,.62,.1,.86);box(M.stone,0,0,kl+.025,.67,.86,.91,true);
   box(M.stone,.02,.02,kl,.035,.91,1.46);
-  for(let u=.04;u<kl-.1;u+=.6){box(0xd3c7b2,u,.625,Math.min(kl-.02,u+.57),.645,.15,.82);box(M.bronze,u+.1,.65,Math.min(kl-.1,u+.4),.67,.72,.735);box(M.walnut,u,.02,Math.min(kl,u+.57),.35,1.5,2.22);}
-  box(M.lamp,.04,.34,kl,.36,1.49,1.51);
+  for(let u=.04;u<kl-.1;u+=.6){box(0xd3c7b2,u,.625,Math.min(kl-.02,u+.57),.645,.15,.82);box(M.bronze,u+.1,.65,Math.min(kl-.1,u+.4),.67,.72,.735);if(!B.canMountAt||[u+.05,Math.min(kl,u+.52)].every(t=>B.canMountAt(...uv(t,.02))))box(M.walnut,u,.02,Math.min(kl,u+.57),.35,1.5,2.22);}
+  if(!B.canMountAt||[.1,kl/2,kl-.1].every(t=>B.canMountAt(...uv(t,.02))))box(M.lamp,.04,.34,kl,.36,1.49,1.51);
   box(M.dark,kl*.5,.08,kl*.5+.57,.58,.91,.922);
   for(const du of [.12,.4])for(const dv of [.13,.39])cyl(M.bronze,kl*.5+du,.08+dv,.075,.922,.925);
   box(M.bronze,.2,.14,.75,.48,.912,.92,true);box(M.dark,.24,.18,.71,.44,.92,.924,true);cyl(M.bronze,.55,.12,.018,.91,1.17);

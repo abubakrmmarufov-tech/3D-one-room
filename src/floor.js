@@ -2,13 +2,14 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { PLANS, planFrame, towerByKey } from './config.js';
-import { bounds, inside, interiorPoint } from './geometry.js';
+import { bounds, inside, interiorPoint, distToPolygon, polygonArea } from './geometry.js';
 import { interiorMaterials } from './interior-materials.js';
 import { furnishRoom } from './furnishings.js';
 import { createNavigation } from './navigation.js';
 import { furnitureObstacle } from './furniture-layout.js';
 const byColor=new Map();
 function mat(value){if(typeof value!=='number')return value;if(!byColor.has(value))byColor.set(value,new THREE.MeshStandardMaterial({color:value,roughness:.84}));return byColor.get(value);}
+const straightWindow=w=>{const b=bounds(w);return w.length<=5&&polygonArea(w)>.9*(b.x1-b.x0)*(b.y1-b.y0);};
 const shape=p=>new THREE.Shape(p.map(([x,y])=>new THREE.Vector2(x,y)));
 function flat(p,y){const g=new THREE.ShapeGeometry(shape(p));g.rotateX(-Math.PI/2);g.translate(0,y,0);return g;}
 function prism(p,y0,y1){const g=new THREE.ExtrudeGeometry(shape(p),{depth:y1-y0,bevelEnabled:false,curveSegments:1});g.rotateX(-Math.PI/2);g.translate(0,y0,0);return g;}
@@ -30,6 +31,8 @@ export function buildFloor(towerKey,floor,apts,walk=null){
  const S=interiorMaterials(),tower=towerByKey[towerKey],fl=tower.floors.find(f=>f.floor===floor),plan=PLANS[fl.plan],frame=planFrame(tower),baseY=fl.z+tower.slab,H=fl.h-.5;
  const group=new THREE.Group();group.position.set(frame.position.x,baseY,frame.position.z);group.rotation.y=frame.rotY;
  const own=[],floorMeshes=[],B=new Batch(),shown=walk?[walk]:apts;
+ const mountWalls=[...plan.walls,...plan.struct];
+ B.canMountAt=(x,y)=>mountWalls.some(w=>distToPolygon(w,x,y)<.22);
  for(const apt of shown){
   const base=flat(apt.data.outline,.002);own.push(base);const baseMesh=new THREE.Mesh(base,S.oak);baseMesh.receiveShadow=true;group.add(baseMesh);floorMeshes.push(baseMesh);
   for(const threshold of apt.data.thresholds??[])B.add(S.stone,flat(threshold,.007));
@@ -55,14 +58,14 @@ export function buildFloor(towerKey,floor,apts,walk=null){
  for(const w of plan.windows){
   B.add(S.plaster,prism(w,0,.85));B.add(S.glass,prism(w,.85,H-.35));B.add(S.plaster,prism(w,H-.35,H));
   const b=bounds(w),along=b.x1-b.x0>b.y1-b.y0,L=along?b.x1-b.x0:b.y1-b.y0;
-  if(L>.35){const a=along?[b.x0,(b.y0+b.y1)/2]:[(b.x0+b.x1)/2,b.y0],z=along?[b.x1,(b.y0+b.y1)/2]:[(b.x0+b.x1)/2,b.y1];
+  if(L>.35&&straightWindow(w)){const a=along?[b.x0,(b.y0+b.y1)/2]:[(b.x0+b.x1)/2,b.y0],z=along?[b.x1,(b.y0+b.y1)/2]:[(b.x0+b.x1)/2,b.y1];
    B.strip(S.bronze,a,z,.045,.84,.88);B.strip(S.bronze,a,z,.045,H-.38,H-.34);
    for(let k=0;k<=Math.ceil(L/1.3);k++){const f=k/Math.ceil(L/1.3),x=a[0]+(z[0]-a[0])*f,y=a[1]+(z[1]-a[1])*f;B.box(S.bronze,x-.018,y-.018,x+.018,y+.018,.87,H-.35);}
   }
  }
  for(const w of plan.glazing)B.add(S.glass,prism(w,0,H));
  if(walk)for(const w of plan.windows){
-  const b=bounds(w),along=b.x1-b.x0>b.y1-b.y0,L=along?b.x1-b.x0:b.y1-b.y0;if(L<1.1)continue;
+  const b=bounds(w),along=b.x1-b.x0>b.y1-b.y0,L=along?b.x1-b.x0:b.y1-b.y0;if(L<1.1||!straightWindow(w))continue;
   const x=(b.x0+b.x1)/2,y=(b.y0+b.y1)/2;
   let inward=0;for(const sign of[-1,1])if(walk.data.rooms.some(r=>['bedroom','living'].includes(r.kind)&&inside(r.poly,x+(along?0:sign*.34),y+(along?sign*.34:0))))inward=sign;
   if(!inward)continue;
