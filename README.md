@@ -1,81 +1,56 @@
-# Шахрофар — от чертежа к пространству
+# Skyline Residence – 3D building demo
 
-**Открыть прогулку:** [abubakrmmarufov-tech.github.io/3D-one-room](https://abubakrmmarufov-tech.github.io/3D-one-room/). Сайт доступен по HTTPS без входа в GitHub. Для просмотра отправляйте этот адрес; ссылка репозитория открывает исходники.
+Interactive 3D model of the Shahrofar riverside complex (three towers on a curved retail podium) for real-estate sales: pick a tower and a floor, open an apartment card with its floor plan and price, then walk around inside it.
 
-Интерактивная архитектурная прогулка на Three.js. Бумажный план превращается в квартиру; маршрут проходит через входную галерею, кухню со столовой, спальню, гостиную и террасу. Весь интерфейс на русском.
+![The model rendered in Blender from the camera of the aerial marketing render](docs/aerial.jpg)
 
-Редакция от 16 октября 2026 года: исследован Casa Serra, переработаны маршрут и движения, уточнены свет, фактуры и ткань, освобождён обзор на телефонах. Дополнительная редакция движения вводит единое управление камерой, материалами и интерфейсом: ограничены скорость и ускорение, устранено двойное сглаживание переходов. Подробности — в [исследовании](docs/REFERENCE_RESEARCH.md), [визуальном обзоре](docs/VISUAL_REVIEW.md) и [отчёте проверок](docs/QA.md).
+![The podium roof deck: pool, planted strip and playground](docs/deck.jpg)
 
-## Открыть
+Built with [Three.js](https://threejs.org) and [Vite](https://vitejs.dev).
 
-Откройте `Shakhrofar.html` в современном браузере с WebGL 2. В файл встроены приложение, Three.js, все 11 карт материалов, SVG и значок. Установка и подключение к сети не требуются.
+## Where things come from
 
-Прокручивайте страницу или выбирайте комнаты 01–05. «Материалы и детали» открывает описание комнаты, размеры, образцы и скачивание чертежа. «Посмотреть план» показывает полный лист. Кнопка движения переключает плавную прогулку на спокойные неподвижные виды. Предпочтение сохраняется локально; системная настройка уменьшения движения учитывается при первом запуске. При недоступности WebGL остаются чертёж и описания. Без JavaScript доступен чертёж.
+| | Source |
+|---|---|
+| Apartments, rooms, walls, windows, balconies of blocks В and Б | the architect's floor plans: typical floor (sheet 7), floors 23–24 (sheet 8) |
+| Floor levels | section 1-1 (sheet 13): floor 5 at +18.6, then 3.3 m per floor; roofs at +84.9 (В) and +71.7 (Б) |
+| Look, site, podium, hotel, surroundings | the aerial marketing render (its camera was recovered from its vanishing points) |
+| Podium roof deck, shop front, promenade | the deck marketing render: pool area, planted strip, playground with lattice pergolas, perforated copper band (`blender/complex/deck/`, `facade.py`, `street.py`) |
+| Prices and sold/reserved statuses | demo values in `src/data.js` |
 
-Переход по кнопке проходит по реальному маршруту и занимает время. Колесо, касание или клавиши страницы позволяют перехватить движение. Быстрое вращение колеса не накапливает длинную очередь движения; смена направления начинается от текущего вида с плавным торможением. Открытый диалог приостанавливает прогулку. Изменение размера окна и поворот телефона сохраняют положение на маршруте. Кнопка плана доступна и на узких экранах.
+| | Floors | Apartments |
+|---|---|---|
+| Block В | 24 | floors 5–24, 8 per floor (1–3 rooms, 41–174 m²), terraces on 23–24 |
+| Block Б | 20 | floors 5–20, 8 per floor (1–3 rooms, 52–154 m²) |
+| Block А | 16 | hotel, not for sale |
 
-## Разработка и сборка
+## Rebuilding the model
 
-Нужен Node.js 22.12 или новее.
+```bash
+pip install bpy shapely pymupdf      # Blender as a Python module (Python 3.13); or have a Blender 4.2+ binary on PATH
+blender/plans/make_plans.sh SET.pdf  # only when the drawings change: PDF -> blender/plans/plans.json
+blender/export_web.sh                # -> public/models/shahrofar.glb, src/model/complex.json, src/model/plans.json
+RENDER=1 blender/export_web.sh       # also renders build/shahrofar.png from the marketing render's camera
+```
 
-```sh
-npm ci
+- `blender/plans/extract_pdf.py` pulls the vector paths and labels of one tower out of a plan sheet; `build_plans.py` turns them into walls, windows, apartments and rooms (names and areas as written on the sheet, e.g. "Хонаи хоб 15.17" → Bedroom 15.17 m²).
+- `blender/build_complex.py` builds the scene; it also takes `--view "river aerial" | "avenue street" | "river street"` for other stills.
+- `blender/shahrofar.blend` is a ready-made copy of the scene to open in Blender.
+
+## Run locally
+
+```bash
+npm install
 npm run dev
 ```
 
-```sh
-npm run package:offline
-npm run preview
-```
+Then open http://localhost:5173.
 
-Содержимое `dist/` готово для статического хостинга с относительными путями. Автономный HTML собирается из того же пакета. Аналитики, базы данных, удалённых шрифтов и сетевых запросов к сервису материалов нет.
+## Publish
 
-## Проверки
+Every push to `main` is built and published to GitHub Pages by `.github/workflows/deploy.yml` (turn Pages on in the repository settings: Source → GitHub Actions).
 
-```sh
-npm run check:package
-npm run check:motion
-```
+## Controls
 
-Для анализа геометрии нужен `@napi-rs/canvas` 0.1.100. Можно задать `CODEX_RUNTIME_MODULES` с каталогом готовой установки или установить инструмент без изменения файла зависимостей:
-
-```sh
-npm install --no-save --package-lock=false @napi-rs/canvas@0.1.100
-npm run check:geometry
-```
-
-Проверки браузера используют установленный Chromium. При работающем сервере:
-
-```sh
-CHROME_PATH="/absolute/path/to/Chrome" TEST_URL="http://127.0.0.1:4173/" QA_OUT="docs/qa/production" npm run verify
-CHROME_PATH="/absolute/path/to/Chrome" TEST_URL="http://127.0.0.1:4173/" QA_OUT="docs/qa/production" npm run audit:browser
-CHROME_PATH="/absolute/path/to/Chrome" TEST_URL="http://127.0.0.1:4173/" QA_OUT="docs/qa/production/motion" npm run verify:motion
-```
-
-Без `TEST_URL` сценарий `verify` открывает автономный файл. Для аудита без сети задайте абсолютный URL `file://` в `TEST_URL` и `OFFLINE=1`. Разные каталоги `QA_OUT` сохраняют оба набора отчётов. Сценарий прогулки снимает 21 вид на компьютере и виды в двух размерах телефона, проверяет переходы, диалоги, русский язык и аварийные режимы. Отдельный аудит проверяет axe, клавиатуру, компоновку, сохранение режима движения, потерю WebGL и сетевые запросы.
-
-`check:motion` проверяет скорость, ускорение, остановки, обратный ход, паузу и частоты 30/60/120 Гц. `verify:motion` проверяет синхронизацию на каждом отрисованном кадре, быстрые переходы, смену направления колеса, касание, клавиши, диалоги, изменение размера и переключение режима в движении.
-
-## Файлы
-
-| Путь | Назначение |
-|---|---|
-| `Shakhrofar.html` | Автономное приложение |
-| `dist/` | Готовый статический сайт |
-| `public/assets/residence-plan.svg` | Редактируемый архитектурный план |
-| `src/model.js` | Стены, мебель, окно, остекление, свет и терраса |
-| `src/materials.js`, `src/texture-assets.js` | Материалы и обратимое проявление |
-| `src/timeline.js` | Маршрут, направления взгляда и русские сведения о комнатах |
-| `src/motion.js` | Общие часы маршрута, ограничение скорости и ускорения, торможение и пауза |
-| `src/main.js`, `src/style.css` | Отрисовка, интерфейс и адаптация |
-| `src/ambient.js`, `src/panorama.js` | Контактное затенение и окружение |
-| `scripts/` | Генерация плана, сборка и проверки |
-| `docs/qa/` | Отчёты и снимки браузера |
-| `BRIEF.md`, `docs/SUPPLIED_OBJECTIVE.md` | Актуальное решение и первоначальное задание |
-| `docs/material-assets.json`, `THIRD_PARTY_NOTICES.md` | Источники и контрольные суммы материалов |
-
-## Границы результата
-
-Это архитектурная концепция по исходному заданию. Нет обмеров или согласованной полной ведомости площадей. Номинальная площадь террасы и непрерывная дуга модели различаются; это объяснено в описании. Город и горы не являются проверенным видом из конкретной квартиры. Сравнение с Casa Serra описано по первичным источникам; его код в приложение не включён.
-
-Проверки выполняются в Chromium на этом компьютере и в эмулированных размерах экрана. Они не подтверждают работу на физических телефонах, Safari, Firefox или со всеми программами чтения с экрана.
+- **Complex:** drag to rotate, scroll to zoom, hover a tower to see its floors, click a floor (or pick one from the list; switch towers with the Block V / Block B tabs), then click an apartment.
+- **Inside:** drag to look around, click the floor to walk there, or use WASD / arrow keys. On touch screens, use the on-screen joystick.

@@ -1,81 +1,50 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f5f2eb" />
-    <meta name="description" content="От первого штриха до открытого неба. Архитектурная прогулка по панорамной квартире в комплексе «Шахрофар», Сим-Сим, блок В-24." />
-    <title>ШАХРОФАР · От чертежа к пространству</title>
-    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <title>Skyline Residence</title>
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <a class="skip-link" href="#room-navigation">Перейти к выбору комнаты</a>
-    <main id="experience" aria-label="Архитектурная прогулка по квартире «Шахрофар»">
-      <div id="world" role="img" aria-label="Интерактивный план, который превращается в объёмную модель квартиры"></div>
-      <div class="paper-grain" aria-hidden="true"></div>
-      <div class="opening-wash" aria-hidden="true"></div>
+    <div id="stage"></div>
+    <div id="labels"></div>
 
-      <header class="masthead">
-        <button class="identity" id="home" aria-label="Шахрофар, вернуться к плану">
-          <svg class="brand-mark" viewBox="0 0 40 42" aria-hidden="true"><path d="M5 35V6h8v29h7V6h8v29h7M3 40h34M5 14h8m7 8h8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span><strong lang="ru">ШАХРОФАР</strong><small lang="ru">Сим-Сим · Блок В-24</small></span>
-        </button>
-        <div class="masthead-center">ПРОСТРАНСТВО В ДЕТАЛЯХ</div>
-        <button class="index-button" id="index-button" aria-label="Открыть описание квартиры"><span>24-Й ЭТАЖ</span><span class="circle-plus" aria-hidden="true">+</span></button>
+    <div id="ext-ui">
+      <header class="brand panel">
+        <div class="logo">S</div>
+        <div>
+          <div class="brand-name">Skyline Residence</div>
+          <div class="brand-sub">Interactive 3D demo</div>
+        </div>
       </header>
 
-      <section class="opening-copy" aria-labelledby="hero-title">
-        <p class="eyebrow">ОТ ЧЕРТЕЖА К ПРОСТРАНСТВУ</p>
-        <h1 id="hero-title">Каждый дом<br>начинается<br><em>с замысла.</em></h1>
-        <p class="hero-description">Панорамная квартира, 186 м².<br> 24-й этаж. Прогулка по каждой комнате,<br> от первого штриха до открытого неба.</p>
-        <button class="text-link" id="enter">Войти в квартиру <span aria-hidden="true">↗</span></button>
-      </section>
+      <nav id="floors" class="panel" aria-label="Floors"></nav>
+      <aside id="side" class="panel"></aside>
 
-      <aside class="sheet-meta" aria-label="Сведения о чертеже">
-        <p class="meta-title">АРХИТЕКТУРНЫЙ АЛЬБОМ <span>АР–8</span></p>
-        <dl><div><dt>Проект</dt><dd>Сим-Сим</dd></div><div><dt>Чертёж</dt><dd>План 24-го этажа · В-24</dd></div><div><dt>Масштаб</dt><dd>1 : 200</dd></div><div><dt>Отметка</dt><dd>+75,000 м</dd></div></dl>
-      </aside>
+      <div id="legend" class="panel">
+        <span><i style="background: var(--ok)"></i>Available</span>
+        <span><i style="background: var(--warn)"></i>Reserved</span>
+        <span><i style="background: var(--bad)"></i>Sold</span>
+      </div>
+      <div id="hint">Drag to rotate · Scroll to zoom · Click a floor</div>
+    </div>
 
-      <div class="sheet-note" aria-hidden="true"><span class="north">С ↑</span><span>ПЛАН 24-ГО ЭТАЖА<br>ЛИНИЯ СТАНОВИТСЯ ПРОСТРАНСТВОМ</span></div>
-      <div class="transition-caption" aria-live="off"><span>ЧЕРТЁЖ ОБРЕТАЕТ ОБЪЁМ</span><p>Линия. Стена.<br>Место для жизни.</p></div>
+    <div id="loading" class="panel">Loading the 3D model… <b>0%</b></div>
+    <div id="tooltip"></div>
 
-      <section class="room-card" aria-labelledby="room-name" hidden>
-        <div class="room-kicker"><span id="room-number">ПОМЕЩЕНИЕ 01</span><span id="room-russian" lang="ru">Входная галерея</span></div>
-        <h2 id="room-name">Входная галерея</h2>
-        <p id="room-description">Спокойное начало. Камень, дуб и мягкий свет.</p>
-        <div class="room-dimensions"><span id="room-size">7,00 × 3,20 м</span><span id="room-area">22,4 м²</span></div>
-        <p class="room-clearance" id="room-clearance">Потолок 3,30 м · Отметка +75,000 м</p>
-        <button class="text-link" id="open-file">Материалы и детали <span aria-hidden="true">+</span></button>
-      </section>
+    <div id="walk-ui" hidden>
+      <div class="walk-top">
+        <div id="walk-title" class="panel chip-lg"></div>
+        <button id="exit-walk" class="btn">✕ Exit to building</button>
+      </div>
+      <div id="walk-help" class="panel">Drag to look around · Click the floor to walk there · <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / arrows to move</div>
+      <div id="minimap" class="panel"><canvas></canvas></div>
+      <div id="joystick"><div class="knob"></div></div>
+    </div>
 
-      <div class="tour-status" aria-hidden="true"><span class="status-dot"></span><span id="mode-label">АРХИТЕКТУРНЫЙ ЧЕРТЁЖ</span></div>
-      <button class="back-plan" id="back-plan" hidden>Вернуться к плану <span aria-hidden="true">↗</span></button>
-
-      <footer class="hud">
-        <div class="hud-top"><button class="hud-label drawing-control" id="inspect-plan" aria-haspopup="dialog"><span class="plan-prefix">ПОСМОТРЕТЬ </span>ПЛАН ↗</button><span class="rooms-counter"><b id="room-count">00</b> / 05 <span>ПРОСТРАНСТВ</span></span><span class="coordinates" id="coordinates">X 10,00 · Y 85,00 · Z −6,25</span></div>
-        <div class="hud-bottom"><nav id="room-navigation" aria-label="Перейти в комнату"><button data-room="1" aria-label="Помещение 01, входная галерея"><b>01</b><span>Прихожая</span></button><button data-room="2" aria-label="Помещение 02, кухня и столовая"><b>02</b><span>Кухня</span></button><button data-room="3" aria-label="Помещение 03, главная спальня"><b>03</b><span>Спальня</span></button><button data-room="4" aria-label="Помещение 04, панорамная гостиная"><b>04</b><span>Гостиная</span></button><button data-room="5" aria-label="Терраса 05, видовая терраса"><b>05</b><span>Терраса</span></button></nav><span class="elevation"><span id="elevation">+160,00</span> м <span class="elevation-label">ОТМЕТКА КАМЕРЫ</span></span><button id="motion-toggle" class="motion-toggle" aria-pressed="false" aria-label="Включить спокойный режим">ДВИЖЕНИЕ <span>ПЛАВНОЕ</span></button></div>
-        <div class="progress-track" aria-hidden="true"><div id="progress-fill"></div></div>
-      </footer>
-      <div id="scroll-track" aria-hidden="true"></div>
-    </main>
-
-    <dialog id="spec-drawer" aria-labelledby="spec-title">
-      <div class="drawer-top"><span>КВАРТИРА / МАТЕРИАЛЫ И ДЕТАЛИ</span><button id="close-drawer" aria-label="Закрыть описание">×</button></div>
-      <p class="drawer-kicker" id="spec-number">ПОМЕЩЕНИЕ 01 · АР–8 / 01</p>
-      <h2 id="spec-title">Входная<br>галерея.</h2>
-      <p id="spec-intro">Спокойное начало. Камень, дуб и мягкий свет.</p>
-      <div class="spec-stats"><div><span>РАЗМЕРЫ</span><strong id="spec-size">7,00 × 3,20 м</strong></div><div><span>ПЛОЩАДЬ</span><strong id="spec-area">22,4 м²</strong></div><div><span>ВЫСОТА ПОТОЛКА</span><strong id="spec-height">3,30 м</strong></div><div><span>ОТМЕТКА</span><strong>+75,000 м</strong></div></div>
-      <h3>Палитра материалов</h3><div class="swatches" id="swatches"></div>
-      <h3>Архитектурные детали</h3><ol id="spec-notes"></ol>
-      <a class="download-link" href="./assets/residence-plan.svg" download="Shakhrofar-AR-8-concept-plan.svg">Скачать чертёж <span aria-hidden="true">↓</span></a>
-      <p class="concept-note">Архитектурная концепция по исходному заданию. Размеры номинальные. Панорама города создана для визуализации.</p>
-    </dialog>
-    <dialog class="plan-dialog" id="plan-viewer" aria-labelledby="plan-heading">
-      <div class="drawer-top"><span id="plan-heading">АРХИТЕКТУРНЫЙ ЧЕРТЁЖ · АР–8 <small>Прокрутите лист, чтобы рассмотреть детали</small></span><button id="close-plan" aria-label="Закрыть чертёж">×</button></div>
-      <figure tabindex="0" role="region" aria-label="Чертёж с прокруткой"><img src="./assets/residence-plan.svg" alt="Полный план квартиры: координационные оси, размеры в миллиметрах, названия помещений и открывание дверей" /></figure>
-    </dialog>
-    <div id="loading" role="status"><div class="loading-mark">Ш</div><span>ГОТОВИМ ПРОСТРАНСТВО</span><div class="loading-line"></div></div>
-    <noscript><div class="noscript"><h1>От чертежа к пространству.</h1><p>Для интерактивной прогулки нужен JavaScript. Полный архитектурный план доступен ниже.</p><img src="./assets/residence-plan.svg" alt="Архитектурный план квартиры с четырьмя помещениями и криволинейной террасой"/><a href="./assets/residence-plan.svg" download>Скачать план</a></div></noscript>
+    <div id="toast"></div>
+    <div id="fade"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
