@@ -8,7 +8,7 @@ CPU analysis used the bundled `@napi-rs/canvas` 0.1.100 runtime (MIT). It is not
 
 The local build workspace retains unchanged scroll-craft engine workflow references. They are excluded from the delivered source archive and runtime bundle; the application does not import or require them.
 
-The concept SVG, icon, scene geometry, furniture, procedural stone textures, city, terrain, and interface code were authored for this task. No skyline survey, paid generated media, or web fonts are included. Fonts use the browser's installed system fonts. The authored project is private with no public software license selected.
+The concept SVG, icon, scene geometry, furniture, procedural stone textures, city, terrain, and interface code were authored for this task. No skyline survey, paid generated media, or web fonts are included. Fonts use the browser's installed system fonts. The repository is public for viewing, with no public software license selected for the authored project.
 
 Locally bundled material maps are CC0-1.0 assets from Poly Haven. Their asset-specific sources, original download URLs, authors, byte counts, and SHA-256 pins are recorded in `docs/material-assets.json`. See [Poly Haven's asset license](https://polyhaven.com/license).
 

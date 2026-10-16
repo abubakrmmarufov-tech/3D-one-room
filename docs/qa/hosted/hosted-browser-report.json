@@ -1,0 +1,93 @@
+{
+  "url": "https://abubakrmmarufov-tech.github.io/3D-one-room/",
+  "date": "2026-10-16T04:43:39.664Z",
+  "scope": "Public site, fresh anonymous Chromium context, desktop and emulated phone.",
+  "checks": [
+    {
+      "name": "anonymous HTTPS visit loads the Russian walkthrough",
+      "pass": true
+    },
+    {
+      "name": "room 1 is reachable and matches navigation",
+      "pass": true,
+      "details": {
+        "progress": 0.32,
+        "room": 1
+      }
+    },
+    {
+      "name": "room 2 is reachable and matches navigation",
+      "pass": true,
+      "details": {
+        "progress": 0.425,
+        "room": 2
+      }
+    },
+    {
+      "name": "room 3 is reachable and matches navigation",
+      "pass": true,
+      "details": {
+        "progress": 0.5699999999999998,
+        "room": 3
+      }
+    },
+    {
+      "name": "room 4 is reachable and matches navigation",
+      "pass": true,
+      "details": {
+        "progress": 0.7849999999999999,
+        "room": 4
+      }
+    },
+    {
+      "name": "room 5 is reachable and matches navigation",
+      "pass": true,
+      "details": {
+        "progress": 0.9900000000000002,
+        "room": 5
+      }
+    },
+    {
+      "name": "room details pause the matching scene",
+      "pass": true
+    },
+    {
+      "name": "Escape closes the room details",
+      "pass": true
+    },
+    {
+      "name": "full plan opens from the hosted subdirectory",
+      "pass": true
+    },
+    {
+      "name": "return to plan completes without jumping out of the route",
+      "pass": true
+    },
+    {
+      "name": "phone layout stays within the viewport",
+      "pass": true
+    },
+    {
+      "name": "phone plan control is interactive",
+      "pass": true
+    },
+    {
+      "name": "no runtime or shader errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "no failed HTTP assets",
+      "pass": true,
+      "details": []
+    }
+  ],
+  "errors": [],
+  "httpFailures": [],
+  "summary": {
+    "checks": 14,
+    "failed": 0,
+    "errors": 0,
+    "httpFailures": 0
+  }
+}

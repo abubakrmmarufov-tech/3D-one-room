@@ -1,14 +1,19 @@
 {
-  "createdAt": "2026-10-16T04:24:13.597016+00:00",
-  "scope": "Исходники, готовый сайт, автономный HTML, редактируемый SVG, исследование, итоговые проверки и лицензии. Манифест исключает сам себя.",
+  "createdAt": "2026-10-16T04:46:09.137720+00:00",
+  "scope": "Исходники, проверенная сборка, автономный HTML, конфигурация GitHub Pages, документация и проверки опубликованного сайта. Манифест исключает сам себя.",
   "exclusions": [
+    ".git",
     "node_modules",
     ".DS_Store",
     "*.log",
-    "src/scrollcraft.js (unused engine)",
-    "src/scrollcraft.css (unused engine)"
+    "unused scroll-craft references"
   ],
   "files": [
+    {
+      "path": ".github/workflows/pages.yml",
+      "bytes": 1004,
+      "sha256": "69b5a45b367c5d229828fd1ef7be4d37ca05cbbbe3aab1cb23c3667513b9a78a"
+    },
     {
       "path": ".gitignore",
       "bytes": 30,
@@ -21,8 +26,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 8386,
-      "sha256": "f53741cc2820fdebc9c5c48267276c3eeffd50a7234000cad88620b0dc4628d5"
+      "bytes": 8734,
+      "sha256": "5e1979aa68cf1b79909b6a0ceaaba285fca56f852b2586852e8c9762908aa9df"
     },
     {
       "path": "Shakhrofar.html",
@@ -31,8 +36,8 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 2553,
-      "sha256": "86d7ad5eb0bb2f5a530d56d3f5f5d6f8e0fe9eec232875d948e75a54f02b715f"
+      "bytes": 2584,
+      "sha256": "aa3eaa363e9effb141f261a40afddf88b2b1b0380ce4ade371dd0bd2f790f085"
     },
     {
       "path": "dist/THREE-LICENSE.txt",
@@ -120,6 +125,11 @@
       "sha256": "946f91849240875be88b7a07bfcce0b752641eaa987b6627c08f8ef02fa57811"
     },
     {
+      "path": "docs/DEPLOYMENT.md",
+      "bytes": 2703,
+      "sha256": "54e4a96c7428704da9d59b212c1a61d6f68250823ef6163c4f8bea6622e07374"
+    },
+    {
       "path": "docs/QA.md",
       "bytes": 12575,
       "sha256": "775f8f3e5b584121a2c320c6d744699eb1f54ffe98b58ae6e17290503322670e"
@@ -148,6 +158,31 @@
       "path": "docs/qa/geometry-report.json",
       "bytes": 5142,
       "sha256": "1eb709e6112451bc0c65541b8ab3966f261a69ef0a46628bd28669859a635ce2"
+    },
+    {
+      "path": "docs/qa/hosted/hosted-asset-report.json",
+      "bytes": 4052,
+      "sha256": "b030b6f24d4b7849df5d10e57b79c4cc3b1558f937b5c62a9c4cf143a810026d"
+    },
+    {
+      "path": "docs/qa/hosted/hosted-browser-report.json",
+      "bytes": 2037,
+      "sha256": "ccf3eee75021ce4a506cb2fb3926af3bd19d1a98593a0d7d56f0ff36eda6f8df"
+    },
+    {
+      "path": "docs/qa/hosted/public-living-desktop.png",
+      "bytes": 1076585,
+      "sha256": "43c1e5288b97b58fc139906bcfc65399f2839c939b8f08fe9ecd17e9a03c27d2"
+    },
+    {
+      "path": "docs/qa/hosted/public-living-mobile.png",
+      "bytes": 263606,
+      "sha256": "b0a15922fb709d78bc5c10787303dc2914784865805e2760b88d71849a14368b"
+    },
+    {
+      "path": "docs/qa/hosted/public-opening-desktop.png",
+      "bytes": 430550,
+      "sha256": "0871533e7f667f72ed39207f40b14606d89ebd70e13ce7df17e5691f3b44c739"
     },
     {
       "path": "docs/qa/motion-report.json",
