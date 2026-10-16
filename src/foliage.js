@@ -30,17 +30,17 @@ export function leafTexture() {
   return sharedLeafTexture = tex;
 }
 
-// Opaque, curved individual leaf for near interior plants; only 24 triangles including its underside.
-export function plantLeaf(length, width) {
+// Opaque curved leaf; the default has 24 triangles including its underside.
+export function plantLeaf(length, width, segments = 3) {
   const positions = [], indices = [], uv = [];
-  for (let i = 0; i <= 3; i++) {
-    const t = i / 3, half = Math.sin(t * Math.PI) * width * .5;
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments, half = Math.sin(t * Math.PI) * width * .5;
     for (const side of [-1, 0, 1]) {
       positions.push(side * half, Math.sin(t * Math.PI) * length * .12 + Math.abs(side) * length * .025, t * length);
       uv.push((side + 1) / 2, t);
     }
   }
-  for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) {
+  for (let i = 0; i < segments; i++) for (let j = 0; j < 2; j++) {
     const a = i * 3 + j, b = a + 3; indices.push(a, b, a + 1, a + 1, b, b + 1);
   }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));

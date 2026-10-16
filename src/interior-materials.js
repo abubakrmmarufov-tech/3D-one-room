@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { loadMaterialTextures } from './texture-assets.js';
 import { tileTexture, woodTexture } from './textures.js';
+import {refreshMaterialVariants} from './material-variants.js';
 let shared,enhancement;
 export function prepareInteriorMaterials() {
  if(shared)return shared;
@@ -19,7 +20,7 @@ export function prepareInteriorMaterials() {
   bronze:make(0x8e795a,{metalness:.72,roughness:.34}),ceramic:make(0xf3f0e8,{roughness:.2}),
   ceiling:make(0xf6f2e9,{side:THREE.DoubleSide}),
   glass:new THREE.MeshStandardMaterial({color:0xe7f0ed,roughness:.15,transparent:true,opacity:.07,depthWrite:false,side:THREE.FrontSide}),
-  curtain:new THREE.MeshPhysicalMaterial({color:0xe6dfcf,...maps.linen,roughness:1,side:THREE.DoubleSide,sheen:.5}),
+  curtain:new THREE.MeshPhysicalMaterial({color:0xe6dfcf,...maps.linen,normalScale:new THREE.Vector2(.12,.12),roughness:1,side:THREE.DoubleSide,sheen:.5}),
   lamp:make(0xfff0d4,{emissive:0xffdca1,emissiveIntensity:1.3}),
  };
  const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),gradient=g.createRadialGradient(32,32,8,32,32,32);gradient.addColorStop(0,'rgba(40,34,25,.28)');gradient.addColorStop(.5,'rgba(40,34,25,.18)');gradient.addColorStop(1,'rgba(40,34,25,0)');g.fillStyle=gradient;g.fillRect(0,0,64,64);
@@ -32,6 +33,7 @@ export function enhanceInteriorMaterials(){
  return enhancement??=loadMaterialTextures().then(maps=>{
   for(const [name,key] of Object.entries({oak:'oak',walnut:'walnut',plaster:'plaster',fabric:'boucle',linen:'linen',curtain:'linen'})){
    Object.assign(shared[name],maps[key]);shared[name].needsUpdate=true;
+   refreshMaterialVariants(shared[name]);
   }
  });
 }

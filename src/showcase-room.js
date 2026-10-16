@@ -59,6 +59,17 @@ export function furnishShowcase(B,room,H,M){
  const lx=L-.30,lv=1.15;
  cyl(M.bronze,lx,lv,.16,.02,.045);cyl(M.bronze,lx,lv,.016,.04,1.62);
  cyl(M.linen,lx,lv,.22,1.42,1.75);cyl(M.lamp,lx,lv,.19,1.421,1.435);
+ // A compact planted corner, with individually curved opaque leaves.
+ const pu=.42,pv=1.35;
+ cyl(M.stone,pu,pv,.21,.025,.39);cyl(M.dark,pu,pv,.187,.386,.397);
+ cyl(M.walnut,pu,pv,.018,.39,1.50);
+ B.obstacle(Array.from({length:16},(_,i)=>uv(pu+.28*Math.cos(i*Math.PI/8),pv+.28*Math.sin(i*Math.PI/8))));
+ for(let k=0;k<19;k++){
+  const angle=k*2.399963,height=.86+k*.040,reach=.10+.045*(k%3);
+  const p=uv(pu+Math.cos(angle)*reach,pv+Math.sin(angle)*reach),tip=uv(pu+Math.cos(angle)*.4,pv+Math.sin(angle)*.4);
+  B.stem(M.walnut,[...uv(pu,pv),height-.10],[...p,height],.007);
+  B.leaf(M.leaf,...p,height,.30+.025*(k%3),.13,Math.atan2(tip[0]-p[0],-(tip[1]-p[1])),-.25+(k%4)*.12);
+ }
  // Pendant cluster, suspended above circulation height.
  for(const [du,dv,z]of[[-.36,.02,H-.48],[.10,.08,H-.68],[.42,-.12,H-.43]]){
   cyl(M.bronze,L/2+du,1.9+dv,.008,z,H-.02);

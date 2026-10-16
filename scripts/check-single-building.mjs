@@ -11,6 +11,8 @@ import {windowPath} from '../src/window-path.js';
 import {inside,distToPolygon} from '../src/geometry.js';
 import {createServer} from 'vite';
 import {showcaseFrame} from '../src/showcase-room.js';
+import {windowDressing} from '../src/window-dressing.js';
+import {materialVariant,refreshMaterialVariants} from '../src/material-variants.js';
 const read=p=>JSON.parse(fs.readFileSync(p)),complex=read('src/model/complex.json'),plans=read('src/model/plans.json'),catalog=read('src/model/apartment-catalog.json');
 assert.deepEqual(complex.towers.map(t=>t.key),['B']);assert.deepEqual(Object.keys(plans),['B']);
 assert.equal(complex.towers[0].floors.length,16);assert.equal(catalog.length,128);
@@ -39,9 +41,29 @@ for(const r of nav.rooms){
  assert.equal(walk.path.length,0,`Showcase route stalled: ${r.index}`);
 }
 walk.stop();
-const curved=plans.B.windows.find(w=>w.length>20),path=windowPath(curved);
+const curved=plans.B.windows.find(w=>w.length>20&&w.some(p=>distToPolygon(living.poly,...p)<.35)),path=windowPath(curved);
 assert(path?.length>2,'Curved window must have a frame following its boundary');
 for(const [x,y]of path)assert(inside(curved,x,y)||distToPolygon(curved,x,y)<.025,'Window frames must stay within the glazing ribbon');
+const dressing=windowDressing(path,living,2.8);
+assert.equal(dressing.panels.length,2,'Curved bay has a gathered panel at each end');
+for(const panel of dressing.panels){
+ assert(panel.positions.every(Number.isFinite),'Curtains have finite geometry');
+ assert(Math.max(...panel.indices)<panel.positions.length/3,'Curtain indices stay within their vertices');
+ for(const [x,y]of panel.footprint)assert(inside(living.poly,x,y),'Curtains stay inside the actual living-room outline');
+}
+// Reproduce entering before optional maps finish; late maps must update accent
+// upholstery without resetting its tint or locally generated weave bump.
+const source=new THREE.MeshPhysicalMaterial({color:0xeeeeee}),bump=new THREE.Texture();
+const early=materialVariant(source,{color:0x717968,bumpMap:bump});
+assert.equal(early.normalMap,null);
+source.normalMap=new THREE.Texture();source.roughnessMap=new THREE.Texture();
+refreshMaterialVariants(source);
+const late=materialVariant(source,{color:0x717968,bumpMap:bump});
+for(const material of[early,late]){
+ assert.equal(material.normalMap,source.normalMap);assert.equal(material.roughnessMap,source.roughnessMap);
+ assert.equal(material.color.getHex(),0x717968);assert.equal(material.bumpMap,bump);
+}
+early.dispose();late.dispose();source.normalMap.dispose();source.roughnessMap.dispose();bump.dispose();source.dispose();
 // Build the actual merged rendering geometry with a canvas drawing stub. Browser
 // screenshots verify appearance; these budgets catch accidental mesh explosions.
 const ctx=new Proxy({createRadialGradient(){return{addColorStop(){}};}},{get:(o,k)=>o[k]??(()=>{})});
@@ -52,6 +74,13 @@ try{
  const {prepareInteriorMaterials}=await server.ssrLoadModule('/src/interior-materials.js');prepareInteriorMaterials();
  const {buildFloor}=await server.ssrLoadModule('/src/floor.js'),{apartments,aptsOnFloor}=await server.ssrLoadModule('/src/data.js');
  const unit=apartments.find(a=>a.id==='B12-0'),built=buildFloor('B',12,aptsOnFloor('B',12),unit);
+ walk.start(built,new THREE.Scene());
+ for(const r of built.nav.rooms){
+  assert(walk.goToRoom(r.index),`Dressed showcase route ${r.index}`);
+  for(let i=0;walk.path.length&&i<7200;i++){walk.update(1/60);const p=built.frame.toPlan(walk.pos.x,walk.pos.y);assert(built.nav.clear(p.x,p.y),'Dressed room collision');}
+  assert.equal(walk.path.length,0,`Dressed showcase route stalled: ${r.index}`);
+ }
+ walk.stop();
  geometry={meshes:0,triangles:0,bytes:0};
  built.group.traverse(m=>{if(!m.isMesh)return;geometry.meshes++;const g=m.geometry;geometry.triangles+=(g.index?.count??g.attributes.position.count)/3;geometry.bytes+=(g.index?.array.byteLength??0)+Object.values(g.attributes).reduce((n,a)=>n+a.array.byteLength,0);});
  assert(geometry.meshes<60,'Showcase geometry should stay batched');
@@ -60,4 +89,5 @@ try{
 }finally{await server.close();}
 const report={tower:'B',apartments:catalog.length,residentialFloors:16,modelBytes:fs.statSync('public/models/shahrofar.glb').size,modelNodes:root.listNodes().length,modelMeshes:root.listMeshes().length,showcaseRoomsReachable:nav.rooms.length,showcaseFurnitureParts:hero.commands.length};
 report.showcaseGeometry=geometry;
+report.curvedCurtainPanels=dressing.panels.length;report.lateMaterialMapsVerified=true;
 fs.writeFileSync('docs/qa/single-building.json',JSON.stringify(report,null,2)+'\n');console.log(report);

@@ -11,6 +11,7 @@ import { furnitureObstacle } from './furniture-layout.js';
 import {furnishShowcase} from './showcase-room.js';
 import {showcaseMaterials} from './showcase-materials.js';
 import {windowPath} from './window-path.js';
+import {windowDressing} from './window-dressing.js';
 const byColor=new Map();
 function mat(value){if(typeof value!=='number')return value;if(!byColor.has(value))byColor.set(value,new THREE.MeshStandardMaterial({color:value,roughness:.84}));return byColor.get(value);}
 const straightWindow=w=>{const b=bounds(w);return w.length<=5&&polygonArea(w)>.9*(b.x1-b.x0)*(b.y1-b.y0);};
@@ -37,7 +38,8 @@ class Batch{
  }
  cyl(m,x,y,r,z0,z1,seg=24){const g=new THREE.CylinderGeometry(r,r,z1-z0,seg);g.translate(x,(z0+z1)/2,-y);this.add(m,g);if(this.record&&r>.2&&z0<.85&&z1>.28)this.obstacles.push(Array.from({length:12},(_,i)=>[x+r*Math.cos(i*Math.PI/6),y+r*Math.sin(i*Math.PI/6)]));}
  ball(m,x,y,r,z,sx=1,sy=1,sz=1){const g=new THREE.SphereGeometry(r,this.detail?32:12,this.detail?20:8);g.scale(sx,sy,sz);g.translate(x,z,-y);this.add(m,g);}
- leaf(m,x,y,z,length,width,angle,tilt){const g=plantLeaf(length,width);g.rotateX(tilt);g.rotateY(angle);g.translate(x,z,-y);this.add(m,g);}
+ leaf(m,x,y,z,length,width,angle,tilt){const g=plantLeaf(length,width,this.detail?10:3);g.rotateX(tilt);g.rotateY(angle);g.translate(x,z,-y);this.add(m,g);}
+ stem(m,a,b,r){const start=new THREE.Vector3(a[0],a[2],-a[1]),end=new THREE.Vector3(b[0],b[2],-b[1]),delta=end.clone().sub(start);const g=new THREE.CylinderGeometry(r,r,delta.length(),6);g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize()));g.translate(...start.add(end).multiplyScalar(.5).toArray());this.add(m,g);}
  strip(m,a,b,width,y0,y1){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.08)return;const g=new THREE.BoxGeometry(L,y1-y0,width);g.rotateY(Math.atan2(b[1]-a[1],b[0]-a[0]));g.translate((a[0]+b[0])/2,(y0+y1)/2,-(a[1]+b[1])/2);this.add(m,g);}
  build(group,own){for(const [m,list]of this.parts){const geos=list.map(g=>g.index?g.toNonIndexed():g),g=mergeGeometries(geos,false);for(const x of new Set([...list,...geos]))x.dispose();own.push(g);const mesh=new THREE.Mesh(g,m);mesh.castShadow=!m.transparent;mesh.receiveShadow=true;group.add(mesh);}}
 }
@@ -85,6 +87,17 @@ export function buildFloor(towerKey,floor,apts,walk=null){
  }
  for(const w of plan.glazing)B.add(S.glass,prism(w,0,H));
  if(walk)for(const w of plan.windows){
+  const living=showcase&&walk.data.rooms.find(r=>r.kind==='living');
+  if(living&&w.some(([x,y])=>distToPolygon(living.poly,x,y)<.35)){
+   const dressing=windowDressing(windowPath(w),living,H);
+   if(dressing){
+    for(let i=1;i<dressing.track.length;i++)B.strip(S.bronze,dressing.track[i-1],dressing.track[i],.018,H-.105,H-.085);
+    for(const panel of dressing.panels){
+     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(panel.positions,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(panel.uvs,2));g.setIndex(panel.indices);g.computeVertexNormals();B.add(S.curtain,g);B.obstacles.push(panel.footprint);
+    }
+    continue;
+   }
+  }
   const b=bounds(w),along=b.x1-b.x0>b.y1-b.y0,L=along?b.x1-b.x0:b.y1-b.y0;if(L<1.1||!straightWindow(w))continue;
   const x=(b.x0+b.x1)/2,y=(b.y0+b.y1)/2;
   let inward=0;for(const sign of[-1,1])if(walk.data.rooms.some(r=>['bedroom','living'].includes(r.kind)&&inside(r.poly,x+(along?0:sign*.34),y+(along?sign*.34:0))))inward=sign;
