@@ -1,0 +1,194 @@
+[
+  {
+    "plan": "B",
+    "unit": 0,
+    "rooms": 7,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 1,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 2,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 3,
+    "rooms": 6,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 4,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 5,
+    "rooms": 7,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 6,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "B",
+    "unit": 7,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 0,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 1,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 2,
+    "rooms": 7,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 3,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 4,
+    "rooms": 6,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 5,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 6,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V",
+    "unit": 7,
+    "rooms": 7,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 0,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 1,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 2,
+    "rooms": 7,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 3,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 4,
+    "rooms": 6,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 5,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 6,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V23",
+    "unit": 7,
+    "rooms": 6,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 0,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 1,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 2,
+    "rooms": 8,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 3,
+    "rooms": 5,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 4,
+    "rooms": 6,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 5,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 6,
+    "rooms": 4,
+    "failures": []
+  },
+  {
+    "plan": "V24",
+    "unit": 7,
+    "rooms": 5,
+    "failures": []
+  }
+]

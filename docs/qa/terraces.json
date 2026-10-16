@@ -1,0 +1,205 @@
+[
+  {
+    "plan": "B",
+    "unit": 0,
+    "area": 17.1,
+    "doors": 3,
+    "reachable": true
+  },
+  {
+    "plan": "B",
+    "unit": 3,
+    "area": 16.46,
+    "doors": 3,
+    "reachable": true
+  },
+  {
+    "plan": "B",
+    "unit": 4,
+    "area": 10.4,
+    "doors": 1,
+    "reachable": false
+  },
+  {
+    "plan": "B",
+    "unit": 5,
+    "area": 23.53,
+    "doors": 2,
+    "reachable": true
+  },
+  {
+    "plan": "B",
+    "unit": 5,
+    "area": 5.5,
+    "doors": 2,
+    "reachable": false
+  },
+  {
+    "plan": "B",
+    "unit": 6,
+    "area": 16.78,
+    "doors": 3,
+    "reachable": true
+  },
+  {
+    "plan": "V",
+    "unit": 1,
+    "area": 17.54,
+    "doors": 3,
+    "reachable": true
+  },
+  {
+    "plan": "V",
+    "unit": 2,
+    "area": 23.17,
+    "doors": 2,
+    "reachable": true
+  },
+  {
+    "plan": "V",
+    "unit": 3,
+    "area": 9.74,
+    "doors": 1,
+    "reachable": true
+  },
+  {
+    "plan": "V",
+    "unit": 4,
+    "area": 23.4,
+    "doors": 2,
+    "reachable": true
+  },
+  {
+    "plan": "V",
+    "unit": 7,
+    "area": 17.55,
+    "doors": 3,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 0,
+    "area": 49.42,
+    "doors": 0,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 1,
+    "area": 49.42,
+    "doors": 1,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 2,
+    "area": 23.17,
+    "doors": 1,
+    "reachable": true
+  },
+  {
+    "plan": "V23",
+    "unit": 3,
+    "area": 9.83,
+    "doors": 0,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 4,
+    "area": 13.5,
+    "doors": 1,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 4,
+    "area": 9.03,
+    "doors": 1,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 5,
+    "area": 5.83,
+    "doors": 0,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 6,
+    "area": 51.41,
+    "doors": 1,
+    "reachable": false
+  },
+  {
+    "plan": "V23",
+    "unit": 7,
+    "area": 51.41,
+    "doors": 2,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 0,
+    "area": 19.64,
+    "doors": 0,
+    "reachable": false
+  },
+  {
+    "plan": "V24",
+    "unit": 1,
+    "area": 24,
+    "doors": 3,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 2,
+    "area": 23.16,
+    "doors": 0,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 3,
+    "area": 9.83,
+    "doors": 0,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 4,
+    "area": 13.5,
+    "doors": 1,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 4,
+    "area": 10.41,
+    "doors": 1,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 5,
+    "area": 5.83,
+    "doors": 0,
+    "reachable": true
+  },
+  {
+    "plan": "V24",
+    "unit": 6,
+    "area": 24.46,
+    "doors": 1,
+    "reachable": false
+  },
+  {
+    "plan": "V24",
+    "unit": 7,
+    "area": 19.54,
+    "doors": 0,
+    "reachable": false
+  }
+]

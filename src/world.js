@@ -11,8 +11,8 @@ export function buildWorld(scene) {
       side: THREE.BackSide,
       depthWrite: false,
       uniforms: {
-        top: { value: new THREE.Color(0x5d9bd6) },
-        bottom: { value: new THREE.Color(0xe3edf5) },
+        top: { value: new THREE.Color(0x80a3bd) },
+        bottom: { value: new THREE.Color(0xe7e8e3) },
       },
       vertexShader: /* glsl */ `
         varying vec3 vDir;
@@ -34,12 +34,12 @@ export function buildWorld(scene) {
   sky.renderOrder = -1;
   scene.add(sky);
   sky.userData.isSky = true;
-  scene.fog = new THREE.Fog(0xdfe8f0, 450, 1600);
+  scene.fog = new THREE.Fog(0xe1e5e3, 450, 1600);
 
   // lights
-  scene.add(new THREE.HemisphereLight(0xe2efff, 0x8d8068, 0.9));
+  scene.add(new THREE.HemisphereLight(0xe2eaf1, 0x8d887c, 0.65));
   // morning sun from the east-south-east, like on the marketing renders
-  const sun = new THREE.DirectionalLight(0xfff0dc, 2.8);
+  const sun = new THREE.DirectionalLight(0xfff2df, 2.2);
   sun.position.set(150, 120, 60);
   sun.castShadow = true;
   sun.shadow.mapSize.set(4096, 4096);

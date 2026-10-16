@@ -1,3 +1,4 @@
+import { roomName, areaText } from './locale.js';
 // 2D floor plan of an apartment, drawn from the architect's plan (same orientation as the drawings).
 import { PLANS } from './config.js';
 import { bounds, centroid, interiorPoint } from './geometry.js';
@@ -91,10 +92,10 @@ export function drawPlan(canvas, apt, { pad = 14, labels = true } = {}) {
       const small = r.area < 9;
       g.fillStyle = '#2b2f36';
       g.font = `600 ${small ? 9 : 11}px system-ui, -apple-system, sans-serif`;
-      g.fillText(r.name, T.px(x), T.py(y) - 6);
+      g.fillText(roomName(r), T.px(x), T.py(y) - 6);
       g.fillStyle = '#6b7280';
       g.font = `${small ? 9 : 10}px system-ui, -apple-system, sans-serif`;
-      g.fillText(`${r.area.toFixed(1)} m²`, T.px(x), T.py(y) + 7);
+      g.fillText(`${areaText(r.area)} м²`, T.px(x), T.py(y) + 7);
     }
   }
   return T;

@@ -4,8 +4,9 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { MODEL_URL, toScene, towerByKey } from './config.js';
+import { MODEL_URL, toScene, towerByKey, planFrame } from './config.js';
 import { groundTexture } from './textures.js';
+import {loadLandscapeTextures,tuneWater,waterTime}from './landscape.js';
 import { FACADE_MAPS } from './facade_maps.js';
 
 const GLASS = new Set(['Window glass', 'Curtain glass', 'Shop glass', 'Shop window', 'Gallery glass', 'Pool water', 'River']);
@@ -18,7 +19,7 @@ const GROUND = {
 };
 const groundTex = {};
 
-function tuneMaterial(m) {
+function tuneMaterial(m,landscape) {
   const g = GROUND[m.name];
   if (g) {
     groundTex[g] ??= groundTexture(g);
@@ -26,12 +27,15 @@ function tuneMaterial(m) {
     m.color.set(0xffffff);
     m.needsUpdate = true;
   }
+  if(['Grass','Lawn'].includes(m.name)){Object.assign(m,landscape);m.color.set(0x9eaf8e);m.normalScale=new THREE.Vector2(.3,.3);m.roughness=.95;}
   if (GLASS.has(m.name)) {
     // lighter glass that picks up the sky
     if (!['River', 'Pool water', 'Shop window', 'Gallery glass'].includes(m.name)) m.color.offsetHSL(0, -0.05, 0.12);
     m.envMapIntensity = 1.2;
     m.roughness = Math.max(0.06, Math.min(m.roughness, 0.12));
   }
+  if(['River','Pool water'].includes(m.name))tuneWater(m);
+  if(m.name==='Foam'){m.transparent=true;m.opacity=.10;m.depthWrite=false;}
   if (m.name.startsWith('Stained')) m.emissiveIntensity = 0.25;
   if (m.name === 'Railing glass' || m.name === 'Railing glass dark' || m.name === 'Neighbour') {
     m.transparent = true;
@@ -52,7 +56,7 @@ async function loadModel(loader, url, onProgress) {
 
 export async function loadComplex(apartments, onProgress) {
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-  const gltf = await loadModel(loader, MODEL_URL, onProgress);
+  const [gltf,landscape] = await Promise.all([loadModel(loader, MODEL_URL, onProgress),loadLandscapeTextures()]);
   const root = gltf.scene;
   const o = toScene(0, 0);
   root.position.set(o.x, 0, o.z);
@@ -73,7 +77,7 @@ export async function loadComplex(apartments, onProgress) {
       obj.receiveShadow = true;
       for (const m of [obj.material].flat()) {
         if (!tuned.has(m)) {
-          tuneMaterial(m);
+          tuneMaterial(m,landscape);
           tuned.add(m);
         }
         if (m.transparent) obj.castShadow = false;
@@ -92,30 +96,25 @@ export async function loadComplex(apartments, onProgress) {
   const box = new THREE.Box3();
   root.updateMatrixWorld(true);
   for (const mesh of picks) {
-    mesh.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
-    mesh.renderOrder = 10;
     mesh.visible = false;
-    mesh.castShadow = mesh.receiveShadow = false;
-    const d = mesh.userData;
-    if (d.hotel) {
-      mesh.userData.hotel = towerByKey[d.tower];
-      hotelPick = mesh;
-      continue;
-    }
-    const id = `${d.tower}${d.floor}-${d.unit}`;
-    const apt = apartments.find((a) => a.id === id);
-    if (!apt) continue;
-    mesh.userData.apt = apt;
-    const edges = new THREE.LineSegments(
-      new THREE.EdgesGeometry(mesh.geometry, 35),
-      new THREE.LineBasicMaterial({ transparent: true, opacity: 0.95 }),
-    );
-    edges.renderOrder = 11;
-    edges.visible = false;
-    mesh.add(edges);
-    box.setFromObject(mesh);
-    const c = box.getCenter(new THREE.Vector3());
-    units.set(apt.id, { overlay: mesh, edges, center: new THREE.Vector3(c.x, apt.baseY, c.z), top: box.max.y });
+    if (!mesh.userData.hotel) continue;
+    mesh.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
+    mesh.userData.hotel = towerByKey[mesh.userData.tower];
+    hotelPick = mesh;
+  }
+  // Rebuild residential pick volumes from the corrected apartment boundaries.
+  // The source building and hotel meshes remain byte-for-byte in the original GLB.
+  for (const apt of apartments) {
+    const frame = planFrame(towerByKey[apt.tower]);
+    const shape = new THREE.Shape(apt.data.outline.map(([x,y]) => new THREE.Vector2(x,y)));
+    const geo = new THREE.ExtrudeGeometry(shape,{depth:apt.ceiling,bevelEnabled:false,curveSegments:1});
+    geo.rotateX(-Math.PI/2);
+    const mesh = new THREE.Mesh(geo,new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+    mesh.position.set(frame.position.x-root.position.x,apt.baseY,frame.position.z-root.position.z);
+    mesh.rotation.y=frame.rotY;mesh.renderOrder=10;mesh.visible=false;mesh.userData.apt=apt;root.add(mesh);
+    const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geo,35),new THREE.LineBasicMaterial({transparent:true,opacity:.7}));
+    edges.visible=false;mesh.add(edges);mesh.updateMatrixWorld(true);box.setFromObject(mesh);const c=box.getCenter(new THREE.Vector3());
+    units.set(apt.id,{overlay:mesh,edges,center:new THREE.Vector3(c.x,apt.baseY,c.z),top:box.max.y});
   }
 
   const each = (fn) => {
@@ -127,6 +126,7 @@ export async function loadComplex(apartments, onProgress) {
 
   return {
     group: root,
+    update(time){waterTime.value=time;},
     towers,
     units,
     hotelPick,

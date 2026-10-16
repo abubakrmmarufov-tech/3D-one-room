@@ -11,7 +11,7 @@ export const PLANS = plans;
 const [CX, CY] = complex.site_centre;
 export const toScene = (x, y) => ({ x: x - CX, z: -(y - CY) });
 
-export const TOWERS = complex.towers;
+export const TOWERS = complex.towers.map(t => ({ ...t, label: t.key === 'V' ? 'Блок В' : t.key === 'B' ? 'Блок Б' : 'Блок А · отель' }));
 export const RESIDENTIAL = TOWERS.filter((t) => !t.hotel);
 export const towerByKey = Object.fromEntries(TOWERS.map((t) => [t.key, t]));
 export const TREES = { protos: complex.tree_protos, list: complex.trees };
@@ -41,9 +41,3 @@ export function planFrame(t) {
     },
   };
 }
-
-export const STATUS = {
-  available: { label: 'Available', color: 0x22b573, css: '#22b573' },
-  reserved: { label: 'Reserved', color: 0xf0a92e, css: '#f0a92e' },
-  sold: { label: 'Sold', color: 0xe14d4d, css: '#e14d4d' },
-};

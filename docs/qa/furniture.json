@@ -1,0 +1,194 @@
+[
+  {
+    "plan": "B",
+    "unit": 0,
+    "missing": [],
+    "obstacles": 26
+  },
+  {
+    "plan": "B",
+    "unit": 1,
+    "missing": [],
+    "obstacles": 15
+  },
+  {
+    "plan": "B",
+    "unit": 2,
+    "missing": [],
+    "obstacles": 12
+  },
+  {
+    "plan": "B",
+    "unit": 3,
+    "missing": [],
+    "obstacles": 22
+  },
+  {
+    "plan": "B",
+    "unit": 4,
+    "missing": [],
+    "obstacles": 15
+  },
+  {
+    "plan": "B",
+    "unit": 5,
+    "missing": [],
+    "obstacles": 43
+  },
+  {
+    "plan": "B",
+    "unit": 6,
+    "missing": [],
+    "obstacles": 27
+  },
+  {
+    "plan": "B",
+    "unit": 7,
+    "missing": [],
+    "obstacles": 13
+  },
+  {
+    "plan": "V",
+    "unit": 0,
+    "missing": [],
+    "obstacles": 11
+  },
+  {
+    "plan": "V",
+    "unit": 1,
+    "missing": [],
+    "obstacles": 22
+  },
+  {
+    "plan": "V",
+    "unit": 2,
+    "missing": [],
+    "obstacles": 34
+  },
+  {
+    "plan": "V",
+    "unit": 3,
+    "missing": [],
+    "obstacles": 12
+  },
+  {
+    "plan": "V",
+    "unit": 4,
+    "missing": [],
+    "obstacles": 23
+  },
+  {
+    "plan": "V",
+    "unit": 5,
+    "missing": [],
+    "obstacles": 21
+  },
+  {
+    "plan": "V",
+    "unit": 6,
+    "missing": [],
+    "obstacles": 21
+  },
+  {
+    "plan": "V",
+    "unit": 7,
+    "missing": [],
+    "obstacles": 21
+  },
+  {
+    "plan": "V23",
+    "unit": 0,
+    "missing": [],
+    "obstacles": 15
+  },
+  {
+    "plan": "V23",
+    "unit": 1,
+    "missing": [],
+    "obstacles": 14
+  },
+  {
+    "plan": "V23",
+    "unit": 2,
+    "missing": [],
+    "obstacles": 34
+  },
+  {
+    "plan": "V23",
+    "unit": 3,
+    "missing": [],
+    "obstacles": 12
+  },
+  {
+    "plan": "V23",
+    "unit": 4,
+    "missing": [],
+    "obstacles": 24
+  },
+  {
+    "plan": "V23",
+    "unit": 5,
+    "missing": [],
+    "obstacles": 12
+  },
+  {
+    "plan": "V23",
+    "unit": 6,
+    "missing": [],
+    "obstacles": 21
+  },
+  {
+    "plan": "V23",
+    "unit": 7,
+    "missing": [],
+    "obstacles": 14
+  },
+  {
+    "plan": "V24",
+    "unit": 0,
+    "missing": [],
+    "obstacles": 11
+  },
+  {
+    "plan": "V24",
+    "unit": 1,
+    "missing": [],
+    "obstacles": 14
+  },
+  {
+    "plan": "V24",
+    "unit": 2,
+    "missing": [],
+    "obstacles": 32
+  },
+  {
+    "plan": "V24",
+    "unit": 3,
+    "missing": [],
+    "obstacles": 15
+  },
+  {
+    "plan": "V24",
+    "unit": 4,
+    "missing": [],
+    "obstacles": 23
+  },
+  {
+    "plan": "V24",
+    "unit": 5,
+    "missing": [],
+    "obstacles": 13
+  },
+  {
+    "plan": "V24",
+    "unit": 6,
+    "missing": [],
+    "obstacles": 22
+  },
+  {
+    "plan": "V24",
+    "unit": 7,
+    "missing": [],
+    "obstacles": 17
+  }
+]

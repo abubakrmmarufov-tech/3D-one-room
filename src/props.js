@@ -48,7 +48,7 @@ function trunk(h, r0, r1, branches, rnd) {
     b.translate(0, h * (0.6 + rnd() * 0.3), 0);
     parts.push(b);
   }
-  return colorize(mergeGeometries(parts.map((g) => g.toNonIndexed())), (c) => c.copy(BARK));
+  return colorize(mergeGeometries(parts.map((g) => g.index ? g.toNonIndexed() : g)), (c) => c.copy(BARK));
 }
 
 // leaf colour: darker underneath and inside, lighter where the sun hits
@@ -69,7 +69,7 @@ function species(rnd) {
     for (const [x, y, z, r] of [[0, 5.2, 0, 2.3], [1.3, 4.6, 0.5, 1.6], [-1.2, 4.7, -0.4, 1.7], [0.3, 4.4, -1.3, 1.5], [-0.4, 4.5, 1.3, 1.5], [0.2, 6.3, 0.2, 1.4]]) {
       leaves.push(clump(r, rnd).translate(x, y, z));
     }
-    const g = mergeGeometries(leaves.map((x) => x.toNonIndexed()));
+    const g = mergeGeometries(leaves.map((x) => x.index ? x.toNonIndexed() : x));
     out.push({ wood: trunk(h + 1.2, 0.26, 0.18, 4, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x4b6b25), 5.0, 2.2)) });
   }
   // 2. conifer: stacked drooping cones
@@ -80,21 +80,21 @@ function species(rnd) {
       const c = new THREE.ConeGeometry(r, 2.4, 9, 1, true).translate(0, y + 1.2, 0);
       cones.push(c);
     }
-    const g = mergeGeometries(cones.map((x) => x.toNonIndexed()));
+    const g = mergeGeometries(cones.map((x) => x.index ? x.toNonIndexed() : x));
     out.push({ wood: trunk(2.6, 0.2, 0.14, 0, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x2f4a2a), 5, 4)) });
   }
   // 3. poplar / cypress: tall narrow crown
   {
     const leaves = [];
     for (const [y, r] of [[3.4, 1.2], [5.0, 1.15], [6.6, 0.95], [8.0, 0.65]]) leaves.push(clump(r, rnd, 2, 1.5).translate(0, y, 0));
-    const g = mergeGeometries(leaves.map((x) => x.toNonIndexed()));
+    const g = mergeGeometries(leaves.map((x) => x.index ? x.toNonIndexed() : x));
     out.push({ wood: trunk(3.0, 0.2, 0.14, 0, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x3e6125), 5.5, 3)) });
   }
   // 4. young ornamental tree: small light crown
   {
     const leaves = [];
     for (const [x, y, z, r] of [[0, 3.2, 0, 1.3], [0.7, 2.9, 0.3, 0.9], [-0.6, 3.0, -0.3, 0.9]]) leaves.push(clump(r, rnd).translate(x, y, z));
-    const g = mergeGeometries(leaves.map((x) => x.toNonIndexed()));
+    const g = mergeGeometries(leaves.map((x) => x.index ? x.toNonIndexed() : x));
     out.push({ wood: trunk(2.2, 0.12, 0.08, 3, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x6a8a2c), 3.1, 1.3)) });
   }
   return out;

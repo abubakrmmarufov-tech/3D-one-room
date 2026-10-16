@@ -1,0 +1,66 @@
+[
+  {
+    "plan": "B",
+    "terrace_doors": 12,
+    "apartments": 8,
+    "rooms": 42,
+    "room_counts": [
+      7,
+      4,
+      4,
+      6,
+      5,
+      7,
+      5,
+      4
+    ]
+  },
+  {
+    "plan": "V",
+    "terrace_doors": 11,
+    "apartments": 8,
+    "rooms": 43,
+    "room_counts": [
+      5,
+      5,
+      7,
+      5,
+      6,
+      4,
+      4,
+      7
+    ]
+  },
+  {
+    "plan": "V23",
+    "terrace_doors": 6,
+    "apartments": 8,
+    "rooms": 41,
+    "room_counts": [
+      5,
+      4,
+      7,
+      5,
+      6,
+      4,
+      4,
+      6
+    ]
+  },
+  {
+    "plan": "V24",
+    "terrace_doors": 5,
+    "apartments": 8,
+    "rooms": 40,
+    "room_counts": [
+      4,
+      4,
+      8,
+      5,
+      6,
+      4,
+      4,
+      5
+    ]
+  }
+]

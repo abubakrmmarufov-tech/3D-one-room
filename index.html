@@ -1,50 +1,34 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-    <title>Skyline Residence</title>
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <div id="stage"></div>
-    <div id="labels"></div>
-
-    <div id="ext-ui">
-      <header class="brand panel">
-        <div class="logo">S</div>
-        <div>
-          <div class="brand-name">Skyline Residence</div>
-          <div class="brand-sub">Interactive 3D demo</div>
-        </div>
-      </header>
-
-      <nav id="floors" class="panel" aria-label="Floors"></nav>
-      <aside id="side" class="panel"></aside>
-
-      <div id="legend" class="panel">
-        <span><i style="background: var(--ok)"></i>Available</span>
-        <span><i style="background: var(--warn)"></i>Reserved</span>
-        <span><i style="background: var(--bad)"></i>Sold</span>
-      </div>
-      <div id="hint">Drag to rotate · Scroll to zoom · Click a floor</div>
-    </div>
-
-    <div id="loading" class="panel">Loading the 3D model… <b>0%</b></div>
-    <div id="tooltip"></div>
-
-    <div id="walk-ui" hidden>
-      <div class="walk-top">
-        <div id="walk-title" class="panel chip-lg"></div>
-        <button id="exit-walk" class="btn">✕ Exit to building</button>
-      </div>
-      <div id="walk-help" class="panel">Drag to look around · Click the floor to walk there · <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / arrows to move</div>
-      <div id="minimap" class="panel"><canvas></canvas></div>
-      <div id="joystick"><div class="knob"></div></div>
-    </div>
-
-    <div id="toast"></div>
-    <div id="fade"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#ece9e1" />
+<meta name="description" content="Интерактивный 3D-тур жилого комплекса «Шахрофар»: выбор этажа, планировки и прогулка по квартирам блоков В и Б." />
+<title>Шахрофар — пространство для жизни</title>
+<link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+<div id="stage" aria-label="Трёхмерная модель комплекса"></div>
+<div id="labels"></div>
+<div id="ext-ui">
+<header class="brand panel"><div class="logo">Ш</div><div><div class="brand-name">ШАХРОФАР</div><div class="brand-sub">Пространство для жизни</div></div></header>
+<nav id="floors" class="panel" aria-label="Выбор блока и этажа"></nav>
+<aside id="side" class="panel" aria-label="Квартиры и планировка"></aside>
+<div id="hint">Потяните, чтобы повернуть · Колесо — масштаб</div>
+</div>
+<div class="settings panel"><label for="quality">Качество</label><select id="quality"><option value="balanced">Комфорт</option><option value="high">Детально</option></select><button id="home" title="Показать весь комплекс" aria-label="Показать весь комплекс">⌂</button></div>
+<div id="loading" class="panel" role="status"><span>Открываем пространство…</span><b>0%</b></div>
+<div id="tooltip"></div>
+<div id="walk-ui" hidden>
+<div class="walk-top"><div id="walk-title" class="panel chip-lg"></div><button id="exit-walk" class="btn">← К зданию</button></div>
+<nav id="rooms" class="panel" aria-label="Комнаты квартиры"><div class="room-heading"><span>Исследуйте квартиру</span><button id="tour" class="tour-btn">Начать тур</button></div><div id="room-list"></div><div id="room-status" aria-live="polite"></div></nav>
+<div id="walk-help" class="panel">Потяните — осмотреться · Нажмите на пол — идти<br><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — движение · <kbd>Q</kbd><kbd>E</kbd> — поворот · <kbd>Esc</kbd> — выход</div>
+<div id="minimap" class="panel"><span>План квартиры</span><canvas aria-label="План квартиры с текущим положением"></canvas></div>
+<div id="joystick" role="group" aria-label="Сенсорный джойстик движения"><div class="knob"></div></div>
+</div>
+<div id="toast" role="status"></div><div id="fade"></div>
+<noscript>Для просмотра 3D-модели включите JavaScript в браузере.</noscript>
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>

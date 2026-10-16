@@ -1,13 +1,13 @@
 import { defineConfig } from 'vite';
 
 // relative paths so the built app (dist/) can be copied to any computer or kiosk;
-// fixed file names so the online version can be republished to the same link
+// content hashes prevent stale assets after publishing to the same public URL
 export default defineConfig({
   base: './',
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      output: { entryFileNames: 'assets/app.js', assetFileNames: 'assets/[name][extname]' },
+      output: { entryFileNames: 'assets/app-[hash].js', assetFileNames: 'assets/[name]-[hash][extname]' },
     },
   },
 });
