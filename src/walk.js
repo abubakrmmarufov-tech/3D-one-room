@@ -27,6 +27,7 @@ export class WalkControls{
  navigate(p){const route=this.interior.route({x:this.pos.x,z:this.pos.y},p);if(!route)return false;this.path=route.slice(1);return true;}
  roomDestination(r){
   if(!r?.point||!this.navigate(this.interior.frame.toScene(...r.point)))return false;
+  if(r.focus){this.arrivalFocus=this.interior.frame.toScene(...r.focus);this.pitchAim=-.20;return true;}
   const q=innerRect(r.room.poly,.16),along=q.x1-q.x0>=q.y1-q.y0,L=Math.max(q.x1-q.x0,q.y1-q.y0),S=Math.min(q.x1-q.x0,q.y1-q.y0),layout=r.room.furniture??{};
   let u=L/2,v=S/2;if(r.room.kind==='living')v=.55;else if(r.room.kind==='bedroom')u=1.1;else if(r.room.kind==='kitchen'){u=Math.min(L-.85,3.6)/2;v=.4;}else if(r.room.kind==='bath'){u=.5;v=.4;}
   if(layout.flipU)u=L-u;if(layout.flipV)v=S-v;this.arrivalFocus=this.interior.frame.toScene(q.x0+(along?u:v),q.y0+(along?v:u));return true;

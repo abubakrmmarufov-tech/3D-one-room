@@ -8,6 +8,9 @@ import { furnishRoom } from './furnishings.js';
 import { plantLeaf } from './foliage.js';
 import { createNavigation } from './navigation.js';
 import { furnitureObstacle } from './furniture-layout.js';
+import {furnishShowcase} from './showcase-room.js';
+import {showcaseMaterials} from './showcase-materials.js';
+import {windowPath} from './window-path.js';
 const byColor=new Map();
 function mat(value){if(typeof value!=='number')return value;if(!byColor.has(value))byColor.set(value,new THREE.MeshStandardMaterial({color:value,roughness:.84}));return byColor.get(value);}
 const straightWindow=w=>{const b=bounds(w);return w.length<=5&&polygonArea(w)>.9*(b.x1-b.x0)*(b.y1-b.y0);};
@@ -19,12 +22,20 @@ class Batch{
  add(m,g){m=mat(m);if(!this.parts.has(m))this.parts.set(m,[]);this.parts.get(m).push(g);}
  box(m,x0,y0,x1,y1,z0,z1,soft=false){
   const w=Math.abs(x1-x0),d=Math.abs(y1-y0),h=z1-z0;if(w<.001||d<.001||h<.001)return;
-  const g=soft?new RoundedBoxGeometry(w,h,d,2,Math.min(.035,w/5,d/5,h/3)):new THREE.BoxGeometry(w,h,d);
+  const radius=typeof soft==='number'?soft:soft?.radius??.035;
+  const g=soft?new RoundedBoxGeometry(w,h,d,this.detail?3:2,Math.min(radius,w/3,d/3,h/3)):new THREE.BoxGeometry(w,h,d);
+  // Texture scale follows metres on furniture instead of stretching one tile per box.
+  const p=g.attributes.position,n=g.attributes.normal,uv=g.attributes.uv;
+  for(let i=0;i<p.count;i++){
+   const ax=Math.abs(n.getX(i)),ay=Math.abs(n.getY(i)),az=Math.abs(n.getZ(i));
+   uv.setXY(i,ax>ay&&ax>az?p.getZ(i):p.getX(i),ay>ax&&ay>az?p.getZ(i):p.getY(i));
+  }
+  if(soft?.tilt){g.rotateX(soft.tilt[0]);g.rotateZ(soft.tilt[1]);}
   g.translate((x0+x1)/2,(z0+z1)/2,-(y0+y1)/2);this.add(m,g);
   if(this.record){const o=furnitureObstacle(x0,y0,x1,y1,z0,z1);if(o)this.obstacles.push(o);}
  }
  cyl(m,x,y,r,z0,z1,seg=24){const g=new THREE.CylinderGeometry(r,r,z1-z0,seg);g.translate(x,(z0+z1)/2,-y);this.add(m,g);if(this.record&&r>.2&&z0<.85&&z1>.28)this.obstacles.push(Array.from({length:12},(_,i)=>[x+r*Math.cos(i*Math.PI/6),y+r*Math.sin(i*Math.PI/6)]));}
- ball(m,x,y,r,z,sx=1,sy=1,sz=1){const g=new THREE.SphereGeometry(r,12,8);g.scale(sx,sy,sz);g.translate(x,z,-y);this.add(m,g);}
+ ball(m,x,y,r,z,sx=1,sy=1,sz=1){const g=new THREE.SphereGeometry(r,this.detail?32:12,this.detail?20:8);g.scale(sx,sy,sz);g.translate(x,z,-y);this.add(m,g);}
  leaf(m,x,y,z,length,width,angle,tilt){const g=plantLeaf(length,width);g.rotateX(tilt);g.rotateY(angle);g.translate(x,z,-y);this.add(m,g);}
  strip(m,a,b,width,y0,y1){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.08)return;const g=new THREE.BoxGeometry(L,y1-y0,width);g.rotateY(Math.atan2(b[1]-a[1],b[0]-a[0]));g.translate((a[0]+b[0])/2,(y0+y1)/2,-(a[1]+b[1])/2);this.add(m,g);}
  build(group,own){for(const [m,list]of this.parts){const geos=list.map(g=>g.index?g.toNonIndexed():g),g=mergeGeometries(geos,false);for(const x of new Set([...list,...geos]))x.dispose();own.push(g);const mesh=new THREE.Mesh(g,m);mesh.castShadow=!m.transparent;mesh.receiveShadow=true;group.add(mesh);}}
@@ -33,6 +44,7 @@ export function buildFloor(towerKey,floor,apts,walk=null){
  const S=interiorMaterials(),tower=towerByKey[towerKey],fl=tower.floors.find(f=>f.floor===floor),plan=PLANS[fl.plan],frame=planFrame(tower),baseY=fl.z+tower.slab,H=fl.h-.5;
  const group=new THREE.Group();group.position.set(frame.position.x,baseY,frame.position.z);group.rotation.y=frame.rotY;
  const own=[],floorMeshes=[],roomLights=[],B=new Batch(),shown=walk?[walk]:apts;
+ let showcase=null;
  const mountWalls=[...plan.walls,...plan.struct];
  B.canMountAt=(x,y)=>mountWalls.some(w=>distToPolygon(w,x,y)<.22);
  for(const apt of shown){
@@ -42,7 +54,10 @@ export function buildFloor(towerKey,floor,apts,walk=null){
    const tiled=['bath','storage','loggia'].includes(room.kind);
    // Room polygons overlap slightly at door thresholds; separate their finish layers.
    const g=flat(room.poly,tiled?.018:room.kind==='hall'?.006:.012);own.push(g);const m=new THREE.Mesh(g,tiled?S.tile:S.oak);m.receiveShadow=true;m.userData={apt,room};group.add(m);floorMeshes.push(m);
-   B.record=!!walk;furnishRoom(B,room,H);B.record=false;
+   B.record=!!walk;
+   if(walk?.id==='B12-0'&&room.kind==='living'){B.detail=true;showcase=furnishShowcase(B,room,H,showcaseMaterials(S));B.detail=false;}
+   else furnishRoom(B,room,H);
+   B.record=false;
   }
   for(const b of apt.data.balconies){const g=flat(b.poly,.012);own.push(g);const m=new THREE.Mesh(g,S.stone);m.receiveShadow=true;group.add(m);floorMeshes.push(m);furnishRoom(B,{...b,kind:'balcony'},H);}
  }
@@ -59,10 +74,12 @@ export function buildFloor(towerKey,floor,apts,walk=null){
  for(const w of plan.beams??[])B.add(S.plaster,prism(w,H-.38,H));
  for(const w of plan.windows){
   B.add(S.plaster,prism(w,0,.85));B.add(S.glass,prism(w,.85,H-.35));B.add(S.plaster,prism(w,H-.35,H));
-  const b=bounds(w),along=b.x1-b.x0>b.y1-b.y0,L=along?b.x1-b.x0:b.y1-b.y0;
-  if(L>.35&&straightWindow(w)){const a=along?[b.x0,(b.y0+b.y1)/2]:[(b.x0+b.x1)/2,b.y0],z=along?[b.x1,(b.y0+b.y1)/2]:[(b.x0+b.x1)/2,b.y1];
-   B.strip(S.bronze,a,z,.045,.84,.88);B.strip(S.bronze,a,z,.045,H-.38,H-.34);
-   for(let k=0;k<=Math.ceil(L/1.3);k++){const f=k/Math.ceil(L/1.3),x=a[0]+(z[0]-a[0])*f,y=a[1]+(z[1]-a[1])*f;B.box(S.bronze,x-.018,y-.018,x+.018,y+.018,.87,H-.35);}
+  const path=windowPath(w);
+  if(path){
+   for(let i=1;i<path.length;i++){B.strip(S.bronze,path[i-1],path[i],.045,.84,.88);B.strip(S.bronze,path[i-1],path[i],.045,H-.38,H-.34);}
+   const points=path.length===2?[]:path;
+   if(path.length===2){const [a,z]=path,n=Math.ceil(Math.hypot(z[0]-a[0],z[1]-a[1])/1.3);for(let k=0;k<=n;k++)points[k]=[a[0]+(z[0]-a[0])*k/n,a[1]+(z[1]-a[1])*k/n];}
+   for(const [x,y]of points)B.box(S.bronze,x-.018,y-.018,x+.018,y+.018,.87,H-.35);
   }
  }
  for(const w of plan.glazing)B.add(S.glass,prism(w,0,H));
@@ -86,6 +103,10 @@ export function buildFloor(towerKey,floor,apts,walk=null){
  let spawn=null,nav=null;
  if(walk){
   nav=createNavigation(plan,walk.data,B.obstacles);
+  if(showcase){
+   const room=nav.rooms.find(r=>r.room.kind==='living');
+   if(room&&nav.clear(...showcase.standing)&&nav.route(nav.spawn,showcase.standing)){room.point=showcase.standing;room.focus=showcase.focus;}
+  }
   // A safe room point, computed after furniture placement.
   const main=nav.rooms.filter(r=>r.point&&['living','kitchen','bedroom'].includes(r.room.kind)).sort((a,b)=>b.room.area-a.room.area)[0];
   if(!nav.spawn)throw new Error('No safe apartment entrance');
@@ -94,6 +115,11 @@ export function buildFloor(towerKey,floor,apts,walk=null){
   B.add(S.ceiling,flat(walk.data.outline,H));
   for(const room of walk.data.rooms){if(room.area<1.2)continue;const [x,y]=interiorPoint(room.poly);B.cyl(S.lamp,x,y,.12,H-.035,H-.015);const power=room.kind==='hall'?14:room.area>15?26:12;const light=new THREE.PointLight(0xffe4bd,power*.25,Math.min(10,Math.sqrt(room.area)*1.6),2);light.position.set(x,H-.20,-y);group.add(light);roomLights.push({light,power});}
   group.add(new THREE.HemisphereLight(0xfff3df,0xb7b4a6,.16));
+  if(showcase){
+   for(const [point,height,power]of[[showcase.lamp,1.47,11],[showcase.pendant,H-.55,19]]){
+    const light=new THREE.PointLight(0xffd6a0,power*.2,6,2);light.position.set(point[0],height,-point[1]);group.add(light);roomLights.push({light,power});
+   }
+  }
  }
  B.build(group,own);group.updateMatrixWorld(true);
  return {apt:walk,group,floorMeshes,baseY,spawn,frame,plan,nav,H,

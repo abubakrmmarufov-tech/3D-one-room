@@ -31,4 +31,6 @@ $GT meshopt "$OUT.weld.glb" public/models/shahrofar.glb
 rm -f "$OUT.dedup.glb" "$OUT.weld.glb"
 cp "$OUT.json" src/model/complex.json
 cp "$OUT.plans.json" src/model/plans.json
+node scripts/single-building.mjs
+node scripts/build-catalog.mjs
 ls -la public/models/shahrofar.glb src/model/complex.json src/model/plans.json

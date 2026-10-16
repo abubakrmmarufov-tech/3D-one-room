@@ -43,7 +43,7 @@ export function summary(catalog,inventory){
  for(const a of catalog)counts[recordFor(inventory,a.id).status]++;
  return counts;
 }
-export const towerText=key=>key==='V'?'Блок В':'Блок Б';
+export const towerText=key=>'Блок Б';
 export const priceText=price=>price===null?'Цена не указана':`${new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(price)} TJS`;
 export const dateText=value=>value?new Intl.DateTimeFormat('ru-RU',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(value)):'ещё не обновлялись';
 export function inventoryCsv(catalog,inventory){

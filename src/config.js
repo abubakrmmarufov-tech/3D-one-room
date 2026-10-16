@@ -1,17 +1,17 @@
-// The complex: three towers on a retail podium. Tower placement and floor levels come from the
+// Single residential Block Б on the shared podium. Placement and floor levels come from the
 // Blender build in blender/ (model/complex.json); apartments, rooms and walls from the
 // architect's floor plans (model/plans.json).
 import complex from './model/complex.json';
 import plans from './model/plans.json';
 
-export const MODEL_URL = `${import.meta.env.BASE_URL}models/shahrofar.glb?v=bdc19f31cf65d157`;
+export const MODEL_URL = `${import.meta.env.BASE_URL}models/shahrofar.glb?v=5162075cad0aaf8c`;
 export const PLANS = plans;
 
 // Site plan coordinates (metres, x east, y north) -> scene (x, z) with the complex at the origin.
 const [CX, CY] = complex.site_centre;
 export const toScene = (x, y) => ({ x: x - CX, z: -(y - CY) });
 
-export const TOWERS = complex.towers.map(t => ({ ...t, label: t.key === 'V' ? 'Блок В' : t.key === 'B' ? 'Блок Б' : 'Блок А · отель' }));
+export const TOWERS = complex.towers.map(t => ({ ...t, label: 'Блок Б' }));
 export const RESIDENTIAL = TOWERS.filter((t) => !t.hotel);
 export const towerByKey = Object.fromEntries(TOWERS.map((t) => [t.key, t]));
 export const TREES = { protos: complex.tree_protos, list: complex.trees };

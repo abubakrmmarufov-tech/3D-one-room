@@ -9,10 +9,10 @@ const catalog=JSON.parse(readFileSync('src/model/apartment-catalog.json'));
 const [a,b]=catalog;
 const available={status:'available',price:1250000.5},reserved={status:'reserved',price:null},sold={status:'sold',price:1100000};
 const fixture=units=>({version:1,updatedAt:'2026-10-16T12:00:00.000Z',units});
-test('catalog exactly follows both residential blocks and all model identifiers',()=>{
- assert.deepEqual(catalog,currentCatalog());assert.equal(catalog.length,288);assert.equal(new Set(catalog.map(a=>a.id)).size,288);assert.deepEqual([...new Set(catalog.map(a=>a.tower))],['V','B']);
- assert.equal(summary(catalog,emptyInventory()).unknown,288);
- assert.equal(apartmentUrl('V12-0','https://example.test/3D-one-room/admin.html'),'https://example.test/3D-one-room/?apt=V12-0');
+test('catalog exactly follows retained Block Б and all model identifiers',()=>{
+ assert.deepEqual(catalog,currentCatalog());assert.equal(catalog.length,128);assert.equal(new Set(catalog.map(a=>a.id)).size,128);assert.deepEqual([...new Set(catalog.map(a=>a.tower))],['B']);
+ assert.equal(summary(catalog,emptyInventory()).unknown,128);
+ assert.equal(apartmentUrl('B12-0','https://example.test/3D-one-room/admin.html'),'https://example.test/3D-one-room/?apt=B12-0');
 });
 test('the repository inventory is valid before Pages publishes it',()=>{
  const inventory=parseInventory(readFileSync('public/inventory.json','utf8'),catalog);
@@ -105,7 +105,7 @@ test('reader validates network data, caches only public data, labels stale fallb
  assert(![...memory.values()].join('').includes('token'));
  offline=true;await reader.refresh();assert.equal(updates.at(-1).source,'cached');reader.dispose();
  updates=[];reader=createInventoryReader({catalog,fetchImpl,storage,onUpdate:s=>updates.push(s)});assert.equal(updates[0].source,'cached');await new Promise(r=>setTimeout(r,5));reader.dispose();
- updates=[];offline=false;invalid=true;reader=createInventoryReader({catalog,fetchImpl,storage:{getItem(){throw Error();},setItem(){throw Error();}},onUpdate:s=>updates.push(s)});await new Promise(r=>setTimeout(r,5));assert.equal(updates.at(-1).source,'unavailable');assert.equal(summary(catalog,updates.at(-1).data).unknown,288);reader.dispose();
+ updates=[];offline=false;invalid=true;reader=createInventoryReader({catalog,fetchImpl,storage:{getItem(){throw Error();},setItem(){throw Error();}},onUpdate:s=>updates.push(s)});await new Promise(r=>setTimeout(r,5));assert.equal(updates.at(-1).source,'unavailable');assert.equal(summary(catalog,updates.at(-1).data).unknown,128);reader.dispose();
 });
 test('admin bundle source does not persist tokens or load the renderer',()=>{
  const source=readFileSync('src/admin.js','utf8');assert(!source.includes("from 'three'"));assert(!source.includes('serviceWorker.register'));

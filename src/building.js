@@ -1,5 +1,5 @@
-// The complex (three towers, podium, surroundings), loaded from the Blender export.
-// Floors of every tower are separate objects so they can be hidden for the cut-away view,
+// The retained residential tower, shared podium and surroundings, from the Blender export.
+// Floors are separate objects so they can be hidden for the cut-away view,
 // and every apartment has an invisible pick volume used for hovering and highlighting.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -128,7 +128,7 @@ export async function loadComplex(apartments, onProgress) {
     hotelPick = mesh;
   }
   // Rebuild residential pick volumes from the corrected apartment boundaries.
-  // The source building and hotel meshes remain byte-for-byte in the original GLB.
+  // The pruned GLB retains Block Б in its original position.
   for (const apt of apartments) {
     const frame = planFrame(towerByKey[apt.tower]);
     const shape = new THREE.Shape(apt.data.outline.map(([x,y]) => new THREE.Vector2(x,y)));

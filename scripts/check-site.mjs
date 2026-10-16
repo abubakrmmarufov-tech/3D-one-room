@@ -33,7 +33,7 @@ const bytes=fs.readFileSync('public/models/shahrofar.glb');
 const {scene:root}=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
 const sourceCount=root.children.length;
 const originalShrubs=[];root.updateMatrixWorld(true);root.traverse(m=>{if(m.material?.name==='Shrub')originalShrubs.push({mesh:m,geometry:m.geometry,bounds:new THREE.Box3().setFromObject(m),residential:['V','B'].includes(m.parent.userData.tower)});});
-assert.equal(replaceTerraceShrubs(root),36);
+assert.equal(replaceTerraceShrubs(root),16);
 for(const {mesh,geometry,bounds,residential} of originalShrubs){
  if(!residential){assert.equal(mesh.geometry,geometry,'Hotel and site shrubs must retain their source geometry');continue;}
  const replacement=new THREE.Box3().setFromObject(mesh);

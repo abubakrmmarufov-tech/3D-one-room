@@ -1,0 +1,15 @@
+{
+  "tower": "B",
+  "apartments": 128,
+  "residentialFloors": 16,
+  "modelBytes": 4417196,
+  "modelNodes": 171,
+  "modelMeshes": 44,
+  "showcaseRoomsReachable": 7,
+  "showcaseFurnitureParts": 90,
+  "showcaseGeometry": {
+    "meshes": 35,
+    "triangles": 70087,
+    "bytes": 6709208
+  }
+}

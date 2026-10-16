@@ -90,3 +90,5 @@ h1{font-size:36px;line-height:1.17;margin-bottom:18px}h2{font-size:29px;line-hei
 .floor-btn:hover,.floor-btn:focus-visible{box-shadow:inset 3px 0 #267c80}
 .tag.selected{background:#267c80;color:#fff;border-color:#154f55}
 @media(max-width:900px){#selection-context{left:14px;right:14px;top:calc(146px + env(safe-area-inset-top,0px));bottom:auto;max-width:none;width:max-content;max-width:calc(100vw - 28px);padding:8px 12px;gap:2px}#selection-context>span{font-size:9px}#selection-context strong{font-size:12px}.floor-preview{padding:9px}.floor-preview svg{max-height:160px}.floor-preview-heading{font-size:10px}}
+.showcase-btn{margin-top:12px;width:100%;border:1px solid #aa936b;background:#f2ede1;color:#413b2e;display:flex;flex-direction:column;gap:5px;align-items:flex-start;text-align:left;padding:13px 16px;line-height:1.4}
+.showcase-btn span{font-size:11px;letter-spacing:.035em;color:#64583e}

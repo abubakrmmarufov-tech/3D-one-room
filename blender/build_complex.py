@@ -1,4 +1,4 @@
-"""Build the Shahrofar riverside complex (three towers on a curved retail podium) in Blender.
+"""Build the Shahrofar riverside single residential block on a curved retail podium in Blender.
 
 Run with Blender:
     blender -b -P blender/build_complex.py -- --out build/model
@@ -23,7 +23,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from complex.geom import get_collection  # noqa: E402
 from complex.materials import build_materials  # noqa: E402
 from complex.drawn import build_drawn_tower  # noqa: E402
-from complex.towers import TOWER_A, build_hotel  # noqa: E402
 
 # Camera recovered from the reference aerial image (2000 x 1413 px):
 # focal length 2124 px, 37.2 deg down, heading 8.7 deg east of north, 200 m up.
@@ -185,8 +184,8 @@ def main():
     scene.unit_settings.system = 'METRIC'
     mats = build_materials()
     root = get_collection('Shahrofar complex')
-    # blocks V and B from the architect's floor plans, the hotel (not for sale) from the renders
-    towers = [build_drawn_tower('V', mats, root), build_drawn_tower('B', mats, root), build_hotel(TOWER_A, mats, root)]
+    # Retained block B only; export cleanup also removes the former hotel terrace wing.
+    towers = [build_drawn_tower('B', mats, root)]
     if not args.no_site:
         try:
             from complex.podium import build_podium
