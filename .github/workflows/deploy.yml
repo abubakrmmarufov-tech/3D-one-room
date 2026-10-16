@@ -24,6 +24,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run check
+      - run: npm run check:ui
       - run: npm run check:inventory
       - run: npm run check:showcase
       - run: npm run build

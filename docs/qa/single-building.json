@@ -8,12 +8,14 @@
   "showcaseRoomsReachable": 7,
   "showcaseFurnitureParts": 131,
   "showcaseGeometry": {
-    "meshes": 37,
-    "triangles": 73029,
-    "bytes": 6991640
+    "meshes": 40,
+    "triangles": 80359,
+    "bytes": 7698052
   },
   "curvedCurtainPanels": 2,
   "lateMaterialMapsVerified": true,
-  "wallOcclusionSamples": 429,
-  "nearPlaneSamples": 288
+  "wallOcclusionSamples": 366,
+  "nearPlaneSamples": 288,
+  "partitionSightlines": 108,
+  "closedEntranceVerified": true
 }

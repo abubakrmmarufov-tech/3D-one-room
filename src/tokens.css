@@ -5,6 +5,7 @@
  --font-display:Georgia,"Times New Roman",serif;
  --available:#256142;--available-bg:#eaf3eb;--reserved:#795411;--reserved-bg:#fcf2d9;
  --sold:#8a4141;--sold-bg:#f9ece9;--unknown:#59645d;--unknown-bg:#edf0ec;
+ -webkit-font-smoothing:antialiased;
  font-family:var(--font-ui);font-synthesis:none;color:var(--ink);color-scheme:light;
 }
 button,input,select,textarea{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}

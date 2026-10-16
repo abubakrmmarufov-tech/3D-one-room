@@ -72,9 +72,31 @@ export function furnishRoom(B, room, H, materials = null, layout = room.furnitur
  }
  case 'bath':{
   if(room.name==='WC'||room.area<2.7){
-   box(M.walnut,.03,.03,.48,.31,.52,.79,true);box(M.ceramic,.02,.02,.49,.33,.79,.84,true);cyl(M.bronze,.14,.06,.013,.84,1.01);
-   cyl(M.ceramic,L-.38,S/2,.20,.05,.39);box(M.ceramic,L-.63,S/2-.21,L-.13,S/2+.21,.39,.43,true);box(M.ceramic,L-.17,S/2-.20,L-.04,S/2+.20,.4,.74,true);
-   box(M.bronze,.05,.02,.48,.04,1.1,1.65);box(0xa8b6af,.075,.042,.455,.046,1.125,1.625);break;
+   // These small WCs have their doorway on the north edge of the source plan.
+   // Use the full usable depth, with the cistern against the opposite wall.
+   const q=innerRect(room.poly,.07),width=q.x1-q.x0,depth=q.y1-q.y0,cx=(q.x0+q.x1)/2,back=q.y0+.02;
+   const wcbox=(m,x0,y0,x1,y1,z0,z1,soft=true)=>B.box(m,q.x0+x0,q.y0+y0,q.x0+x1,q.y0+y1,z0,z1,soft);
+   B.ball(M.ceramic,cx,back+.34,.25,.23,.62,.76,.91,true);
+   B.ball(M.ceramic,cx,back+.37,.25,.405,.76,.21,1.08,true);
+   B.ball(0xd6d5ce,cx,back+.37,.25,.444,.77,.045,1.08,true);
+   B.ball(M.ceramic,cx,back+.37,.25,.461,.79,.045,1.10,true);
+   B.box(M.ceramic,cx-.18,back,cx+.18,back+.16,.38,.81,.035);
+   B.box(M.ceramic,cx-.185,back-.005,cx+.185,back+.165,.81,.835,.018);
+   B.cyl(M.bronze,cx,back+.085,.026,.836,.841,16);
+   B.obstacle([[cx-.205,back],[cx+.205,back],[cx+.205,back+.66],[cx-.205,back+.66]]);
+   // Floating compact vanity on the side wall, clear of the entrance and bowl.
+   const vy=depth-.29,vw=Math.min(.34,width*.4);
+   wcbox(M.walnut,0,vy,vw,depth-.015,.49,.77);
+   wcbox(M.ceramic,-.008,vy-.015,vw+.012,depth,.77,.815);
+   wcbox(0xc6cbc5,.035,vy+.03,vw-.035,depth-.04,.816,.820);
+   wcbox(M.ceramic,.055,vy+.05,vw-.055,depth-.06,.820,.824);
+   B.cyl(M.bronze,q.x0+.06,q.y1-.055,.012,.82,1.00,12);
+   wcbox(M.bronze,.05,depth-.12,.15,depth-.045,.975,1.00);
+   wcbox(M.bronze,-.035,vy-.015,-.012,depth,1.06,1.75,false);
+   wcbox(0xa8b6af,-.011,vy+.005,-.006,depth-.02,1.08,1.73,false);
+   wcbox(M.bronze,vw+.015,vy+.04,vw+.035,depth-.04,.69,.71);
+   wcbox(M.linen,vw+.036,vy+.07,vw+.05,depth-.07,.51,.69);
+   break;
   }
 
   const len=Math.min(L-.1,1.3);
@@ -86,7 +108,7 @@ export function furnishRoom(B, room, H, materials = null, layout = room.furnitur
   break;
  }
  case 'hall':{
-  // The entrance stays open; a shallow console sits along one edge.
+  // A shallow console leaves the entrance circulation clear.
   if(L>2.5&&S>2.1){box(M.walnut,.2,.02,1.45,.33,.60,.66,true);legs(.825,.175,1.2,.3,.6);cyl(M.ceramic,.45,.17,.10,.66,.9);artwork(.3,.025,.95);}
   break;
  }

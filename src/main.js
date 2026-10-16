@@ -9,6 +9,7 @@ import { buildFloor } from './floor.js';
 import { prepareInteriorMaterials, enhanceInteriorMaterials, lightInteriorMaterials } from './interior-materials.js';
 import { WalkControls } from './walk.js';
 import { drawPlan, planTransform } from './plan.js';
+import {planFigure, planRoomEntries} from './plan-labels.js';
 import {floorPreview} from './floor-preview.js';
 import { areaText, roomName, roomCount, roomTotal } from './locale.js';
 import {STATUSES,emptyInventory,recordFor,priceText,dateText,apartmentUrl} from './inventory-core.js';
@@ -34,19 +35,20 @@ const walk=new WalkControls(camera,canvas);
 let post=null;
 let building=null,ready=false,transitioning=false,warming=false,tween=null,dollhouse=null,walkInterior=null,labels=[],miniBg=null,miniT=null;
 const state={mode:'overview',tower:null,floor:null,listTower:RESIDENTIAL[0].key,apt:null,hoverApt:null,previewFloor:null,rooms:0,availability:''};
-const selection=createSelectionControls(()=>state,()=>{state.hoverApt=null;state.previewFloor=null;updateOverlays();},()=>{if(state.apt&&state.mode==='floor')drawPlan($('#side .plan'),state.apt);});
+const selection=createSelectionControls(()=>state,()=>{state.hoverApt=null;state.previewFloor=null;updateOverlays();},()=>{if(state.apt&&state.mode==='floor')drawPlan($('#side .plan'),state.apt);},()=>{time.close();setRoomsOpen(false);});
 let inventory=emptyInventory(),inventorySource='loading',inventoryChecked=null;
 const unitBadge=a=>{const r=recordFor(inventory,a.id);return `<span class="status-badge" data-status="${r.status}">${STATUSES[r.status]}</span>`;};
 const inventoryNote=()=>inventorySource==='live'?`Данные: ${inventory.updatedAt?dateText(inventory.updatedAt):'статусы ещё не заполнены'}`:inventorySource==='cached'?`Сохранённая копия · ${dateText(inventoryChecked)}. Статус мог измениться.`:inventorySource==='loading'?'Проверяем статусы квартир…':'Статусы недоступны. Проверьте соединение.';
 const visited=new Set();let lastRoom=-1,lastTour=false;
 prepareInteriorMaterials();
 let lighting;
-const time=createTimeControls(hour=>{lighting=world.setTime(hour);renderer.toneMappingExposure=lighting.exposure;lightInteriorMaterials(lighting.night);building?.setLighting(lighting.night);walkInterior?.setLighting(lighting.night);});
+const time=createTimeControls(hour=>{lighting=world.setTime(hour);renderer.toneMappingExposure=lighting.exposure;lightInteriorMaterials(lighting.night);building?.setLighting(lighting.night);walkInterior?.setLighting(lighting.night);},()=>{selection.close();setRoomsOpen(false);});
 time.update(0);
 let adaptiveScale=1,slowFrames=0,performanceTimer=0;
 let quality='balanced';try{quality=localStorage.getItem('shahrofar-quality')??'balanced';}catch{}
 if(!['high','balanced'].includes(quality))quality='balanced';$('#quality').value=quality;
 function resize(){
+ for(const label of labels)label.size=null;
  const pixelBudget=quality==='high'?3000000:1500000;
  renderer.setPixelRatio(Math.max(.65,Math.min(devicePixelRatio||1,quality==='high'?1.75:1.25,Math.sqrt(pixelBudget/(innerWidth*innerHeight)))*adaptiveScale));renderer.setSize(innerWidth,innerHeight);
  camera.aspect=innerWidth/innerHeight;camera.fov=state.mode==='walk'?65:exteriorFov();if(state.mode==='walk')camera.near=interiorNearPlane(camera.fov,camera.aspect,walkInterior.nav.radius);camera.updateProjectionMatrix();post?.resize();
@@ -90,14 +92,70 @@ function updateOverlays(){if(!building)return;building.hotelPick&&(building.hote
  u.edges.material.depthTest=!emphasis;u.edges.material.color.setHex(hover||selected?0x154f55:0x9a702d);u.edges.material.opacity=emphasis?.95:.2;
  }updateSelectionContext();}
 function clearFloor(){dollhouse?.dispose();dollhouse=null;}
-function buildLabels(){const root=$('#labels');root.replaceChildren();labels=[];if(state.mode!=='floor')return;for(const a of aptsOnFloor(state.tower,state.floor)){const el=document.createElement('button');el.className='tag';el.textContent=`№ ${a.number}`;el.setAttribute('aria-label',`Квартира ${a.number}, ${roomCount(a.rooms)}, ${areaText(a.area)} квадратных метров`);el.onclick=()=>selectApt(a);el.onpointerenter=el.onfocus=()=>previewApartment(a);el.onpointerleave=el.onblur=()=>previewApartment(null);root.append(el);labels.push({a,el});}}
+function buildLabels(){const root=$('#labels');root.replaceChildren();labels=[];if(state.mode!=='floor')return;for(const a of aptsOnFloor(state.tower,state.floor)){const el=document.createElement('button');el.className='tag';el.textContent=`№ ${a.number}`;el.setAttribute('aria-label',`Квартира ${a.number}, ${roomCount(a.rooms)}, ${areaText(a.area)} квадратных метров`);el.onclick=()=>selectApt(a);el.onpointerenter=el.onfocus=()=>previewApartment(a);el.onpointerleave=el.onblur=()=>previewApartment(null);root.append(el);labels.push({a,el,size:null});}}
 const tmp=new THREE.Vector3();
-function updateLabels(){const placed=[];for(const{a,el}of [...labels].sort((x,y)=>Number(y.a===state.apt)-Number(x.a===state.apt))){const u=building.units.get(a.id);tmp.set(u.center.x,u.top+.25,u.center.z).project(camera);const x=(tmp.x+1)*innerWidth/2,y=(1-tmp.y)*innerHeight/2;const hidden=tmp.z>1||!matches(a)||x<10||x>innerWidth-10||placed.some(p=>Math.abs(p.x-x)<58&&Math.abs(p.y-y)<32);el.hidden=hidden;if(!hidden)placed.push({x,y});el.style.left=`${x}px`;el.style.top=`${y}px`;el.classList.toggle('selected',a===state.apt);}}
-function renderFloors(){const t=towerByKey[state.listTower];$('#floors').innerHTML=`<div class="tower-tabs">${RESIDENTIAL.map(r=>`<button data-tower="${r.key}" class="${r.key===t.key?'on':''}" aria-pressed="${r.key===t.key}">${r.label}</button>`).join('')}</div><button class="overview-btn" data-act="overview">Весь комплекс</button><h3>Выберите этаж</h3>${[...t.floors].reverse().map(({floor:f})=>`<button class="floor-btn ${state.tower===t.key&&state.floor===f?'active':''}" data-floor="${f}" aria-pressed="${state.tower===t.key&&state.floor===f}" aria-label="${t.label}, этаж ${f}" ${!ready?'disabled':''}><span class="num">${f}</span><span class="meta">этаж · ${aptsOnFloor(t.key,f).length} квартир</span></button>`).join('')}<div class="lobby-note">1–${t.floors[0].floor-1} · общественные этажи</div>`;}
-function renderSide(){const side=$('#side');if(state.mode==='overview'){side.innerHTML=`<div class="eyebrow">ЖИЛОЙ КОМПЛЕКС · ШАХРОФАР</div><h1>Пространство, <br>в котором хочется жить.</h1><p class="sub">Выберите этаж и квартиру. <br>Исследуйте каждую комнату в 3D.</p><div class="stats"><div><b>01</b><span>жилой блок</span></div><div><b>${apartments.length}</b><span>квартир в модели</span></div><div><b>20</b><span>этажей · блок Б</span></div></div><button class="btn showcase-btn" data-act="showcase" ${!ready?'disabled':''}>Показательная гостиная <span>Б · 12 этаж · № 57 ↗</span></button><div class="buyer-filters"><div><div class="label">Количество комнат</div><div class="seg">${[0,1,2,3].map(r=>`<button data-rooms="${r}" class="${state.rooms===r?'on':''}" aria-pressed="${state.rooms===r}">${r||'Все'}</button>`).join('')}</div></div><label class="availability-filter" for="availability">Доступность<select id="availability"><option value="">Все статусы</option>${Object.entries(STATUSES).map(([key,label])=>`<option value="${key}" ${state.availability===key?'selected':''}>${label}</option>`).join('')}</select></label></div><button class="btn primary start-btn" data-act="start" ${!ready?'disabled':''}>Выбрать квартиру <span>↗</span></button><p class="inventory-note">${inventoryNote()}</p><details class="project-note"><summary>О проекте и планировках</summary><p class="note">Интерьеры — предложение по обустройству. Планировки основаны на октябрьском комплекте чертежей. Номера используются для навигации, площади требуют уточнения по документации.</p></details>`;return;}
+function updateLabels(){
+ if(labels.some(label=>!label.size)){
+   // Batch visibility writes and layout reads, then reuse these dimensions until
+   // resize. Camera motion needs only rectangle arithmetic, not forced layout.
+   for(const label of labels)label.el.hidden=false;
+   for(const label of labels)label.size={w:label.el.offsetWidth,h:label.el.offsetHeight};
+ }
+ const placed=[];
+ const occupied=['.brand','#floors','#side','#selection-toggle','#selection-panel.is-open','#selection-context','.settings'].flatMap(selector=>{
+   const el=$(selector);if(!el||!el.getClientRects().length)return[];
+   const r=el.getBoundingClientRect();return r.width&&r.height?[r]:[];
+ });
+ for(const{a,el,size}of [...labels].sort((x,y)=>Number(y.a===state.apt)-Number(x.a===state.apt))){
+   const u=building.units.get(a.id);tmp.set(u.center.x,u.top+.25,u.center.z).project(camera);
+   const x=(tmp.x+1)*innerWidth/2,y=(1-tmp.y)*innerHeight/2;
+   const {w,h}=size;
+   const box={left:x-w/2-5,right:x+w/2+5,top:y-h/2-4,bottom:y+h/2+4};
+   const intersects=r=>box.left<r.right&&box.right>r.left&&box.top<r.bottom&&box.bottom>r.top;
+   const hidden=tmp.z>1||tmp.z< -1||!matches(a)||box.left<8||box.right>innerWidth-8||box.top<8||box.bottom>innerHeight-8||placed.some(intersects)||occupied.some(intersects);
+   el.hidden=hidden;if(!hidden)placed.push(box);
+   el.style.left=`${x}px`;el.style.top=`${y}px`;el.classList.toggle('selected',a===state.apt);
+ }
+}
+function renderFloors(){const t=towerByKey[state.listTower];$('#floors').innerHTML=`<div class="tower-tabs">${RESIDENTIAL.map(r=>`<button data-tower="${r.key}" class="${r.key===t.key?'on':''}" aria-pressed="${r.key===t.key}">${r.label}</button>`).join('')}</div><button class="overview-btn" data-act="overview">К зданию</button><h3>Жилые этажи</h3>${[...t.floors].reverse().map(({floor:f})=>`<button class="floor-btn ${state.tower===t.key&&state.floor===f?'active':''}" data-floor="${f}" aria-pressed="${state.tower===t.key&&state.floor===f}" aria-label="${t.label}, этаж ${f}" ${!ready?'disabled':''}><span class="num">${f}</span><span class="meta">этаж · ${aptsOnFloor(t.key,f).length} квартир</span></button>`).join('')}<div class="lobby-note">1–${t.floors[0].floor-1} · общественные этажи</div>`;}
+function renderSide(){
+ const side=$('#side');
+ if(state.mode==='overview'){
+   side.innerHTML=`<div class="eyebrow">Жилой блок Б</div>
+     <h1>Найдите свою квартиру</h1>
+     <p class="sub">Выберите этаж, затем квартиру. Откройте планировку и прогуляйтесь по комнатам.</p>
+     <div class="stats"><div><b>${apartments.length}</b><span>квартир в модели</span></div><div><b>${RESIDENTIAL[0].floors.length}</b><span>жилых этажей</span></div></div>
+     <button class="btn showcase-btn" data-act="showcase" ${!ready?'disabled':''}>Открыть гостиную № 57 <span>Демонстрационный интерьер · 12 этаж ↗</span></button>
+     <div class="buyer-filters"><div><div class="label" id="rooms-filter-label">Комнаты</div><div class="seg" role="group" aria-labelledby="rooms-filter-label">${[0,1,2,3].map(r=>`<button data-rooms="${r}" class="${state.rooms===r?'on':''}" aria-label="${r?roomCount(r):'Любое количество комнат'}" aria-pressed="${state.rooms===r}">${r||'Все'}</button>`).join('')}</div></div>
+     <label class="availability-filter" for="availability">Статус продажи<select id="availability"><option value="">Все статусы</option>${Object.entries(STATUSES).map(([key,label])=>`<option value="${key}" ${state.availability===key?'selected':''}>${label}</option>`).join('')}</select></label></div>
+     <button class="btn primary start-btn" data-act="start" ${!ready?'disabled':''}>Выбрать этаж <span aria-hidden="true">↗</span></button>
+     <p class="inventory-note">${inventoryNote()}</p>
+     <details class="project-note"><summary>О проекте и планировках</summary><p>Интерьеры — предложение по обустройству. Планировки основаны на октябрьском комплекте чертежей. Номера используются для навигации, площади требуют уточнения по документации.</p></details>`;
+   return;
+ }
  const list=aptsOnFloor(state.tower,state.floor),t=towerByKey[state.tower];
- if(!state.apt){const shown=list.filter(matches);side.innerHTML=`<button class="back" data-act="overview">← Весь комплекс</button><div class="eyebrow">${t.label} / ЭТАЖ ${state.floor}</div><h2>Выберите квартиру</h2><p class="sub">${shown.length===list.length?`${list.length} квартир на этаже`:`По фильтрам: ${shown.length} из ${list.length}`}</p>${floorPreview(list,null,matches)}<div class="apt-list">${shown.map(a=>`<button class="apt-row" data-apt="${a.id}"><span class="t">№ ${a.number}</span><span class="p">${areaText(a.area)} м²</span><span class="d">${roomCount(a.rooms)} · ${roomTotal(a.data.rooms.length)}</span><span class="arrow">↗</span><span class="apt-availability">${unitBadge(a)}</span></button>`).join('')||'<p class="sub">На этом этаже нет квартир с выбранными параметрами.</p>'}</div><p class="inventory-note">${inventoryNote()}</p><p class="note">Номера используются для навигации в модели.</p>`;return;}
- const a=state.apt,r=recordFor(inventory,a.id);side.innerHTML=`<button class="back" data-act="floor">← ${t.label} · этаж ${a.floor}</button><div class="unit-heading"><div class="eyebrow">ПЛАНИРОВКА · ${a.id}</div>${unitBadge(a)}</div><h2>Квартира № ${a.number}</h2><p class="sub">${roomCount(a.rooms)} · ${t.label} · этаж ${a.floor}</p><details class="floor-location"><summary>Положение квартиры на этаже</summary>${floorPreview(list,a.id,matches)}</details><canvas class="plan" aria-label="Планировка квартиры"></canvas><div class="specs"><div><span>${a.data.area_source==='room-sum'?'Сумма площадей комнат':'Площадь по плану'}</span><b>${areaText(a.area)} м²</b></div><div><span>Высота потолка</span><b>${areaText(a.ceiling)} м</b></div></div>${r.price!==null?`<div class="asking-price"><span>Стоимость квартиры</span><strong>${priceText(r.price)}</strong></div>`:''}<div class="actions"><button class="btn primary" data-act="walk">Войти в квартиру <span>↗</span></button>${a.id==='B12-0'?'<button class="btn showcase-btn" data-act="showcase">Открыть показательную гостиную ↗</button>':''}<button class="btn share-btn" data-act="share">Скопировать ссылку <span>↗</span></button></div><p class="inventory-note">${inventoryNote()}</p><details class="project-note"><summary>О площадях и обустройстве</summary><p class="note">Обустройство и материалы показаны как дизайн-предложение. Номера — навигационные, площади не являются заверенными измерениями.</p></details>`;drawPlan(side.querySelector('.plan'),a);}
+ if(!state.apt){
+   const shown=list.filter(matches);
+   side.innerHTML=`<button class="back" data-act="overview">← К зданию</button>
+     <div class="eyebrow">${t.label} · этаж ${state.floor}</div><h2>Выберите квартиру</h2>
+     <p class="sub">${shown.length===list.length?`${list.length} квартир на этаже`:`По фильтрам: ${shown.length} из ${list.length}`}</p>
+     ${floorPreview(list,null,matches)}
+     <div class="apt-list">${shown.map(a=>`<button class="apt-row" data-apt="${a.id}"><span class="t">№ ${a.number}</span><span class="p">${areaText(a.area)} м²</span><span class="d">${roomCount(a.rooms)} · ${roomTotal(a.data.rooms.length)}</span><span class="arrow" aria-hidden="true">↗</span><span class="apt-availability">${unitBadge(a)}</span></button>`).join('')||'<p class="sub">На этом этаже нет квартир с выбранными параметрами. Измените фильтры на экране здания.</p>'}</div>
+     <p class="inventory-note">${inventoryNote()}</p><p class="note">Номера используются для навигации в модели.</p>`;
+   return;
+ }
+ const a=state.apt,r=recordFor(inventory,a.id);
+ side.innerHTML=`<button class="back" data-act="floor">← Все квартиры на ${a.floor} этаже</button>
+   <div class="unit-heading"><div class="eyebrow">${t.label} · этаж ${a.floor}</div>${unitBadge(a)}</div>
+   <h2>Квартира № ${a.number}</h2><p class="sub">${roomCount(a.rooms)} · ${roomTotal(a.data.rooms.length)}</p>
+   <details class="floor-location"><summary>Где находится на этаже</summary>${floorPreview(list,a.id,matches)}</details>
+   ${planFigure(a)}
+   <div class="specs"><div><span>${a.data.area_source==='room-sum'?'Сумма площадей комнат':'Площадь по плану'}</span><b>${areaText(a.area)} м²</b></div><div><span>Высота потолка</span><b>${areaText(a.ceiling)} м</b></div></div>
+   ${r.price!==null?`<div class="asking-price"><span>Стоимость квартиры</span><strong>${priceText(r.price)}</strong></div>`:''}
+   <div class="actions"><button class="btn primary" data-act="walk">Войти в квартиру <span aria-hidden="true">↗</span></button>${a.id==='B12-0'?'<button class="btn showcase-btn" data-act="showcase">Открыть гостиную <span>Демонстрационный интерьер ↗</span></button>':''}<button class="btn share-btn" data-act="share">Скопировать ссылку <span aria-hidden="true">↗</span></button></div>
+   <p class="inventory-note">${inventoryNote()}</p><details class="project-note"><summary>О площадях и обустройстве</summary><p>Обустройство и материалы показаны как дизайн-предложение. Номера — навигационные, площади не являются заверенными измерениями.</p></details>`;
+ drawPlan(side.querySelector('.plan'),a);
+}
 function refresh(){world.invalidateShadow();renderFloors();renderSide();updateOverlays();selection.sync();$('#hint').textContent=state.mode==='overview'?'Потяните, чтобы повернуть · Колесо — масштаб':'Выберите квартиру · Потяните, чтобы повернуть';}
 $('#floors').onclick=e=>{const b=e.target.closest('button');if(!b||transitioning||!ready)return;if(b.dataset.tower){state.listTower=b.dataset.tower;state.previewFloor=null;state.hoverApt=null;renderFloors();updateOverlays();}else if(b.dataset.floor)selectFloor(state.listTower,+b.dataset.floor);else if(b.dataset.act==='overview')goOverview();};
 function previewApartment(a){if(!ready||transitioning||state.mode==='walk')return;state.hoverApt=a;state.previewFloor=null;updateOverlays();}
@@ -124,10 +182,16 @@ function enterWalk(a,showcase=false){if(!a||state.mode!=='floor')return;selectio
 function exitWalk(overview=false){if(!walkInterior||transitioning)return;const a=walkInterior.apt;fade(()=>{walk.stop();postRequest++;post?.dispose();post=null;world.setFocus();joyEnd();walkInterior.dispose();walkInterior=null;camera.fov=exteriorFov();camera.near=.15;camera.updateProjectionMatrix();controls.enabled=true;$('#ext-ui').hidden=false;$('#walk-ui').hidden=true;$('#home').hidden=false;state.mode='overview';// Allow the destination update within this single guarded transition.
 transitioning=false;if(overview)goOverview();else{selectFloor(a.tower,a.floor);selectApt(a);const v=aptView(a);camera.position.copy(v.pos);controls.target.copy(v.target);tween=null;controls.update();}selection.close();transitioning=true;});}
 $('#exit-walk').onclick=()=>exitWalk();addEventListener('keydown',e=>{if(e.code!=='Escape'||transitioning)return;if(time.close()){$('#time-toggle').focus({preventScroll:true});return;}if(selection.close(true))return;if(!$('#rooms').hidden){setRoomsOpen(false);$('#rooms-toggle').focus({preventScroll:true});return;}if(state.mode==='walk')exitWalk();else if(state.mode==='floor'&&state.apt)selectFloor(state.tower,state.floor);else if(state.mode==='floor')goOverview();});
-function setRoomsOpen(open){$('#rooms').hidden=!open;$('#minimap').hidden=!open;$('#rooms-toggle').setAttribute('aria-expanded',String(open));if(open){prepareMinimap(walkInterior.apt);drawMinimap();}}
+function setRoomsOpen(open){$('#rooms').hidden=!open;$('#minimap').hidden=!open;$('#rooms-toggle').setAttribute('aria-expanded',String(open));if(open){time.close();prepareMinimap(walkInterior.apt);drawMinimap();}}
 $('#rooms-toggle').onclick=()=>setRoomsOpen($('#rooms').hidden);
 $('#rooms-close').onclick=()=>{setRoomsOpen(false);$('#rooms-toggle').focus({preventScroll:true});};
-function renderRooms(){const counts={};$('#room-list').innerHTML=walkInterior.nav.rooms.map(({room:r,index})=>{const name=roomName(r),n=(counts[name]=(counts[name]??0)+1);return`<button data-room="${index}" aria-label="Перейти: ${name}${n>1?' '+n:''}"><i>${String(index+1).padStart(2,'0')}</i><span>${name}${n>1?' '+n:''}</span><small>${areaText(r.area)} м²</small><em aria-hidden="true">○</em></button>`;}).join('');}
+function renderRooms(){
+ const entries=planRoomEntries(walkInterior.apt);
+ $('#room-list').innerHTML=walkInterior.nav.rooms.map(({room:r,index})=>{
+   const entry=entries.find(e=>e.room===r),name=entry?.name??roomName(r);
+   return `<button data-room="${index}" aria-label="Перейти: ${name}"><i>${index+1}</i><span>${name}</span><small>${areaText(r.area)} м²</small><em aria-hidden="true">○</em></button>`;
+ }).join('');
+}
 $('#room-list').onclick=e=>{const b=e.target.closest('[data-room]');if(!b||transitioning)return;if(walk.goToRoom(+b.dataset.room)){toast(`Идём: ${roomName(walkInterior.nav.rooms[+b.dataset.room].room)}`);setRoomsOpen(false);$('#rooms-toggle').focus({preventScroll:true});}else toast('Проход сейчас недоступен. Выберите соседнюю точку на полу.');};
 $('#tour').onclick=()=>{if(transitioning)return;if(walk.tour)walk.cancelRoute();else{walk.startTour();setRoomsOpen(false);$('#rooms-toggle').focus({preventScroll:true});toast('Тур начат. Любое движение остановит маршрут.');}};
 function updateRoomState(){const current=walk.currentRoom();if(current>=0)visited.add(current);if(current!==lastRoom||walk.tour!==lastTour){for(const b of $('#room-list').children){const i=+b.dataset.room;b.classList.toggle('on',i===current);b.setAttribute('aria-current',i===current?'location':'false');b.querySelector('em').textContent=visited.has(i)?'✓':'○';}$('#room-status').textContent=`Осмотрено ${visited.size} из ${walkInterior.nav.rooms.length} помещений`;$('#tour').textContent=walk.tour?'Остановить тур':'Начать тур';$('#tour').classList.toggle('on',walk.tour);if(lastTour&&!walk.tour&&visited.size===walkInterior.nav.rooms.length)toast('Вы осмотрели все помещения квартиры.');lastRoom=current;lastTour=walk.tour;}}
@@ -139,7 +203,7 @@ joy.addEventListener('pointerdown',e=>{joyId=e.pointerId;joy.setPointerCapture(j
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2(),tooltip=$('#tooltip');let down=null;
 function pick(e){if(!ready||transitioning)return null;ndc.set(e.clientX/innerWidth*2-1,1-e.clientY/innerHeight*2);ray.setFromCamera(ndc,camera);return ray.intersectObjects(building.pickables.filter(o=>{const a=o.userData.apt;return(!a||matches(a))&&!(state.mode==='floor'&&a?.tower===state.tower&&a.floor>state.floor);}),false)[0]?.object.userData;}
 canvas.addEventListener('pointerdown',e=>{down=selection.dismissFromCanvas()?null:{x:e.clientX,y:e.clientY};tooltip.style.opacity=0;});canvas.addEventListener('pointercancel',()=>down=null);
-canvas.addEventListener('pointermove',e=>{if(state.mode==='walk'||e.pointerType==='touch'||e.buttons||transitioning)return;const hit=pick(e),a=hit?.apt;if(state.previewFloor||state.hoverApt!==(a??null)){state.previewFloor=null;state.hoverApt=a??null;updateOverlays();}canvas.style.cursor=a?'pointer':'';if(a||hit?.hotel){tooltip.textContent=a?`${a.towerLabel} · ${a.floor} этаж · квартира № ${a.number}`:'';tooltip.style.left=`${Math.min(e.clientX+16,innerWidth-250)}px`;tooltip.style.top=`${e.clientY+12}px`;tooltip.style.opacity=1;}else tooltip.style.opacity=0;});
+canvas.addEventListener('pointermove',e=>{if(state.mode==='walk'||e.pointerType==='touch'||e.buttons||transitioning)return;const hit=pick(e),a=hit?.apt;if(state.previewFloor||state.hoverApt!==(a??null)){state.previewFloor=null;state.hoverApt=a??null;updateOverlays();}canvas.style.cursor=a?'pointer':'';if(a||hit?.hotel){tooltip.textContent=a?`${a.towerLabel} · ${a.floor} этаж · квартира № ${a.number}`:'';const box=tooltip.getBoundingClientRect();tooltip.style.left=`${Math.max(8,Math.min(e.clientX+16,innerWidth-box.width-8))}px`;tooltip.style.top=`${Math.max(8,Math.min(e.clientY+12,innerHeight-box.height-8))}px`;tooltip.style.opacity=1;}else tooltip.style.opacity=0;});
 canvas.addEventListener('pointerleave',()=>{tooltip.style.opacity=0;state.hoverApt=null;updateOverlays();});canvas.addEventListener('pointerup',e=>{if(state.mode==='walk'||!down||transitioning)return;const moved=Math.hypot(e.clientX-down.x,e.clientY-down.y)>6;down=null;if(moved)return;const hit=pick(e);tooltip.style.opacity=0;const a=hit?.apt;if(!a)return;if(state.mode!=='floor'||a.tower!==state.tower||a.floor!==state.floor)selectFloor(a.tower,a.floor);else selectApt(a);});
 let previous=null,uiTimer=0;document.addEventListener('visibilitychange',()=>{previous=null;joyEnd();});
 renderer.setAnimationLoop(now=>{

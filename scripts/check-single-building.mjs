@@ -14,6 +14,7 @@ import {showcaseFrame} from '../src/showcase-room.js';
 import {windowDressing} from '../src/window-dressing.js';
 import {materialVariant,refreshMaterialVariants} from '../src/material-variants.js';
 import {interiorNearPlane} from '../src/camera-clearance.js';
+import {roomPartitions,apartmentEntrance} from '../src/interior-shell.js';
 const read=p=>JSON.parse(fs.readFileSync(p)),complex=read('src/model/complex.json'),plans=read('src/model/plans.json'),catalog=read('src/model/apartment-catalog.json');
 assert.deepEqual(complex.towers.map(t=>t.key),['B']);assert.deepEqual(Object.keys(plans),['B']);
 assert.equal(complex.towers[0].floors.length,16);assert.equal(catalog.length,128);
@@ -70,7 +71,7 @@ early.dispose();late.dispose();source.normalMap.dispose();source.roughnessMap.di
 const ctx=new Proxy({createRadialGradient(){return{addColorStop(){}};}},{get:(o,k)=>o[k]??(()=>{})});
 globalThis.document={createElement:()=>({getContext:()=>ctx})};
 const server=await createServer({configFile:false,server:{middlewareMode:true},appType:'custom'});
-let geometry,wallOcclusionSamples=0,nearPlaneSamples=0;
+let geometry,wallOcclusionSamples=0,nearPlaneSamples=0,partitionSightlines=0;
 try{
  const {prepareInteriorMaterials}=await server.ssrLoadModule('/src/interior-materials.js'),materials=prepareInteriorMaterials();
  const {buildFloor}=await server.ssrLoadModule('/src/floor.js'),{apartments,aptsOnFloor}=await server.ssrLoadModule('/src/data.js');
@@ -83,6 +84,31 @@ try{
  }
  const walls=built.group.children.filter(m=>m.isMesh&&m.material===materials.plaster),ray=new THREE.Raycaster();
  assert(walls.length,'Solid wall geometry is present');
+ // Source room fills leave gaps beside the stepped structural wall. Verify
+ // the actual tile triangles cover those exposed floor edges.
+ for(const [x,y]of[[-11.75,.28],[-10.1,.32],[-9.25,.32]]){
+  ray.set(built.group.localToWorld(new THREE.Vector3(x,.3,-y)),new THREE.Vector3(0,-1,0));ray.near=0;ray.far=.4;
+  assert.equal(ray.intersectObjects(built.floorMeshes,false)[0]?.object.material,materials.tile,'WC tile finish must reach the surrounding wall faces');
+ }
+ assert.equal(roomPartitions(plans.B).length,6,'Six room/apartment boundaries require infill below the extracted beams');
+ for(const poly of roomPartitions(plans.B)){
+  const xs=poly.map(p=>p[0]),ys=poly.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),along=x1-x0>y1-y0;
+  for(const t of[.15,.5,.85])for(const height of[.45,1.65,2.1])for(const sign of[-1,1]){
+   const x=along?x0+(x1-x0)*t:(x0+x1)/2,y=along?(y0+y1)/2:y0+(y1-y0)*t,offset=(along?y1-y0:x1-x0)/2+.3;
+   const from=built.group.localToWorld(new THREE.Vector3(x+(along?0:sign*offset),height,-(y+(along?sign*offset:0)))),to=built.group.localToWorld(new THREE.Vector3(x,height,-y));
+   ray.set(from,to.sub(from).normalize());ray.near=0;ray.far=offset+.02;
+   assert(ray.intersectObjects(walls,false).length,'Sightline through a missing room/apartment partition');partitionSightlines++;
+  }
+ }
+ const entrance=apartmentEntrance(plans.B,apt);
+ assert(entrance,'Apartment entrance must be identified from its real doorway');
+ assert(!built.nav.clear(entrance.x,entrance.y),'The closed entrance must block walking');
+ assert.equal(built.group.children.filter(m=>m.name==='Главный вход').length,1,'A single Russian entrance label');
+ for(const sign of[-1,1]){
+  const {x,y,along}=entrance,from=built.group.localToWorld(new THREE.Vector3(x+(along?0:sign*.3),1.3,-(y+(along?sign*.3:0)))),to=built.group.localToWorld(new THREE.Vector3(x,1.3,-y));
+  ray.set(from,to.sub(from).normalize());ray.far=.32;
+  assert(ray.intersectObjects(built.group.children.filter(m=>m.material===materials.walnut),false).length,'Entrance leaf must be opaque from both sides');
+ }
  for(const poly of[...built.plan.walls,...built.plan.struct])for(let i=0;i<poly.length;i++){
   const a=poly[i],b=poly[(i+1)%poly.length],dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy);
   if(length<.08)continue;
@@ -125,4 +151,5 @@ const report={tower:'B',apartments:catalog.length,residentialFloors:16,modelByte
 report.showcaseGeometry=geometry;
 report.curvedCurtainPanels=dressing.panels.length;report.lateMaterialMapsVerified=true;
 report.wallOcclusionSamples=wallOcclusionSamples;report.nearPlaneSamples=nearPlaneSamples;
+report.partitionSightlines=partitionSightlines;report.closedEntranceVerified=true;
 fs.writeFileSync('docs/qa/single-building.json',JSON.stringify(report,null,2)+'\n');console.log(report);

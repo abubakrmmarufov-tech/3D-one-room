@@ -1,5 +1,5 @@
 // On small screens, selection is an optional sheet rather than two permanent overlays.
-export function createSelectionControls(getContext, onClose, onShowDetails) {
+export function createSelectionControls(getContext, onClose, onShowDetails, onOpen = () => {}) {
   const $ = selector => document.querySelector(selector);
   const compact = matchMedia('(max-width: 900px)');
   const panel = $('#selection-panel'), toggle = $('#selection-toggle');
@@ -24,6 +24,7 @@ export function createSelectionControls(getContext, onClose, onShowDetails) {
   }
   function show(view) {
     if (!compact.matches) return;
+    onOpen();
     panel.dataset.view = view;
     open = true;
     sync();

@@ -1,24 +1,22 @@
-import { roomName, areaText } from './locale.js';
 // 2D floor plan of an apartment, drawn from the architect's plan (same orientation as the drawings).
 import { PLANS } from './config.js';
-import { bounds, centroid, interiorPoint } from './geometry.js';
+import {planRoomEntries, layoutPlanMarkers, planTransform} from './plan-labels.js';
+import {roomPartitions} from './interior-shell.js';
+export {planTransform} from './plan-labels.js';
 
 const FILL = {
   living: '#f6eee1', kitchen: '#f3ead8', bedroom: '#e9f0f6', hall: '#f1f0ec', bath: '#e1eef3', storage: '#ecebe7',
   loggia: '#eceae4',
 };
 
-export function planTransform(apt, cw, ch, pad) {
-  const pts = [...apt.data.outline, ...apt.data.balconies.flatMap((b) => b.poly)];
-  const b = bounds(pts);
-  const s = Math.min((cw - 2 * pad) / (b.x1 - b.x0), (ch - 2 * pad) / (b.y1 - b.y0));
-  const ox = (cw - (b.x1 - b.x0) * s) / 2, oy = (ch - (b.y1 - b.y0) * s) / 2;
-  return { s, px: (x) => ox + (x - b.x0) * s, py: (y) => oy + (b.y1 - y) * s, b };
-}
+const logicalSizes = new WeakMap();
 
 export function drawPlan(canvas, apt, { pad = 14, labels = true } = {}) {
   const dpr = Math.min(devicePixelRatio || 1, 2);
-  const cw = canvas.clientWidth || canvas.width, ch = canvas.clientHeight || canvas.height;
+  const previous = logicalSizes.get(canvas);
+  const cw = canvas.clientWidth || previous?.width || canvas.width;
+  const ch = canvas.clientHeight || previous?.height || canvas.height;
+  logicalSizes.set(canvas, {width:cw, height:ch});
   canvas.width = Math.round(cw * dpr);
   canvas.height = Math.round(ch * dpr);
   const g = canvas.getContext('2d');
@@ -59,14 +57,17 @@ export function drawPlan(canvas, apt, { pad = 14, labels = true } = {}) {
   }
   g.restore();
 
-  // walls, columns and glass of the whole floor, around the apartment
+  // Keep neighboring apartments out of the empty parts of the bounding rectangle.
   const plan = PLANS[apt.plan];
   g.save();
   g.beginPath();
-  g.rect(T.px(T.b.x0) - 6, T.py(T.b.y1) - 6, (T.b.x1 - T.b.x0) * T.s + 12, (T.b.y1 - T.b.y0) * T.s + 12);
+  for (const poly of [apt.data.outline, ...apt.data.balconies.map(b => b.poly)]) {
+    poly.forEach(([x, y], i) => (i ? g.lineTo(T.px(x), T.py(y)) : g.moveTo(T.px(x), T.py(y))));
+    g.closePath();
+  }
   g.clip();
   g.fillStyle = '#2b2f36';
-  for (const w of [...plan.walls, ...plan.struct]) {
+  for (const w of [...plan.walls, ...plan.struct, ...roomPartitions(plan)]) {
     path(w);
     g.fill();
   }
@@ -84,18 +85,20 @@ export function drawPlan(canvas, apt, { pad = 14, labels = true } = {}) {
   g.stroke();
 
   if (labels) {
-    g.textAlign = 'center';
-    g.textBaseline = 'middle';
-    for (const r of [...apt.data.rooms, ...apt.data.balconies]) {
-      if (r.area < 3.5) continue;
-      const [x, y] = r.area > 6 ? interiorPoint(r.poly) : centroid(r.poly);
-      const small = r.area < 9;
-      g.fillStyle = '#2b2f36';
-      g.font = `600 ${small ? 9 : 11}px system-ui, -apple-system, sans-serif`;
-      g.fillText(roomName(r), T.px(x), T.py(y) - 6);
-      g.fillStyle = '#6b7280';
-      g.font = `${small ? 9 : 10}px system-ui, -apple-system, sans-serif`;
-      g.fillText(`${areaText(r.area)} м²`, T.px(x), T.py(y) + 7);
+    const markers = layoutPlanMarkers(planRoomEntries(apt), T, cw, ch);
+    g.lineWidth = 1.5;
+    // Leaders go behind all markers; their endpoint identifies the tiny room.
+    for (const m of markers) if (m.anchor) {
+      g.strokeStyle = '#68766f';
+      g.beginPath(); g.moveTo(...m.anchor); g.lineTo(m.x, m.y); g.stroke();
+      g.fillStyle = '#344d45'; g.beginPath(); g.arc(...m.anchor, 2, 0, Math.PI * 2); g.fill();
+    }
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = '600 11px system-ui, -apple-system, sans-serif';
+    for (const m of markers) {
+      g.fillStyle = '#ffffff'; g.strokeStyle = '#345b56';
+      g.beginPath(); g.arc(m.x, m.y, m.radius, 0, Math.PI * 2); g.fill(); g.stroke();
+      g.fillStyle = '#24433e'; g.fillText(String(m.number), m.x, m.y + .5);
     }
   }
   return T;

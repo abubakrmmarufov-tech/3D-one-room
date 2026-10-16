@@ -1,10 +1,12 @@
 // Navigation is derived from the same plan polygons used by the renderer.
 import { bounds, inside, distToSegment, interiorPoint } from './geometry.js';
+import {roomPartitions, apartmentEntrance} from './interior-shell.js';
 
 export function createNavigation(plan, apartment, obstacles = [], { step = 0.16, radius = 0.18 } = {}) {
   const outlines = [apartment.outline, ...apartment.balconies.map(b => b.poly), ...(apartment.thresholds??[])];
   const box = bounds(outlines.flat());
-  const solids = [...plan.walls, ...plan.struct, ...plan.windows, ...plan.glazing, ...obstacles];
+  const entrance=apartmentEntrance(plan,apartment);
+  const solids = [...plan.walls, ...plan.struct, ...roomPartitions(plan), ...plan.windows, ...plan.glazing, ...(entrance?[entrance.poly]:[]), ...obstacles];
   const shapes = solids.map(poly => ({ poly, ...bounds(poly) }));
   const clear = (x, y) => {
     if (!outlines.some(p => inside(p, x, y))) return false;

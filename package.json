@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "artifact": "vite build && node scripts/make-artifact.mjs",
     "check": "node scripts/check-navigation.mjs && node scripts/check-furniture.mjs && node scripts/check-motion.mjs",
+    "check:ui": "node scripts/check-plan-labels.mjs",
     "check:lighting": "node scripts/check-lighting-offline.mjs",
     "check:site": "node scripts/check-site.mjs",
     "check:inventory": "node --test scripts/check-inventory.mjs",

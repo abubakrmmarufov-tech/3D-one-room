@@ -1,17 +1,17 @@
 import { formatHour, hourDelta, wrapHour } from './daylight.js';
 
-export function createTimeControls(onChange) {
+export function createTimeControls(onChange, onOpen = () => {}) {
   const $=s=>document.querySelector(s), panel=$('#time-panel'), toggle=$('#time-toggle'), slider=$('#time-hour');
   let target=13;try{const saved=Number(localStorage.getItem('shahrofar-hour'));if(localStorage.getItem('shahrofar-hour')!==null&&Number.isFinite(saved))target=wrapHour(saved);}catch{}
   let hour=target, playing=false, uiTimer=1, previous=-1;
-  function open(value){panel.hidden=!value;toggle.setAttribute('aria-expanded',String(value));if(value)slider.focus({preventScroll:true});}
+  function open(value){panel.hidden=!value;toggle.setAttribute('aria-expanded',String(value));if(value){onOpen();slider.focus({preventScroll:true});}}
   function save(){try{localStorage.setItem('shahrofar-hour',String(target));}catch{}}
   function syncUI(){
     const text=formatHour(hour);$('#clock').textContent=text;$('#time-value').textContent=text;
     slider.setAttribute('aria-valuetext',formatHour(target));
     if(document.activeElement!==slider)slider.value=String(Math.min(23.75,Math.round(hour*4)/4));
     for(const b of panel.querySelectorAll('[data-hour]')){const selected=Math.abs(hourDelta(hour,Number(b.dataset.hour)))<.2;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected));}
-    $('#time-play').setAttribute('aria-pressed',String(playing));$('#time-play').textContent=playing?'Ⅱ Остановить смену суток':'▷ Смена суток';
+    $('#time-play').setAttribute('aria-pressed',String(playing));$('#time-play').textContent=playing?'Ⅱ Остановить смену суток':'▷ Включить смену суток';
   }
   function choose(value){target=wrapHour(value);playing=false;save();syncUI();}
   toggle.onclick=()=>open(panel.hidden);

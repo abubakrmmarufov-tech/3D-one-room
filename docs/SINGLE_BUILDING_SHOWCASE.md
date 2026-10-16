@@ -61,3 +61,21 @@ The interior wall material explicitly stays fully opaque and participates in dep
 The showcase check tests actual rendered wall triangles with **429 occlusion rays** from valid walking positions at low, eye and upper-wall heights. All hit opaque wall faces. Another **288 near-plane corner checks** cover portrait through ultrawide aspect ratios and different camera orientations. All seven furnished room routes still complete; the active apartment remains 37 batches / 73,029 triangles, with no additional downloaded assets.
 
 Browser review walked toward the living-room wall until collision stopped movement, then turned obliquely beside it in an emulated 844×390 phone viewport. The wall remained solid, while the adjacent real window still showed the outside. No browser warnings/errors were recorded; the temporary viewport override was restored.
+
+## Room separation, fixtures and tour refinement — 17 October 2026
+
+The reported view from the living room into the bedroom exposed a separate source-extraction defect: long blue members separating two rooms were classified as overhead beams. Six such boundaries now receive full-height opaque infill, including boundaries between neighbouring apartments. Exterior lintels and beams within one room remain overhead. The 2D apartment plans and navigation use the same inferred partitions. The authoritative October polygons, areas, building positions and delivered GLB remain unchanged.
+
+The entrance leaf is closed, blocks walking and carries an inward-facing Russian “Главный вход” plaque. Small WCs now have rounded porcelain bowls and lids, correctly oriented cisterns, flush buttons, floating vanities, taps, framed mirrors and towel details. Their tile finish reaches stepped wall faces rather than stopping at the drawing's inset colour fill. Fixture curves stay within the existing merged material batches; no asset download was added.
+
+The tour starts with the current room, carries speed through gentle bends and brakes for sharp turns and arrival. Turns remain rate-limited, WC arrival views look down at the fixtures, route changes reset residual velocity, and waypoint advancement requires a clear next segment. Hover-floor raycasts are throttled and the movement vector is reused.
+
+Verification:
+
+- All **42 room sequences across eight layouts**, each at 60 Hz, 30 Hz and mixed 16.7/33.3/50 ms frame steps, complete without collision or stalled routes. Measured automated yaw rate is at most 1.169 rad/s in these scenarios. All seven actual furnished showcase routes pass separately.
+- **108 rays** test both sides of all six restored partitions at three heights and positions; another **366 wall-face rays** and **288 camera near-plane corner checks** pass. Both sides of the real entrance leaf are opaque. Three actual floor-triangle checks cover the WC finish gaps beside the stepped wall.
+- Active showcase: **40 mesh batches / 80,359 triangles / 7,698,052 geometry bytes**. The building GLB remains **4,417,196 bytes**. Production viewer is approximately 881 kB uncompressed / 254 kB gzip. No new remote models, textures or fonts are required.
+- Russian text and placement review: [UI text review](UI_TEXT_REVIEW.md). Eight layouts at ten card sizes pass marker/key checks. Desktop, narrow portrait and short landscape browser states were inspected; optional panels close competing panels.
+- A short 45-frame browser sample in Comfort mode at 1280 × 800 measured 16.7 ms median, 17.4 ms p95, 18.6 ms maximum and no intervals over 50 ms. This is a local observation, not a guarantee for phones or all hardware. Initial online download/compilation is still required; cached offline use remains supported after a complete successful visit.
+
+Navigation, furniture, motion, plan labels, inventory, showcase, daylight/offline and site checks passed, as did the production build. Public deployment is verified against the built asset after publishing.

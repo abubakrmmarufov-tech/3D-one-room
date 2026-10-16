@@ -67,7 +67,7 @@ $('#auth-form').onsubmit=async e=>{
 $('#logout').onclick=()=>{if(busy)return;api.disconnect();login='';if(!Object.keys(changes).length)base=publicData;notice('Вы вышли. Токен удалён из памяти; неопубликованный черновик остаётся в этом браузере.');render();};
 $('#inventory-body').onclick=e=>{
  const b=e.target.closest('[data-edit]');if(!b||busy)return;editing=byId.get(b.dataset.edit);const a=editing,r=recordFor(working(),a.id);
- $('#edit-title').textContent=`Квартира № ${a.number}`;$('#edit-location').textContent=`${towerText(a.tower)} · ЭТАЖ ${a.floor} · ${a.id}`;
+ $('#edit-title').textContent=`Квартира № ${a.number}`;$('#edit-location').textContent=`${towerText(a.tower)} · этаж ${a.floor} · ${a.id}`;
  $('#edit-meta').textContent=`${a.rooms}-комнатная · ${new Intl.NumberFormat('ru-RU').format(a.area)} м² в модели`;
  $('#edit-status').value=r.status;$('#edit-price').value=r.price===null?'':String(r.price);$('#edit-price').setCustomValidity('');$('#edit-preview').href=apartmentUrl(a.id);showDialog('#edit-dialog');
 };
