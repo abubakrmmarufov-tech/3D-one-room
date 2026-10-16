@@ -20,7 +20,7 @@ The simulations exercise all distinct interior layouts, not a separate manual wa
 
 Tested the production preview in the Codex in-app Chromium browser at desktop (1440 × 900), tablet (768 × 1024) and phone (375 × 812) viewport sizes. No horizontal document overflow at these sizes. The tablet/phone layout uses a horizontal floor selector, scrollable apartment/room panels and visible joystick.
 
-Block В floor 12 apartment 61: entered successfully; the detailed graphics tier compiled without logged errors; the six-room guided tour completed with `Осмотрено 6 из 6 помещений`. Room selection also followed a route to the living room. Block Б floor 12 apartment 57: entry and kitchen navigation verified. Block В floor 24 apartment 155: entry and kitchen navigation verified at phone size; keyboard movement stopped the tour. Exiting returned to the same apartment and the next floor could be selected. Floor 23 apartment 145: entry and living-room route verified. Public deployment checks are recorded below when complete.
+Block В floor 12 apartment 61: entered successfully; the detailed graphics tier compiled without logged errors; the six-room guided tour completed with `Осмотрено 6 из 6 помещений`. Room selection also followed a route to the living room. Block Б floor 12 apartment 57: entry and kitchen navigation verified. Block В floor 24 apartment 155: entry and kitchen navigation verified at phone size; keyboard movement stopped the tour. Exiting returned to the same apartment and the next floor could be selected. Floor 23 apartment 145: entry and living-room route verified. Public deployment checks are recorded below.
 
 During visual testing, doorway floor finishes were given separate height layers to remove coincident surface flicker. Door frames were extended slightly into the opening to remove seam flicker. Portrait exterior camera framing adapts to aspect ratio so all towers can remain visible.
 
@@ -30,3 +30,9 @@ During visual testing, doorway floor finishes were given separate height layers 
 - Some source area labels conflict with geometry, especially block Б's rectangular kitchen marked 47.41 m². Values are not certified measurements. Ambiguous split hall sections on В24 use geometry area instead of duplicating one drawing label.
 - The original exterior/site geometry and vegetation remain stylized. Improved material maps and lighting do not turn the model into a photographic reconstruction.
 - Physical phones/tablets and other browser/GPU combinations were not tested. No universal frame-rate or glitch-free guarantee is claimed.
+
+## Public release
+
+Implementation commit: `1d20e97ba415cdc7aa05772f8f0d8bb3c73fee63`. Pushed to the implementation branch and `main`. [GitHub Pages deployment 38876894276](https://github.com/abubakrmmarufov-tech/3D-one-room/actions/runs/38876894276) completed successfully.
+
+The public viewer at https://abubakrmmarufov-tech.github.io/3D-one-room/ loaded the current `assets/app-DYC5p5P9.js` script and local model/material assets without logged browser errors or warnings. The Russian overview displayed 288 apartments; block Б floor 12 apartment 57 opened into the furnished interior and accepted the living-room route. No GitHub sign-in is needed to view the GitHub Pages site.
