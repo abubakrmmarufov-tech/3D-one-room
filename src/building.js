@@ -18,6 +18,19 @@ const GROUND = {
   ...FACADE_MAPS,
 };
 const groundTex = {};
+const nightUniform={value:0};
+function windowGlow(m){
+  m.onBeforeCompile=shader=>{
+    shader.uniforms.windowNight=nightUniform;
+    shader.vertexShader='varying vec3 vWindowWorld;\n'+shader.vertexShader.replace('#include <worldpos_vertex>','#include <worldpos_vertex>\nvWindowWorld=(modelMatrix*vec4(transformed,1.0)).xyz;');
+    shader.fragmentShader='uniform float windowNight;\nvarying vec3 vWindowWorld;\n'+shader.fragmentShader.replace('#include <emissivemap_fragment>',`#include <emissivemap_fragment>
+      vec3 cell=floor(vWindowWorld/vec3(3.8,3.3,3.8));
+      float occupied=fract(sin(dot(cell,vec3(12.9898,78.233,37.719)))*43758.5453);
+      float glow=smoothstep(occupied*.45+.12,occupied*.45+.32,windowNight)*step(.38,occupied);
+      totalEmissiveRadiance+=mix(vec3(1.0,.56,.24),vec3(1.0,.82,.51),occupied)*glow*.9;`);
+  };
+  m.customProgramCacheKey=()=> 'residential-window-glow-1';
+}
 
 function tuneMaterial(m,landscape) {
   const g = GROUND[m.name];
@@ -42,13 +55,17 @@ function tuneMaterial(m,landscape) {
     m.depthWrite = false;
     m.side = THREE.DoubleSide;
   }
+  // Context buildings must occlude one another predictably through an apartment
+  // window; blended whole buildings swap draw order as the camera turns.
+  if(m.name==='Neighbour'){m.transparent=false;m.opacity=1;m.depthWrite=true;m.color.set(0xabb8bc);m.roughness=.9;}
+  if(['Window glass','Curtain glass','Shop glass','Shop window','Gallery glass'].includes(m.name))windowGlow(m);
   if (m.name.startsWith('Leaves') || m.name === 'Shrub' || m.name === 'Grass' || m.name === 'Lawn') m.envMapIntensity = 0.4;
 }
 
 // The published artifact page can't serve .glb files, so it gets the same bytes base64-encoded
 // in a JSON file ({ "glb": "..." }); everywhere else the .glb is loaded directly.
 async function loadModel(loader, url, onProgress) {
-  if (!url.endsWith('.json')) return loader.loadAsync(url, (e) => e.total && onProgress?.(e.loaded / e.total));
+  if (!new URL(url,location.href).pathname.endsWith('.json')) return loader.loadAsync(url, (e) => e.total && onProgress?.(e.loaded / e.total));
   const { glb } = await (await fetch(url)).json();
   const bytes = Uint8Array.from(atob(glb), (c) => c.charCodeAt(0));
   return loader.parseAsync(bytes.buffer, '');
@@ -56,7 +73,8 @@ async function loadModel(loader, url, onProgress) {
 
 export async function loadComplex(apartments, onProgress) {
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-  const [gltf,landscape] = await Promise.all([loadModel(loader, MODEL_URL, onProgress),loadLandscapeTextures()]);
+  const landscape={};
+  const gltf=await loadModel(loader,MODEL_URL,onProgress);
   const root = gltf.scene;
   const o = toScene(0, 0);
   root.position.set(o.x, 0, o.z);
@@ -95,6 +113,7 @@ export async function loadComplex(apartments, onProgress) {
   let hotelPick = null;
   const box = new THREE.Box3();
   root.updateMatrixWorld(true);
+  root.traverse(obj=>{obj.matrixAutoUpdate=false;});
   for (const mesh of picks) {
     mesh.visible = false;
     if (!mesh.userData.hotel) continue;
@@ -123,10 +142,14 @@ export async function loadComplex(apartments, onProgress) {
     }
   };
   const setVisible = (o, v) => o && (o.visible = v);
+  // Finishes are optional: a slow/missing texture never holds the scene loader open.
+  loadLandscapeTextures().then(maps=>{for(const m of tuned)if(['Grass','Lawn'].includes(m.name)){Object.assign(m,maps);m.needsUpdate=true;}});
+  const lamps=[...tuned].filter(m=>m.name==='Lamp glow');
 
   return {
     group: root,
     update(time){waterTime.value=time;},
+    setLighting(night){nightUniform.value=night;for(const m of lamps)m.emissiveIntensity=.05+night*1.8;},
     towers,
     units,
     hotelPick,

@@ -1,0 +1,105 @@
+{
+  "method": "Pillow WebP, max dimension 512, quality 88 normal maps / 78 other channels. Original CC0 maps retained; see material-assets.json and landscape-assets.json.",
+  "original_bytes": 10454982,
+  "optimized_bytes": 493894,
+  "assets": [
+    {
+      "source": "src/assets/materials/boucle-normal.jpg",
+      "source_sha256": "2cc13a2be4d0bb942a59a86d613665c0d24ff201560daa4d841cee597af0c752",
+      "output": "src/assets/optimized/boucle-normal.webp",
+      "bytes": 75214,
+      "sha256": "eee51add855eda08b49dc96bd9c76566c86ea2027d7b21084b8dc0fbf958b87b"
+    },
+    {
+      "source": "src/assets/materials/boucle-roughness.jpg",
+      "source_sha256": "f09f24bd26378b03bb798d4b75010ac8cc0fd1e4b858959e97e6d8d74fa3f6d8",
+      "output": "src/assets/optimized/boucle-roughness.webp",
+      "bytes": 66596,
+      "sha256": "2e6d5e510f25b50ea04721f7cdd98498f44564bd6c9b8960a743e9ba8980e282"
+    },
+    {
+      "source": "src/assets/materials/grass-color.jpg",
+      "source_sha256": "57b8041bfe0d0f01430e4dbaad45e7ddddf0a9fc97317f90dbc51f7b0d9e1b5d",
+      "output": "src/assets/optimized/grass-color.webp",
+      "bytes": 42526,
+      "sha256": "a2ee8ef4913460007853fcb7629fd78b6a7cae291f6f0cfcc1e180b8296eaa67"
+    },
+    {
+      "source": "src/assets/materials/grass-normal.jpg",
+      "source_sha256": "1aa3e23bff453f152e089b9f83aa36b4901651e019f7e2ca01d5331a9bbbda78",
+      "output": "src/assets/optimized/grass-normal.webp",
+      "bytes": 85558,
+      "sha256": "66712b2b132a44b7ba5eced7553da2e87a1246f88b8b62bb3aea2b20f5bdad18"
+    },
+    {
+      "source": "src/assets/materials/grass-roughness.jpg",
+      "source_sha256": "b9f3f76aba74007f708333c0dbe73c52eb83ea0c4187a13e2e994f888a25114a",
+      "output": "src/assets/optimized/grass-roughness.webp",
+      "bytes": 23586,
+      "sha256": "710b9acde1c93d6f4aee4aa105c53a7bf6c7b7edbe012d519101e1ab9d17cbb2"
+    },
+    {
+      "source": "src/assets/materials/linen-normal.jpg",
+      "source_sha256": "e2402166d1a489f7414814e69e1836ab672aa24e30bec2d41fea356f81687e53",
+      "output": "src/assets/optimized/linen-normal.webp",
+      "bytes": 32872,
+      "sha256": "d1f968708cc8b3c989c41ecf5590da88f5fe8e30f0babe4d66eb3313bf32a9e5"
+    },
+    {
+      "source": "src/assets/materials/linen-roughness.jpg",
+      "source_sha256": "734ad6718841a6e296aacaa6e9ee2e1686eed5f62bb8d71c915c5605e162bcb4",
+      "output": "src/assets/optimized/linen-roughness.webp",
+      "bytes": 69370,
+      "sha256": "94d06bfabd4b7c38f474532cf0c27947f2189f92948b639ac56441a860d3cfa6"
+    },
+    {
+      "source": "src/assets/materials/oak-color.jpg",
+      "source_sha256": "2a1c07687b6dbb214c4b9213739c6d92d425f1f0fc8ab3ac157f105d78240789",
+      "output": "src/assets/optimized/oak-color.webp",
+      "bytes": 15898,
+      "sha256": "8ca6644b4e103344aa69d3fb80b675f2237384949ab1ee3b7fb87230e5d71016"
+    },
+    {
+      "source": "src/assets/materials/oak-normal.jpg",
+      "source_sha256": "452247f0d0d1b7fc7f8324ff3b6ed60bcc6de1405f4284eeb8d9bce90d4939c2",
+      "output": "src/assets/optimized/oak-normal.webp",
+      "bytes": 1174,
+      "sha256": "8d7cb772bc9fd1ae3b9e4d1cf8785be4234d1042b7da241d62890b08ca1fc2a9"
+    },
+    {
+      "source": "src/assets/materials/oak-roughness.jpg",
+      "source_sha256": "061f1e1293251b2d28c76e3fac1ea9452b0e8648bb8f9b3728e09db386166e5c",
+      "output": "src/assets/optimized/oak-roughness.webp",
+      "bytes": 6336,
+      "sha256": "677f7fe3db4eb94900bdc640fb20e7648c92b799635fd96afc07531ade090ae9"
+    },
+    {
+      "source": "src/assets/materials/plaster-normal.jpg",
+      "source_sha256": "eb572ca3630d5bfde72e2601b1f02412da23ca005cd19384dced8690be4cb783",
+      "output": "src/assets/optimized/plaster-normal.webp",
+      "bytes": 23984,
+      "sha256": "b9b99005fda72d96eb6a8c888d455a01d25a04709b3c0c02324f046a3dd194bf"
+    },
+    {
+      "source": "src/assets/materials/walnut-color.jpg",
+      "source_sha256": "41fe45f6457bddd4d97627bc610d2980d91683bc521c9692a6c4f2a6a3b05efd",
+      "output": "src/assets/optimized/walnut-color.webp",
+      "bytes": 24674,
+      "sha256": "8745b6f070e3b955c282479d5e51bfea4e3836542513f18a781f79a86998aad4"
+    },
+    {
+      "source": "src/assets/materials/walnut-normal.jpg",
+      "source_sha256": "da621d3c7e96740313b459a034a30f46271d91a9dcad0c0c657a1485e32d336b",
+      "output": "src/assets/optimized/walnut-normal.webp",
+      "bytes": 8912,
+      "sha256": "87f11957847b85dcb345f0f3fe7d099bc9a3b54abd98cef38ca8405219ccb684"
+    },
+    {
+      "source": "src/assets/materials/walnut-roughness.jpg",
+      "source_sha256": "a5c7353aa7886a383b04506145548f9d2ffb9753c3d0b6cf52d972c18e5578d9",
+      "output": "src/assets/optimized/walnut-roughness.webp",
+      "bytes": 17194,
+      "sha256": "ba55f317cd39019a79c37e040b4115d38da8e7e52efc0a0518f8dd165f90e7a2"
+    }
+  ]
+}

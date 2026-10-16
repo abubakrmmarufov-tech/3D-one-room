@@ -17,17 +17,24 @@
 <aside id="side" class="panel" aria-label="Квартиры и планировка"></aside>
 <div id="hint">Потяните, чтобы повернуть · Колесо — масштаб</div>
 </div>
-<div class="settings panel"><label for="quality">Качество</label><select id="quality"><option value="balanced">Комфорт</option><option value="high">Детально</option></select><button id="home" title="Показать весь комплекс" aria-label="Показать весь комплекс">⌂</button></div>
+<div class="settings panel"><button id="time-toggle" class="time-toggle" aria-expanded="false" aria-controls="time-panel">◷ <span>Время</span> <b id="clock">13:00</b></button><label for="quality">Качество</label><select id="quality"><option value="balanced">Комфорт</option><option value="high">Детально</option></select><button id="home" title="Показать весь комплекс" aria-label="Показать весь комплекс">⌂</button></div>
+<section id="time-panel" class="panel" aria-label="Время суток" hidden>
+<div class="time-heading"><label for="time-hour">Время суток</label><output id="time-value" for="time-hour">13:00</output><button id="time-close" aria-label="Закрыть время суток">×</button></div>
+<input id="time-hour" type="range" min="0" max="23.75" step="0.25" value="13" aria-label="Час суток" />
+<div class="time-presets"><button data-hour="6.5">Рассвет</button><button data-hour="12">День</button><button data-hour="18.5">Закат</button><button data-hour="22">Ночь</button></div>
+<button id="time-play" aria-pressed="false">▷ Смена суток</button>
+</section>
 <div id="loading" class="panel" role="status"><span>Открываем пространство…</span><b>0%</b></div>
 <div id="tooltip"></div>
 <div id="walk-ui" hidden>
 <div class="walk-top"><div id="walk-title" class="panel chip-lg"></div><button id="exit-walk" class="btn">← К зданию</button></div>
-<nav id="rooms" class="panel" aria-label="Комнаты квартиры"><div class="room-heading"><span>Исследуйте квартиру</span><button id="tour" class="tour-btn">Начать тур</button></div><div id="room-list"></div><div id="room-status" aria-live="polite"></div></nav>
+<button id="rooms-toggle" class="panel" aria-expanded="false" aria-controls="rooms">☷ <span>Комнаты</span></button>
+<nav id="rooms" class="panel" aria-label="Комнаты квартиры" hidden><div class="room-heading"><span>Исследуйте квартиру</span><button id="tour" class="tour-btn">Начать тур</button><button id="rooms-close" aria-label="Закрыть комнаты">×</button></div><div id="room-list"></div><div id="room-status" aria-live="polite"></div></nav>
 <div id="walk-help" class="panel">Потяните — осмотреться · Нажмите на пол — идти<br><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — движение · <kbd>Q</kbd><kbd>E</kbd> — поворот · <kbd>Esc</kbd> — выход</div>
-<div id="minimap" class="panel"><span>План квартиры</span><canvas aria-label="План квартиры с текущим положением"></canvas></div>
+<div id="minimap" class="panel" hidden><span>План квартиры</span><canvas aria-label="План квартиры с текущим положением"></canvas></div>
 <div id="joystick" role="group" aria-label="Сенсорный джойстик движения"><div class="knob"></div></div>
 </div>
-<div id="toast" role="status"></div><div id="fade"></div>
+<div id="toast" role="status"></div><div id="fade" role="status" aria-live="polite"></div>
 <noscript>Для просмотра 3D-модели включите JavaScript в браузере.</noscript>
 <script type="module" src="/src/main.js"></script>
 </body>

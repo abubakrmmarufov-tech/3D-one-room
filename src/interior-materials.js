@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { loadMaterialTextures } from './texture-assets.js';
-import { tileTexture } from './textures.js';
-let shared;
-export async function prepareInteriorMaterials() {
- const maps=await loadMaterialTextures();
+import { tileTexture, woodTexture } from './textures.js';
+let shared,enhancement;
+export function prepareInteriorMaterials() {
+ if(shared)return shared;
+ const wood=woodTexture();wood.repeat.set(1/1.7,1/1.7);
+ const maps={oak:{map:wood},walnut:{},plaster:{},boucle:{},linen:{}};
  const make=(color,extra={})=>new THREE.MeshStandardMaterial({color,roughness:.82,envMapIntensity:.65,...extra});
  const tile=tileTexture();tile.repeat.set(1/2.4,1/2.4);
  shared={
@@ -16,7 +18,7 @@ export async function prepareInteriorMaterials() {
   stone:make(0xd7cbb5,{roughness:.58}),dark:make(0x272b29,{roughness:.34}),
   bronze:make(0x8e795a,{metalness:.72,roughness:.34}),ceramic:make(0xf3f0e8,{roughness:.2}),
   ceiling:make(0xf6f2e9,{side:THREE.DoubleSide}),
-  glass:new THREE.MeshPhysicalMaterial({color:0xdfedea,metalness:.05,roughness:.12,transparent:true,opacity:.13,depthWrite:false,side:THREE.DoubleSide}),
+  glass:new THREE.MeshStandardMaterial({color:0xe7f0ed,roughness:.15,transparent:true,opacity:.07,depthWrite:false,side:THREE.FrontSide}),
   curtain:new THREE.MeshPhysicalMaterial({color:0xe6dfcf,...maps.linen,roughness:1,side:THREE.DoubleSide,sheen:.5}),
   lamp:make(0xfff0d4,{emissive:0xffdca1,emissiveIntensity:1.3}),
  };
@@ -24,4 +26,14 @@ export async function prepareInteriorMaterials() {
  shared.contact=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false,toneMapped:false});
  return shared;
 }
+// Optional maps never block a model or apartment from opening, and a failed image
+// leaves the procedural material intact. One download is shared by all floors.
+export function enhanceInteriorMaterials(){
+ return enhancement??=loadMaterialTextures().then(maps=>{
+  for(const [name,key] of Object.entries({oak:'oak',walnut:'walnut',plaster:'plaster',fabric:'boucle',linen:'linen',curtain:'linen'})){
+   Object.assign(shared[name],maps[key]);shared[name].needsUpdate=true;
+  }
+ });
+}
+export function lightInteriorMaterials(night){if(shared)shared.lamp.emissiveIntensity=.18+night*1.6;}
 export const interiorMaterials=()=>shared;

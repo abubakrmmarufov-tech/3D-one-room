@@ -4,7 +4,7 @@
 import complex from './model/complex.json';
 import plans from './model/plans.json';
 
-export const MODEL_URL = `${import.meta.env.BASE_URL}models/shahrofar.glb`;
+export const MODEL_URL = `${import.meta.env.BASE_URL}models/shahrofar.glb?v=bdc19f31cf65d157`;
 export const PLANS = plans;
 
 // Site plan coordinates (metres, x east, y north) -> scene (x, z) with the complex at the origin.

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-const source={map:new URL('./assets/materials/grass-color.jpg',import.meta.url).href,normalMap:new URL('./assets/materials/grass-normal.jpg',import.meta.url).href,roughnessMap:new URL('./assets/materials/grass-roughness.jpg',import.meta.url).href};
+const source={map:new URL('./assets/optimized/grass-color.webp',import.meta.url).href,normalMap:new URL('./assets/optimized/grass-normal.webp',import.meta.url).href,roughnessMap:new URL('./assets/optimized/grass-roughness.webp',import.meta.url).href};
 export const waterTime={value:0};
 export async function loadLandscapeTextures(){
  const loader=new THREE.TextureLoader(),maps={};
- await Promise.all(Object.entries(source).map(async([key,url])=>{const t=await loader.loadAsync(url);t.colorSpace=key==='map'?THREE.SRGBColorSpace:THREE.NoColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.setScalar(1/24);t.anisotropy=8;maps[key]=t;}));return maps;
+ await Promise.all(Object.entries(source).map(async([key,url])=>{let t;try{t=await loader.loadAsync(url);}catch{return;}t.colorSpace=key==='map'?THREE.SRGBColorSpace:THREE.NoColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.setScalar(1/24);t.anisotropy=4;maps[key]=t;}));return maps;
 }
 export function tuneWater(m){
  m.color.set(m.name==='River'?0x507b7d:0x628f95);m.roughness=.2;m.metalness=.18;m.envMapIntensity=1.1;

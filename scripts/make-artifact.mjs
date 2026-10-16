@@ -6,4 +6,5 @@ const app=readFileSync(`dist/${entry}`,'utf8');
 if(!app.includes('models/shahrofar.glb'))throw new Error('Model URL missing');
 writeFileSync(`publish/${entry}`,app.replaceAll('models/shahrofar.glb','models/shahrofar.glb.json'));
 writeFileSync('publish/models/shahrofar.glb.json',JSON.stringify({glb:readFileSync('dist/models/shahrofar.glb').toString('base64')}));
+writeFileSync('publish/sw.js',readFileSync('publish/sw.js','utf8').replaceAll('models/shahrofar.glb','models/shahrofar.glb.json'));
 console.log('publish/ contains the viewer and its local assets');

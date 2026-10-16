@@ -30,7 +30,7 @@ class Batch{
 export function buildFloor(towerKey,floor,apts,walk=null){
  const S=interiorMaterials(),tower=towerByKey[towerKey],fl=tower.floors.find(f=>f.floor===floor),plan=PLANS[fl.plan],frame=planFrame(tower),baseY=fl.z+tower.slab,H=fl.h-.5;
  const group=new THREE.Group();group.position.set(frame.position.x,baseY,frame.position.z);group.rotation.y=frame.rotY;
- const own=[],floorMeshes=[],B=new Batch(),shown=walk?[walk]:apts;
+ const own=[],floorMeshes=[],roomLights=[],B=new Batch(),shown=walk?[walk]:apts;
  const mountWalls=[...plan.walls,...plan.struct];
  B.canMountAt=(x,y)=>mountWalls.some(w=>distToPolygon(w,x,y)<.22);
  for(const apt of shown){
@@ -90,11 +90,12 @@ export function buildFloor(towerKey,floor,apts,walk=null){
   const [sx,sy]=nav.spawn,first=main?.point&&nav.route(nav.spawn,main.point),[tx,ty]=first?.[1]??main?.point??[sx+1,sy];const s=frame.toScene(sx,sy),t=frame.toScene(tx,ty);
   spawn={x:s.x,z:s.z,yaw:Math.atan2(-(t.x-s.x),-(t.z-s.z))};
   B.add(S.ceiling,flat(walk.data.outline,H));
-  for(const room of walk.data.rooms){if(room.area<1.2)continue;const [x,y]=interiorPoint(room.poly);B.cyl(S.lamp,x,y,.12,H-.035,H-.015);const light=new THREE.PointLight(0xffecd2,room.kind==='hall'?14:room.area>15?26:12,12,2);light.position.set(x,H-.20,-y);group.add(light);}
-  group.add(new THREE.HemisphereLight(0xfff3df,0xb7b4a6,.7));
+  for(const room of walk.data.rooms){if(room.area<1.2)continue;const [x,y]=interiorPoint(room.poly);B.cyl(S.lamp,x,y,.12,H-.035,H-.015);const power=room.kind==='hall'?14:room.area>15?26:12;const light=new THREE.PointLight(0xffe4bd,power*.25,Math.min(10,Math.sqrt(room.area)*1.6),2);light.position.set(x,H-.20,-y);group.add(light);roomLights.push({light,power});}
+  group.add(new THREE.HemisphereLight(0xfff3df,0xb7b4a6,.16));
  }
  B.build(group,own);group.updateMatrixWorld(true);
  return {apt:walk,group,floorMeshes,baseY,spawn,frame,plan,nav,H,
+  setLighting(night){for(const {light,power}of roomLights)light.intensity=power*(.20+night*.95);},
   move(x,z,nx,nz){const a=frame.toPlan(x,z),b=frame.toPlan(nx,nz),p=nav.move([a.x,a.y],[b.x,b.y]);return frame.toScene(...p);},
   route(from,to){const a=frame.toPlan(from.x,from.z),b=frame.toPlan(to.x,to.z);return nav.route([a.x,a.y],[b.x,b.y])?.map(p=>frame.toScene(...p));},
   dispose(){group.removeFromParent();own.forEach(g=>g.dispose());},
