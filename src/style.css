@@ -92,3 +92,28 @@ h1{font-size:36px;line-height:1.17;margin-bottom:18px}h2{font-size:29px;line-hei
 @media(max-width:900px){#selection-context{left:14px;right:14px;top:calc(146px + env(safe-area-inset-top,0px));bottom:auto;max-width:none;width:max-content;max-width:calc(100vw - 28px);padding:8px 12px;gap:2px}#selection-context>span{font-size:9px}#selection-context strong{font-size:12px}.floor-preview{padding:9px}.floor-preview svg{max-height:160px}.floor-preview-heading{font-size:10px}}
 .showcase-btn{margin-top:12px;width:100%;border:1px solid #aa936b;background:#f2ede1;color:#413b2e;display:flex;flex-direction:column;gap:5px;align-items:flex-start;text-align:left;padding:13px 16px;line-height:1.4}
 .showcase-btn span{font-size:11px;letter-spacing:.035em;color:#64583e}
+
+/* Compact selection leaves the model clear until the buyer requests details. */
+#selection-panel{display:contents}
+#selection-toggle,.selection-heading,.selection-views{display:none}
+@media(max-width:900px){
+ #selection-toggle{position:fixed;top:calc(84px + env(safe-area-inset-top,0px));left:14px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 15px;min-height:46px;max-width:calc(100vw - 28px);font-size:13px;z-index:5;text-align:left}
+ #selection-toggle[aria-expanded=true]{background:var(--ink);color:white}
+ #selection-panel{display:none;position:fixed;left:14px;right:14px;bottom:calc(74px + env(safe-area-inset-bottom,0px));max-height:min(58vh,calc(100vh - 160px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)));max-height:min(58dvh,calc(100dvh - 160px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)));z-index:7;background:var(--panel);border:1px solid #ffffffd9;border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+ #selection-panel.is-open{display:flex;flex-direction:column}
+ .selection-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px 0 18px;flex:none}
+ .selection-heading strong{font-size:14px;font-weight:550}
+ #selection-close{border:0;background:none;min-width:44px;min-height:44px;font-size:24px;color:var(--muted)}
+ .selection-views{display:flex;gap:5px;padding:0 14px 10px;border-bottom:1px solid var(--line);flex:none}
+ .selection-views button{flex:1;min-height:44px;border:1px solid var(--line);border-radius:9px;background:transparent;font-size:13px}
+ .selection-views button[aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}
+ #selection-panel #floors,#selection-panel #side{position:static;inset:auto;flex:1;min-height:0;width:100%;max-height:none;padding:14px;margin:0;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:auto;overscroll-behavior:contain}
+ #selection-panel #floors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+ #selection-panel .tower-tabs,#selection-panel .overview-btn{grid-column:span 2;margin:0;min-width:0}
+ #selection-panel .floor-btn{min-height:46px;min-width:0;justify-content:center;background:#fff8;border:1px solid var(--line)}
+ #selection-panel .floor-btn.active{background:var(--ink)}
+ #selection-panel .lobby-note{display:block;grid-column:1/-1;margin:6px 0 0;text-align:center}
+ #selection-panel[data-view=floors] #side,#selection-panel[data-view=apartments] #floors{display:none}
+ #selection-context{display:none}
+ #selection-panel #side:has(h1){max-height:none}
+}
