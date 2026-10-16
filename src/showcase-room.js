@@ -34,6 +34,8 @@ export function furnishShowcase(B,room,H,M){
  const cv=1.98;
  cyl(M.stone,L*.5,cv,.32,.04,.35);
  ball(M.travertine,L*.5,cv,.58,.385,1.22,.085,.8);
+ // The thin oval top extends beyond its pedestal and must also block walking.
+ B.obstacle(Array.from({length:20},(_,i)=>uv(L*.5+.58*1.22*Math.cos(i*Math.PI/10),cv+.58*.8*Math.sin(i*Math.PI/10))));
  box(M.olive,L*.5-.31,cv-.12,L*.5+.04,cv+.12,.435,.468,.008);
  box(M.linen,L*.5-.29,cv-.105,L*.5+.02,cv+.11,.468,.479,.005);
  cyl(M.ceramic,L*.5+.24,cv+.08,.095,.435,.49);

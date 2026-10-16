@@ -10,6 +10,7 @@ import {WalkControls} from '../src/walk.js';
 import {windowPath} from '../src/window-path.js';
 import {inside,distToPolygon} from '../src/geometry.js';
 import {createServer} from 'vite';
+import {showcaseFrame} from '../src/showcase-room.js';
 const read=p=>JSON.parse(fs.readFileSync(p)),complex=read('src/model/complex.json'),plans=read('src/model/plans.json'),catalog=read('src/model/apartment-catalog.json');
 assert.deepEqual(complex.towers.map(t=>t.key),['B']);assert.deepEqual(Object.keys(plans),['B']);
 assert.equal(complex.towers[0].floors.length,16);assert.equal(catalog.length,128);
@@ -25,6 +26,8 @@ const apt=plans.B.apartments[0],living=apt.rooms.find(r=>r.kind==='living'),hero
 const obstacles=apt.rooms.flatMap(r=>r===living?hero.obstacles:collectFurniture(r,2.8).obstacles),nav=createNavigation(plans.B,apt,obstacles);
 assert(nav.clear(...hero.presentation.standing),'Presentation position must be clear of walls and furniture');
 assert(nav.route(nav.spawn,hero.presentation.standing),'Presentation position must be connected to the entrance');
+const {L,uv}=showcaseFrame(living);
+assert(!nav.clear(...uv(L*.5+.66,1.98)),'Walking must respect the tabletop overhang beyond its pedestal');
 globalThis.addEventListener=()=>{};globalThis.document={addEventListener(){}};
 const frame={toScene:(x,y)=>({x,z:-y}),toPlan:(x,z)=>({x,y:-z})},walk=new WalkControls(new THREE.PerspectiveCamera(),{addEventListener(){}});
 const room=nav.rooms.find(r=>r.room===living);room.point=hero.presentation.standing;room.focus=hero.presentation.focus;

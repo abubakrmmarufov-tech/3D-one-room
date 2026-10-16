@@ -20,6 +20,7 @@ function prism(p,y0,y1){const g=new THREE.ExtrudeGeometry(shape(p),{depth:y1-y0,
 class Batch{
  constructor(){this.parts=new Map();this.obstacles=[];this.record=false;}
  add(m,g){m=mat(m);if(!this.parts.has(m))this.parts.set(m,[]);this.parts.get(m).push(g);}
+ obstacle(poly){if(this.record)this.obstacles.push(poly);}
  box(m,x0,y0,x1,y1,z0,z1,soft=false){
   const w=Math.abs(x1-x0),d=Math.abs(y1-y0),h=z1-z0;if(w<.001||d<.001||h<.001)return;
   const radius=typeof soft==='number'?soft:soft?.radius??.035;
