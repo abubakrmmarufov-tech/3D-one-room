@@ -5,6 +5,7 @@ import { PLANS, planFrame, towerByKey } from './config.js';
 import { bounds, inside, interiorPoint, distToPolygon, polygonArea } from './geometry.js';
 import { interiorMaterials } from './interior-materials.js';
 import { furnishRoom } from './furnishings.js';
+import { plantLeaf } from './foliage.js';
 import { createNavigation } from './navigation.js';
 import { furnitureObstacle } from './furniture-layout.js';
 const byColor=new Map();
@@ -24,6 +25,7 @@ class Batch{
  }
  cyl(m,x,y,r,z0,z1,seg=24){const g=new THREE.CylinderGeometry(r,r,z1-z0,seg);g.translate(x,(z0+z1)/2,-y);this.add(m,g);if(this.record&&r>.2&&z0<.85&&z1>.28)this.obstacles.push(Array.from({length:12},(_,i)=>[x+r*Math.cos(i*Math.PI/6),y+r*Math.sin(i*Math.PI/6)]));}
  ball(m,x,y,r,z,sx=1,sy=1,sz=1){const g=new THREE.SphereGeometry(r,12,8);g.scale(sx,sy,sz);g.translate(x,z,-y);this.add(m,g);}
+ leaf(m,x,y,z,length,width,angle,tilt){const g=plantLeaf(length,width);g.rotateX(tilt);g.rotateY(angle);g.translate(x,z,-y);this.add(m,g);}
  strip(m,a,b,width,y0,y1){const L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<.08)return;const g=new THREE.BoxGeometry(L,y1-y0,width);g.rotateY(Math.atan2(b[1]-a[1],b[0]-a[0]));g.translate((a[0]+b[0])/2,(y0+y1)/2,-(a[1]+b[1])/2);this.add(m,g);}
  build(group,own){for(const [m,list]of this.parts){const geos=list.map(g=>g.index?g.toNonIndexed():g),g=mergeGeometries(geos,false);for(const x of new Set([...list,...geos]))x.dispose();own.push(g);const mesh=new THREE.Mesh(g,m);mesh.castShadow=!m.transparent;mesh.receiveShadow=true;group.add(mesh);}}
 }

@@ -2,6 +2,7 @@
 // Blender build exports (model/complex.json). Geometry is generated here, so nothing else to load.
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { crownGeometry, leafTexture } from './foliage.js';
 
 // deterministic noise so every visit looks the same
 function rng(seed) {
@@ -23,20 +24,6 @@ function colorize(geo, fn) {
   return geo;
 }
 
-// a lumpy foliage cluster: icosphere pushed in and out by smooth noise
-function clump(r, rnd, detail = 2, squash = 0.85) {
-  const g = new THREE.IcosahedronGeometry(r, detail);
-  const p = g.attributes.position;
-  const k = [rnd() * 6, rnd() * 6, rnd() * 6];
-  for (let i = 0; i < p.count; i++) {
-    const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
-    const nz = 1 + 0.16 * Math.sin(x * 3.1 + k[0]) * Math.cos(y * 2.7 + k[1]) + 0.1 * Math.sin(z * 4.3 + k[2]);
-    p.setXYZ(i, x * nz, y * nz * squash, z * nz);
-  }
-  g.computeVertexNormals();
-  return g;
-}
-
 const BARK = new THREE.Color(0x5b4334);
 function trunk(h, r0, r1, branches, rnd) {
   const parts = [new THREE.CylinderGeometry(r1, r0, h, 7).translate(0, h / 2, 0)];
@@ -51,92 +38,47 @@ function trunk(h, r0, r1, branches, rnd) {
   return colorize(mergeGeometries(parts.map((g) => g.index ? g.toNonIndexed() : g)), (c) => c.copy(BARK));
 }
 
-// leaf colour: darker underneath and inside, lighter where the sun hits
-function leafShade(base, cy, top) {
-  return (c, x, y, z) => {
-    const t = THREE.MathUtils.clamp((y - cy) / top, -1, 1);
-    c.copy(base).offsetHSL(0, 0, 0.07 * t - 0.02 + 0.02 * Math.sin(x * 5 + z * 3));
-  };
-}
-
-// Tree species: { wood, leaves } geometries (unit size; instances scale them)
-function species(rnd) {
-  const out = [];
-  // 1. broadleaf (plane / elm): wide round crown of several clumps
-  {
-    const h = 3.2;
-    const leaves = [];
-    for (const [x, y, z, r] of [[0, 5.2, 0, 2.3], [1.3, 4.6, 0.5, 1.6], [-1.2, 4.7, -0.4, 1.7], [0.3, 4.4, -1.3, 1.5], [-0.4, 4.5, 1.3, 1.5], [0.2, 6.3, 0.2, 1.4]]) {
-      leaves.push(clump(r, rnd).translate(x, y, z));
-    }
-    const g = mergeGeometries(leaves.map((x) => x.index ? x.toNonIndexed() : x));
-    out.push({ wood: trunk(h + 1.2, 0.26, 0.18, 4, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x4b6b25), 5.0, 2.2)) });
-  }
-  // 2. conifer: stacked drooping cones
-  {
-    const cones = [];
-    for (let i = 0; i < 5; i++) {
-      const r = 2.0 - i * 0.36, y = 2.0 + i * 1.35;
-      const c = new THREE.ConeGeometry(r, 2.4, 9, 1, true).translate(0, y + 1.2, 0);
-      cones.push(c);
-    }
-    const g = mergeGeometries(cones.map((x) => x.index ? x.toNonIndexed() : x));
-    out.push({ wood: trunk(2.6, 0.2, 0.14, 0, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x2f4a2a), 5, 4)) });
-  }
-  // 3. poplar / cypress: tall narrow crown
-  {
-    const leaves = [];
-    for (const [y, r] of [[3.4, 1.2], [5.0, 1.15], [6.6, 0.95], [8.0, 0.65]]) leaves.push(clump(r, rnd, 2, 1.5).translate(0, y, 0));
-    const g = mergeGeometries(leaves.map((x) => x.index ? x.toNonIndexed() : x));
-    out.push({ wood: trunk(3.0, 0.2, 0.14, 0, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x3e6125), 5.5, 3)) });
-  }
-  // 4. young ornamental tree: small light crown
-  {
-    const leaves = [];
-    for (const [x, y, z, r] of [[0, 3.2, 0, 1.3], [0.7, 2.9, 0.3, 0.9], [-0.6, 3.0, -0.3, 0.9]]) leaves.push(clump(r, rnd).translate(x, y, z));
-    const g = mergeGeometries(leaves.map((x) => x.index ? x.toNonIndexed() : x));
-    out.push({ wood: trunk(2.2, 0.12, 0.08, 3, rnd), leaves: colorize(g, leafShade(new THREE.Color(0x6a8a2c), 3.1, 1.3)) });
-  }
-  return out;
-}
-
+// Original tree coordinates and prototype dimensions are retained. Dense nearby
+// foliage and lighter distant foliage are fixed site regions, avoiding LOD popping.
 export function addTrees(scene, protos, list, toScene) {
-  const rnd = rng(11);
-  const kinds = species(rnd);
-  // proto from the Blender build (height, radius, light) -> species
-  const pick = (p, i) => {
-    if (p.light && p.h <= 6) return 3;
-    if (p.h >= 9 && (i % 3 === 0)) return 1;
-    if (p.r < 2.4 && (i % 4 === 1)) return 2;
-    return 0;
-  };
-  const groups = kinds.map(() => []);
-  list.forEach(([x, y, sc, sz, rot, k], i) => groups[pick(protos[k], i)].push({ x, y, sc, sz, rot, p: protos[k] }));
-  const wood = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 });
-  const leaf = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, envMapIntensity: 0.3 });
-  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), p = new THREE.Vector3(), s = new THREE.Vector3(), e = new THREE.Euler();
-  const tint = new THREE.Color();
-  kinds.forEach((kind, si) => {
-    const items = groups[si];
-    if (!items.length) return;
-    const wm = new THREE.InstancedMesh(kind.wood, wood, items.length);
-    const lm = new THREE.InstancedMesh(kind.leaves, leaf, items.length);
-    items.forEach((t, i) => {
-      const w = toScene(t.x, t.y);
-      const k = (t.p.h / 7) * t.sc; // the build's tree height relative to the 7 m reference
-      q.setFromEuler(e.set(0, t.rot, 0));
-      m4.compose(p.set(w.x, 0, w.z), q, s.set(k, k * t.sz, k));
-      wm.setMatrixAt(i, m4);
-      lm.setMatrixAt(i, m4);
-      tint.setHSL(0, 0, 1).offsetHSL(((i * 37) % 11) * 0.004 - 0.02, 0, ((i * 53) % 9) * 0.012 - 0.05);
-      lm.setColorAt(i, tint);
-    });
-    for (const m of [wm, lm]) {
-      m.castShadow = true;
-      m.receiveShadow = true;
-      scene.add(m);
-    }
+  const rnd = rng(11), atlas = leafTexture();
+  const wood = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .96 });
+  const leaf = new THREE.MeshStandardMaterial({ map: atlas, alphaTest: .28,
+    side: THREE.DoubleSide, vertexColors: true, roughness: .92, envMapIntensity: .35 });
+  const kinds = [0, 1, 2, 3].map(i => ({
+    wood: trunk(i === 3 ? 2.7 : 4.2, i === 3 ? .14 : .22, .08, i === 1 ? 0 : 5, rnd),
+    near: crownGeometry(i, i === 1 ? 170 : 150, i * 19 + 71),
+    far: crownGeometry(i, i === 1 ? 65 : 55, i * 19 + 71),
+  }));
+  const groups = new Map();
+  list.forEach(([x, y, sc, sz, rot, k], i) => {
+    const proto = protos[k], w = toScene(x, y);
+    const kind = proto.light && proto.h <= 6 ? 3 : proto.h >= 9 && i % 3 === 0 ? 1 : proto.r < 2.4 && i % 4 === 1 ? 2 : 0;
+    const near = Math.hypot(w.x, w.z) < 165;
+    // Four outer sectors let the frustum reject whole distant stands of trees.
+    const sector = near ? 0 : 1 + (w.x > 0 ? 1 : 0) + (w.z > 0 ? 2 : 0), key = `${kind}/${sector}`;
+    if (!groups.has(key)) groups.set(key, { kind, near, trees: [] });
+    groups.get(key).trees.push({ w, proto, sc, sz, rot });
   });
+  const matrix = new THREE.Matrix4(), quaternion = new THREE.Quaternion(), position = new THREE.Vector3(), scale = new THREE.Vector3(), euler = new THREE.Euler(), tint = new THREE.Color();
+  let triangles = 0;
+  for (const { kind, near, trees } of groups.values()) {
+    const g = kinds[kind], wm = new THREE.InstancedMesh(g.wood, wood, trees.length), lm = new THREE.InstancedMesh(near ? g.near : g.far, leaf, trees.length);
+    trees.forEach((t, i) => {
+      // Crown bounds are authored at 7 m (5 m for ornamental trees).
+      const reference = kind === 3 ? 5.6 : kind === 2 ? 8 : 7.5;
+      quaternion.setFromEuler(euler.set(0, t.rot, 0));
+      matrix.compose(position.set(t.w.x, 0, t.w.z), quaternion, scale.set(t.proto.r / (kind === 3 ? 2.3 : kind === 2 ? 1.9 : 3.2) * t.sc, t.proto.h / reference * t.sz, t.proto.r / (kind === 3 ? 2.3 : kind === 2 ? 1.9 : 3.2) * t.sc));
+      wm.setMatrixAt(i, matrix); lm.setMatrixAt(i, matrix);
+      tint.setHSL(.13 + (i % 5) * .006, .12, .8 + (i % 7) * .022); lm.setColorAt(i, tint);
+    });
+    for (const mesh of [wm, lm]) {
+      mesh.name = near ? 'Site trees nearby' : 'Site trees distant'; mesh.castShadow = near; mesh.receiveShadow = true;
+      mesh.computeBoundingSphere(); mesh.matrixAutoUpdate = false; scene.add(mesh);
+      triangles += (mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count) / 3 * trees.length;
+    }
+  }
+  scene.userData.treeBudget = { trees: list.length, batches: groups.size * 2, triangles };
 }
 
 // ---------- cars ----------

@@ -8,6 +8,9 @@ import { MODEL_URL, toScene, towerByKey, planFrame } from './config.js';
 import { groundTexture } from './textures.js';
 import {loadLandscapeTextures,tuneWater,waterTime}from './landscape.js';
 import { FACADE_MAPS } from './facade_maps.js';
+import { tuneSiteSurface, tuneSourceFoliage } from './site-materials.js';
+import { addPathLighting } from './site-lighting.js';
+import { replaceTerraceShrubs } from './terrace-foliage.js';
 
 const GLASS = new Set(['Window glass', 'Curtain glass', 'Shop glass', 'Shop window', 'Gallery glass', 'Pool water', 'River']);
 
@@ -27,7 +30,7 @@ function windowGlow(m){
       vec3 cell=floor(vWindowWorld/vec3(3.8,3.3,3.8));
       float occupied=fract(sin(dot(cell,vec3(12.9898,78.233,37.719)))*43758.5453);
       float glow=smoothstep(occupied*.45+.12,occupied*.45+.32,windowNight)*step(.38,occupied);
-      totalEmissiveRadiance+=mix(vec3(1.0,.56,.24),vec3(1.0,.82,.51),occupied)*glow*.9;`);
+      totalEmissiveRadiance+=mix(vec3(1.0,.56,.24),vec3(1.0,.82,.51),occupied)*glow*.42;`);
   };
   m.customProgramCacheKey=()=> 'residential-window-glow-1';
 }
@@ -48,6 +51,8 @@ function tuneMaterial(m,landscape) {
     m.roughness = Math.max(0.06, Math.min(m.roughness, 0.12));
   }
   if(['River','Pool water'].includes(m.name))tuneWater(m);
+  if(['Asphalt','Paving','Sidewalk','Promenade','Deck paving','Deck stone','Embankment','Neighbour','Neighbour solid'].includes(m.name))tuneSiteSurface(m,m.name==='Asphalt'?'asphalt':m.name==='Embankment'?'stone':m.name.startsWith('Neighbour')?'context':'paving');
+  if(['Leaves','Leaves light','Shrub'].includes(m.name))tuneSourceFoliage(m);
   if(m.name==='Foam'){m.transparent=true;m.opacity=.10;m.depthWrite=false;}
   if (m.name.startsWith('Stained')) m.emissiveIntensity = 0.25;
   if (m.name === 'Railing glass' || m.name === 'Railing glass dark' || m.name === 'Neighbour') {
@@ -108,6 +113,7 @@ export async function loadComplex(apartments, onProgress) {
     }
   });
 
+  replaceTerraceShrubs(root);
   // pick volumes -> highlight overlays
   const units = new Map();
   let hotelPick = null;
@@ -144,12 +150,13 @@ export async function loadComplex(apartments, onProgress) {
   const setVisible = (o, v) => o && (o.visible = v);
   // Finishes are optional: a slow/missing texture never holds the scene loader open.
   loadLandscapeTextures().then(maps=>{for(const m of tuned)if(['Grass','Lawn'].includes(m.name)){Object.assign(m,maps);m.needsUpdate=true;}});
+  const pathLighting=addPathLighting(root);
   const lamps=[...tuned].filter(m=>m.name==='Lamp glow');
 
   return {
     group: root,
     update(time){waterTime.value=time;},
-    setLighting(night){nightUniform.value=night;for(const m of lamps)m.emissiveIntensity=.05+night*1.8;},
+    setLighting(night){pathLighting.setNight(night);nightUniform.value=night;for(const m of lamps)m.emissiveIntensity=.05+night*1.8;},
     towers,
     units,
     hotelPick,

@@ -11,7 +11,15 @@ export function furnishRoom(B, room, H, materials = null, layout = room.furnitur
  const cyl=(m,u,v,rad,z0,z1)=>B.cyl(m,...uv(u,v),rad,z0,z1);
  const ball=(m,u,v,rad,z,sx=1,sy=1,sz=1)=>B.ball(m,...uv(u,v),rad,z,along?sx:sz,sy,along?sz:sx);
  const legs=(u,v,l,d,z)=>{for(const a of [-1,1])for(const b of [-1,1])cyl(M.bronze,u+a*(l/2-.07),v+b*(d/2-.07),.025,.03,z);};
- const plant=(u,v)=>{cyl(0x9d8569,u,v,.18,.02,.38);cyl(M.walnut,u,v,.025,.35,1.1);for(let k=0;k<8;k++){const a=k*2.4,rr=.14+.035*(k%3);ball(0x536548,u+Math.cos(a)*rr,v+Math.sin(a)*rr,.15,.65+k*.07,1.1,.45,1.8);}};
+ const plant=(u,v)=>{
+  cyl(0x9d8569,u,v,.18,.02,.38);cyl(0x3c3628,u,v,.155,.37,.385);
+  cyl(M.walnut,u,v,.015,.38,1.18);
+  for(let k=0;k<13;k++){
+   const a=k*2.39996,rr=.03+.02*(k%3),height=.48+k*.049;
+   const p=uv(u+Math.cos(a)*rr,v+Math.sin(a)*rr),end=uv(u+Math.cos(a)*.2,v+Math.sin(a)*.2);
+   B.leaf(k%3?0x49613a:0x6e814b,...p,height,.22+.025*(k%4),.095,Math.atan2(end[0]-p[0],-(end[1]-p[1])),-.22+(k%3)*.2);
+  }
+ };
  const lamp=(u,v)=>{cyl(M.bronze,u,v,.13,.0,.035);cyl(M.bronze,u,v,.016,.03,.45);cyl(M.linen,u,v,.14,.39,.62);cyl(M.lamp,u,v,.11,.40,.42);};
  const rug=(u0,v0,u1,v1)=>box(0xbeb09a,u0,v0,u1,v1,.009,.018,true);
  const artwork=(u,v,len)=>{if(B.canMountAt&&![.1,len/2,len-.1].every(t=>B.canMountAt(...uv(u+t,v))))return;box(M.walnut,u,v,u+len,v+.035,1.15,1.85);box(0xe6dcc7,u+.035,v+.036,u+len-.035,v+.042,1.185,1.815);box(0x9c8469,u+.1,v+.043,u+len*.46,v+.046,1.28,1.67);box(0x6f7966,u+len*.55,v+.043,u+len-.1,v+.046,1.4,1.76);};

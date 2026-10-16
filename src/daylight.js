@@ -2,7 +2,7 @@ import { Color, MathUtils } from 'three';
 
 // A visual day cycle, not a geographic solar ephemeris. One clock drives every view.
 const frames = [
-  [0, 0x0b152b, 0x26334b, 0xa9c4f0, .13, .17, .09, 0],
+  [0, 0x0b152b, 0x26334b, 0xa9c4f0, .16, .25, .15, 0],
   [5, 0x253250, 0x887a89, 0xb8cae8, .16, .23, .12, .05],
   [6.5, 0x718ba7, 0xf3c09e, 0xffb27a, 1.1, .38, .28, .42],
   [8, 0x86aac5, 0xf0e1ce, 0xffdfb0, 1.9, .55, .48, .9],
@@ -10,8 +10,8 @@ const frames = [
   [16.5, 0x8caac1, 0xf1debd, 0xffd49b, 1.9, .52, .46, .9],
   [18.5, 0x647796, 0xf0a57e, 0xffa367, 1.05, .32, .25, .34],
   [20, 0x1b2c4c, 0x59647c, 0xb6cdf2, .15, .22, .12, .04],
-  [22, 0x0b152b, 0x26334b, 0xa9c4f0, .13, .17, .09, 0],
-  [24, 0x0b152b, 0x26334b, 0xa9c4f0, .13, .17, .09, 0],
+  [22, 0x0b152b, 0x26334b, 0xa9c4f0, .16, .25, .15, 0],
+  [24, 0x0b152b, 0x26334b, 0xa9c4f0, .16, .25, .15, 0],
 ];
 export const wrapHour = hour => ((hour % 24) + 24) % 24;
 export const hourDelta = (from, to) => ((to - from + 36) % 24) - 12;

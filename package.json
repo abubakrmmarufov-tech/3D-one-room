@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "artifact": "vite build && node scripts/make-artifact.mjs",
     "check": "node scripts/check-navigation.mjs && node scripts/check-furniture.mjs && node scripts/check-motion.mjs",
-    "check:lighting": "node scripts/check-lighting-offline.mjs"
+    "check:lighting": "node scripts/check-lighting-offline.mjs",
+    "check:site": "node scripts/check-site.mjs"
   },
   "dependencies": {
     "three": "^0.170.0"
