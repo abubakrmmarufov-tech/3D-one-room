@@ -19,7 +19,8 @@ export function showcaseMaterials(base){
  const make=(color,extra={})=>new THREE.MeshStandardMaterial({color,roughness:.8,envMapIntensity:.6,...extra});
  const olive=materialVariant(base.fabric,{color:0x717968,bumpMap:weave,bumpScale:.001});
  const linen=materialVariant(base.linen,{bumpMap:weave,bumpScale:.001});
- shared={...base,olive,linen,throw:make(0xada18c,{map:weave,bumpMap:weave,bumpScale:.0015}),
+ const bedding=materialVariant(base.linen,{color:0xe5dfd1,bumpMap:weave,bumpScale:.0015,side:THREE.DoubleSide});
+ shared={...base,olive,linen,bedding,throw:make(0xada18c,{map:weave,bumpMap:weave,bumpScale:.0015,side:THREE.DoubleSide}),
   seam:make(0xb4a58c),rug:make(0xf3ecdb,{map:weave,bumpMap:weave,bumpScale:.003,roughness:1}),
   travertine:make(0xffffff,{map:stone,bumpMap:stone,bumpScale:.001,roughness:.48}),
   screen:make(0x17251f,{roughness:.25}),art:make(0xc9bea8),leaf:make(0x405632,{roughness:.86}),

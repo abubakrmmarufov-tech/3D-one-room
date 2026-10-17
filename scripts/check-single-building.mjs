@@ -11,7 +11,7 @@ import {windowPath} from '../src/window-path.js';
 import {inside,distToPolygon} from '../src/geometry.js';
 import {createServer} from 'vite';
 import {showcaseFrame} from '../src/showcase-room.js';
-import {windowDressing} from '../src/window-dressing.js';
+import {windowDressing,joinedWindowPaths} from '../src/window-dressing.js';
 import {materialVariant,refreshMaterialVariants} from '../src/material-variants.js';
 import {interiorNearPlane} from '../src/camera-clearance.js';
 import {roomPartitions,apartmentEntrance} from '../src/interior-shell.js';
@@ -27,9 +27,24 @@ assert(root.listNodes().length>100);
 for(const n of root.listNodes())assert(!['A','V'].includes(n.getExtras().tower)&&!/^([AV] |Hotel terrace|Sign [EHLOT]$)/.test(n.getName()),`Removed building node: ${n.getName()}`);
 for(const mesh of root.listMeshes())assert(mesh.listParents().some(p=>p.propertyType==='Node'),'Orphaned building mesh');
 const apt=plans.B.apartments[0],living=apt.rooms.find(r=>r.kind==='living'),hero=collectFurniture(living,2.8,{}, {...living.furniture,showcase:true});
-const obstacles=apt.rooms.flatMap(r=>r===living?hero.obstacles:collectFurniture(r,2.8).obstacles),nav=createNavigation(plans.B,apt,obstacles);
+const bedroom=apt.rooms.find(r=>r.kind==='bedroom'),bed=collectFurniture(bedroom,2.8,{}, {...bedroom.furniture,showcase:true});
+const obstacles=apt.rooms.flatMap(r=>r===living?hero.obstacles:r===bedroom?bed.obstacles:collectFurniture(r,2.8).obstacles),nav=createNavigation(plans.B,apt,obstacles);
 assert(nav.clear(...hero.presentation.standing),'Presentation position must be clear of walls and furniture');
 assert(nav.route(nav.spawn,hero.presentation.standing),'Presentation position must be connected to the entrance');
+assert(nav.clear(...bed.presentation.standing),'Bedroom presentation point is clear');
+assert(nav.route(nav.spawn,bed.presentation.standing),'Bedroom presentation connects to the entrance');
+const cloth=bed.commands.filter(c=>c.type==='surface');
+assert.equal(cloth.length,2,'Duvet and runner use draped geometry');
+for(const {args:[,surface]}of cloth){
+ assert(surface.positions.every(Number.isFinite));
+ for(let i=0;i<surface.positions.length;i+=3)assert(inside(bedroom.poly,surface.positions[i],-surface.positions[i+2]),'Bedding stays inside the source room');
+ for(let i=0;i<surface.indices.length;i+=3){
+  const [a,b,c]=surface.indices.slice(i,i+3).map(n=>surface.positions.slice(n*3,n*3+3));
+  assert((b[2]-a[2])*(c[0]-a[0])-(b[0]-a[0])*(c[2]-a[2])>0,'Textile faces point upwards');
+ }
+}
+const foot=bed.presentation.bedFootprint;
+assert(!nav.clear((foot[0][0]+foot[1][0])/2,(foot[0][1]+foot[1][1])/2),'Draped bedding overhang blocks walking');
 const {L,uv}=showcaseFrame(living);
 assert(!nav.clear(...uv(L*.5+.66,1.98)),'Walking must respect the tabletop overhang beyond its pedestal');
 globalThis.addEventListener=()=>{};globalThis.document={addEventListener(){}};
@@ -53,6 +68,12 @@ for(const panel of dressing.panels){
  assert(Math.max(...panel.indices)<panel.positions.length/3,'Curtain indices stay within their vertices');
  for(const [x,y]of panel.footprint)assert(inside(living.poly,x,y),'Curtains stay inside the actual living-room outline');
 }
+const bedroomWindows=plans.B.windows.filter(w=>w.some(p=>distToPolygon(bedroom.poly,...p)<.35)),joined=joinedWindowPaths(bedroomWindows);
+assert.equal(bedroomWindows.length,2);assert.equal(joined.length,1,'Adjacent bedroom glazing uses one curtain track');
+assert.equal(joinedWindowPaths([[[0,0],[.1,0],[.1,1],[0,1]],[[0,1.3],[.1,1.3],[.1,2],[0,2]]]).length,2,'Curtain tracks must not bridge a solid wall');
+const bedroomDressing=windowDressing(joined[0],bedroom,2.8);
+assert.equal(bedroomDressing.panels.length,2);
+for(const panel of bedroomDressing.panels)for(const p of panel.footprint)assert(inside(bedroom.poly,...p),'Bedroom curtains stay inside the source room');
 // Reproduce entering before optional maps finish; late maps must update accent
 // upholstery without resetting its tint or locally generated weave bump.
 const source=new THREE.MeshPhysicalMaterial({color:0xeeeeee}),bump=new THREE.Texture();
@@ -76,6 +97,13 @@ try{
  const {prepareInteriorMaterials}=await server.ssrLoadModule('/src/interior-materials.js'),materials=prepareInteriorMaterials();
  const {buildFloor}=await server.ssrLoadModule('/src/floor.js'),{apartments,aptsOnFloor}=await server.ssrLoadModule('/src/data.js');
  const unit=apartments.find(a=>a.id==='B12-0'),built=buildFloor('B',12,aptsOnFloor('B',12),unit);
+ const bedroomStop=built.nav.rooms.find(r=>r.room.kind==='bedroom');
+ assert(bedroomStop.focus,'Actual dressed bedroom has a deliberate tour viewpoint');
+ assert.deepEqual(bedroomStop.point,bed.presentation.standing);assert.equal(bedroomStop.pitch,-.24);
+ const bedsideLights=built.group.children.filter(l=>l.isPointLight&&l.distance===3);
+ assert.equal(bedsideLights.length,2,'Both bedside lamps have local light sources');
+ built.setLighting(0);const dayPower=bedsideLights.map(l=>l.intensity);built.setLighting(1);
+ assert(bedsideLights.every((l,i)=>l.intensity>dayPower[i]*5),'Bedside lighting follows the shared day-night state');
  // Test the rendered shell, not just material settings: rays from valid walking
  // positions must hit the actual wall faces at low, eye and ceiling height.
  for(const m of[materials.plaster,materials.ceiling]){
@@ -134,13 +162,15 @@ try{
    assert(corner.length()<=built.nav.radius*.5+1e-7,'Near plane can cut through a collision wall');nearPlaneSamples++;
   }
  }
+ for(const timing of[[1/60],[1/30],[1/60,1/30,.05,1/60]]){
  walk.start(built,new THREE.Scene());
  for(const r of built.nav.rooms){
   assert(walk.goToRoom(r.index),`Dressed showcase route ${r.index}`);
-  for(let i=0;walk.path.length&&i<7200;i++){walk.update(1/60);const p=built.frame.toPlan(walk.pos.x,walk.pos.y);assert(built.nav.clear(p.x,p.y),'Dressed room collision');}
+  for(let i=0;walk.path.length&&i<7200;i++){walk.update(timing[i%timing.length]);const p=built.frame.toPlan(walk.pos.x,walk.pos.y);assert(built.nav.clear(p.x,p.y),'Dressed room collision');}
   assert.equal(walk.path.length,0,`Dressed showcase route stalled: ${r.index}`);
  }
  walk.stop();
+ }
  geometry={meshes:0,triangles:0,bytes:0};
  built.group.traverse(m=>{if(!m.isMesh)return;geometry.meshes++;const g=m.geometry;geometry.triangles+=(g.index?.count??g.attributes.position.count)/3;geometry.bytes+=(g.index?.array.byteLength??0)+Object.values(g.attributes).reduce((n,a)=>n+a.array.byteLength,0);});
  assert(geometry.meshes<60,'Showcase geometry should stay batched');
@@ -152,4 +182,6 @@ report.showcaseGeometry=geometry;
 report.curvedCurtainPanels=dressing.panels.length;report.lateMaterialMapsVerified=true;
 report.wallOcclusionSamples=wallOcclusionSamples;report.nearPlaneSamples=nearPlaneSamples;
 report.partitionSightlines=partitionSightlines;report.closedEntranceVerified=true;
+report.bedroomFurnitureParts=bed.commands.length;report.bedroomTextileTriangles=cloth.reduce((n,c)=>n+c.args[1].indices.length/3,0);
+report.bedroomCurtainPanels=bedroomDressing.panels.length;report.bedroomPresentationVerified=true;report.dressedRouteTimingProfiles=3;
 fs.writeFileSync('docs/qa/single-building.json',JSON.stringify(report,null,2)+'\n');console.log(report);

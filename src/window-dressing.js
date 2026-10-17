@@ -1,4 +1,21 @@
 import {inside} from './geometry.js';
+import {windowPath} from './window-path.js';
+
+// Adjacent imported glazing strips can describe one opening. Only join nearly
+// collinear strips separated by at most 8 cm; never span an intervening wall.
+export function joinedWindowPaths(windows){
+ const paths=windows.map(windowPath).filter(Boolean),groups=[];
+ for(const path of paths){
+  const xs=path.map(p=>p[0]),ys=path.map(p=>p[1]),dx=Math.max(...xs)-Math.min(...xs),dy=Math.max(...ys)-Math.min(...ys),axis=dx<.035?1:dy<.035?0:null;
+  if(axis===null){groups.push({path});continue;}
+  const other=1-axis,line=path.reduce((n,p)=>n+p[other],0)/path.length,lo=Math.min(...path.map(p=>p[axis])),hi=Math.max(...path.map(p=>p[axis]));
+  const matches=groups.filter(g=>g.axis===axis&&Math.abs(g.line-line)<.04&&Math.max(g.lo,lo)-Math.min(g.hi,hi)<=.08);
+  const group={axis,line,lo:Math.min(lo,...matches.map(g=>g.lo)),hi:Math.max(hi,...matches.map(g=>g.hi))};
+  for(const g of matches)groups.splice(groups.indexOf(g),1);
+  groups.push(group);
+ }
+ return groups.map(g=>g.path??(g.axis?[[g.line,g.lo],[g.line,g.hi]]:[[g.lo,g.line],[g.hi,g.line]]));
+}
 
 // Sample by metres, so a curved bay gets the same fold spacing as a straight one.
 export function windowDressing(path, room, height) {

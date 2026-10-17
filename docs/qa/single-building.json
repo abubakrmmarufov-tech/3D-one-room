@@ -8,14 +8,19 @@
   "showcaseRoomsReachable": 7,
   "showcaseFurnitureParts": 131,
   "showcaseGeometry": {
-    "meshes": 40,
-    "triangles": 80359,
-    "bytes": 7698052
+    "meshes": 38,
+    "triangles": 103579,
+    "bytes": 9927172
   },
   "curvedCurtainPanels": 2,
   "lateMaterialMapsVerified": true,
-  "wallOcclusionSamples": 366,
+  "wallOcclusionSamples": 357,
   "nearPlaneSamples": 288,
   "partitionSightlines": 108,
-  "closedEntranceVerified": true
+  "closedEntranceVerified": true,
+  "bedroomFurnitureParts": 43,
+  "bedroomTextileTriangles": 6912,
+  "bedroomCurtainPanels": 2,
+  "bedroomPresentationVerified": true,
+  "dressedRouteTimingProfiles": 3
 }

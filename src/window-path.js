@@ -4,7 +4,7 @@ import {bounds,polygonArea} from './geometry.js';
 // two boundary chains keeps frames on the glazing rather than across the room.
 export function windowPath(poly){
  const b=bounds(poly),dx=b.x1-b.x0,dy=b.y1-b.y0;
- if(poly.length<=5&&polygonArea(poly)>.9*dx*dy)return dx>dy?[[b.x0,(b.y0+b.y1)/2],[b.x1,(b.y0+b.y1)/2]]:[[(b.x0+b.x1)/2,b.y0],[(b.x0+b.x1)/2,b.y1]];
+ if(polygonArea(poly)>.95*dx*dy)return dx>dy?[[b.x0,(b.y0+b.y1)/2],[b.x1,(b.y0+b.y1)/2]]:[[(b.x0+b.x1)/2,b.y0],[(b.x0+b.x1)/2,b.y1]];
  const caps=[];
  for(let i=0;i<poly.length;i++){
   const a=poly[i],z=poly[(i+1)%poly.length],d=Math.hypot(a[0]-z[0],a[1]-z[1]);

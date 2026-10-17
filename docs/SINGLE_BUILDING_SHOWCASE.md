@@ -79,3 +79,14 @@ Verification:
 - A short 45-frame browser sample in Comfort mode at 1280 × 800 measured 16.7 ms median, 17.4 ms p95, 18.6 ms maximum and no intervals over 50 ms. This is a local observation, not a guarantee for phones or all hardware. Initial online download/compilation is still required; cached offline use remains supported after a complete successful visit.
 
 Navigation, furniture, motion, plan labels, inventory, showcase, daylight/offline and site checks passed, as did the production build. Public deployment is verified against the built asset after publishing.
+
+
+## Bedroom presentation — 17 October 2026
+
+Apartment № 57 now has a second detailed presentation room: its 20.21 m² bedroom. A 1.8 m double bed sits against the solid north partition, with layered upholstery, a timber plinth, draped duvet and runner, bedside storage, stone tops and warm local lamps. Storage uses the east wall; the real west glazing and the entry passage stay clear. These are furnishing proposals; source room geometry, apartment areas and building assets are unchanged.
+
+The bedroom tour stop faces the bed from a collision-safe position. `?apt=B12-0&room=bedroom` opens that view directly. The two adjacent source glazing strips share a gathered curtain track; straight, chamfered window outlines now receive proper frames too. Lamp power follows the same day/night state as the rest of the apartment.
+
+The actual rendered apartment passes all seven room routes at 60 Hz, 30 Hz and mixed frame timings. Tests also cover textile geometry, source-room containment, cloth overhang collision, curtain containment, entry connectivity, viewpoint and lamp synchronization. The active apartment is 38 batches / 103,579 triangles / 9,927,172 geometry bytes. Added cloth is static geometry, merged by material; no per-frame cloth simulation or new asset download is required.
+
+The final production build was viewed at 1280 × 720 in the in-app Chromium browser. The direct bedroom link, framed glazing, curtains and clear furniture view were visually checked; no runtime errors or warnings were reported. A 390 × 844 viewport also showed collapsed room controls and no document overflow. This is browser evidence, not physical-device or universal frame-rate proof.
