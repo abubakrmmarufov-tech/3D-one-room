@@ -90,3 +90,13 @@ The bedroom tour stop faces the bed from a collision-safe position. `?apt=B12-0&
 The actual rendered apartment passes all seven room routes at 60 Hz, 30 Hz and mixed frame timings. Tests also cover textile geometry, source-room containment, cloth overhang collision, curtain containment, entry connectivity, viewpoint and lamp synchronization. The active apartment is 38 batches / 103,579 triangles / 9,927,172 geometry bytes. Added cloth is static geometry, merged by material; no per-frame cloth simulation or new asset download is required.
 
 The final production build was viewed at 1280 × 720 in the in-app Chromium browser. The direct bedroom link, framed glazing, curtains and clear furniture view were visually checked; no runtime errors or warnings were reported. A 390 × 844 viewport also showed collapsed room controls and no document overflow. This is browser evidence, not physical-device or universal frame-rate proof.
+
+## Courtyard and reliable floor selection — 17 October 2026
+
+Removed the shared retail podium and its rooftop structures from the shipped GLB, retaining Block Б and its ground-level base. Replaced the former footprint with a presentation courtyard: eight planted islands, sixteen trees, timber benches and eight bollards. Removed 55 people standing on the former elevated terraces. Lighting pools are re-derived against the new ground surface. The landscape is a visualization proposal rather than an approved architectural change.
+
+The model download falls from 4,417,196 to 2,090,796 bytes (53% smaller), with no additional asset requests. The 34 retained tower nodes have identical position/index arrays, world transforms and floor metadata; the October apartment plans remain untouched. See [courtyard preservation check](qa/courtyard.json).
+
+Floor-mode canvas hover and click now raycast only apartments in the selected tower and floor. Invisible lower-floor volumes previously intercepted rays through the cutaway, producing the reported floor-16-to-floor-10 jump. A real Three.js raycasting regression reproduces that failure before the fix and covers selected floors, other towers, filters, overview discovery and walk mode. It runs with `npm run check`.
+
+Local browser checks covered an empty cutaway gap and direct apartment selection on floor 16, plus the compact phone selection sheet at 390×844. Both gap and apartment clicks retain floor 16. The courtyard was reviewed in daylight and at night. Navigation, furniture, motion, 80 plan label cases, inventory, showcase geometry/opaque walls, site budgets, daylight/offline cache checks and the production build pass. Site and daylight/offline checks now also run before every Pages deployment.

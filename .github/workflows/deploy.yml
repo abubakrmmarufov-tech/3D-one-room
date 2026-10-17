@@ -28,6 +28,8 @@ jobs:
       - run: npm run check:ui
       - run: npm run check:inventory
       - run: npm run check:showcase
+      - run: npm run check:site
+      - run: npm run check:lighting
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

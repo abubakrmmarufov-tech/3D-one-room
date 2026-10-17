@@ -1,0 +1,11 @@
+{
+  "sourceCommit": "9bace9b34d8ba374990d6f4982ec9592a51610d7",
+  "retainedTowerNodesVerified": 34,
+  "positionsIndicesTransformsAndFloorMetadataUnchanged": true,
+  "podiumRemoved": true,
+  "landscapeBatches": 6,
+  "peopleRemoved": 55,
+  "treesAdded": 16,
+  "modelBytesBefore": 4417196,
+  "modelBytesAfter": 2090796
+}

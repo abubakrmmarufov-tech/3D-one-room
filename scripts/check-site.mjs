@@ -15,7 +15,7 @@ globalThis.document={createElement:()=>({getContext:()=>ctx})};
 const data=JSON.parse(fs.readFileSync('src/model/complex.json'));
 const toScene=(x,y)=>({x:x-data.site_centre[0],z:-(y-data.site_centre[1])});
 const scene=new THREE.Scene();addTrees(scene,data.tree_protos,data.trees,toScene);
-assert.equal(scene.userData.treeBudget.trees,1107);
+assert.equal(scene.userData.treeBudget.trees,1123);
 assert(scene.userData.treeBudget.triangles<350000,'Tree geometry must stay below its budget');
 assert(scene.userData.treeBudget.batches<=40,'Tree batches must stay bounded');
 assert.equal(scene.children.filter(m=>m.isInstancedMesh).reduce((n,m)=>n+m.count,0),data.trees.length*2,'No duplicated or lost source trees');
@@ -32,6 +32,9 @@ assert(fixtureCentres(pair)[0].distanceTo(pair.position)<.001);
 const bytes=fs.readFileSync('public/models/shahrofar.glb');
 const {scene:root}=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
 const sourceCount=root.children.length;
+assert(!root.getObjectByName('Podium')&&!root.getObjectByName('Podium_decks'),'The removed podium and rooftop must not be downloaded or rendered');
+assert(root.getObjectByName('Courtyard_garden'),'Replacement courtyard is present');
+assert(data.people.every(p=>p[2]<=1),'No people float above the removed rooftop');
 const originalShrubs=[];root.updateMatrixWorld(true);root.traverse(m=>{if(m.material?.name==='Shrub')originalShrubs.push({mesh:m,geometry:m.geometry,bounds:new THREE.Box3().setFromObject(m),residential:['V','B'].includes(m.parent.userData.tower)});});
 assert.equal(replaceTerraceShrubs(root),16);
 for(const {mesh,geometry,bounds,residential} of originalShrubs){

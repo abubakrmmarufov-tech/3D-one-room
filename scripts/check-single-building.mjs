@@ -25,6 +25,9 @@ await MeshoptDecoder.ready;const doc=await io.read('public/models/shahrofar.glb'
 const root=doc.getRoot();
 assert(root.listNodes().length>100);
 for(const n of root.listNodes())assert(!['A','V'].includes(n.getExtras().tower)&&!/^([AV] |Hotel terrace|Sign [EHLOT]$)/.test(n.getName()),`Removed building node: ${n.getName()}`);
+assert(!root.listNodes().some(n=>['Podium','Podium decks'].includes(n.getName())),'Removed podium must not remain in the shipped asset');
+assert(root.listNodes().some(n=>n.getName()==='B base'),'Keep the retained tower grounded');
+assert(root.listNodes().some(n=>n.getName()==='Courtyard garden'));
 for(const mesh of root.listMeshes())assert(mesh.listParents().some(p=>p.propertyType==='Node'),'Orphaned building mesh');
 const apt=plans.B.apartments[0],living=apt.rooms.find(r=>r.kind==='living'),hero=collectFurniture(living,2.8,{}, {...living.furniture,showcase:true});
 const bedroom=apt.rooms.find(r=>r.kind==='bedroom'),bed=collectFurniture(bedroom,2.8,{}, {...bedroom.furniture,showcase:true});

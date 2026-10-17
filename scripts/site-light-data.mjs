@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const SURFACES = new Set(['Paving','Sidewalk','Promenade','Deck paving','Deck stone','Asphalt','Lawn','Grass','Cobble','Pool mosaic']);
+const SURFACES = new Set(['Paving','Sidewalk','Promenade','Deck paving','Deck stone','Asphalt','Lawn','Grass','Cobble','Pool mosaic','Courtyard stone']);
 
 // Lamp heads are separate connected pieces in their shared GLB material mesh.
 // Weld quantized positions so exported face seams do not split one fixture.

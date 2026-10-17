@@ -1,10 +1,10 @@
-// Single residential Block Б on the shared podium. Placement and floor levels come from the
+// Single residential Block Б beside a landscaped courtyard. Placement and floor levels come from the
 // Blender build in blender/ (model/complex.json); apartments, rooms and walls from the
 // architect's floor plans (model/plans.json).
 import complex from './model/complex.json';
 import plans from './model/plans.json';
 
-export const MODEL_URL = `${import.meta.env.BASE_URL}models/shahrofar.glb?v=5162075cad0aaf8c`;
+export const MODEL_URL = `${import.meta.env.BASE_URL}models/shahrofar.glb?v=18c8f2ef32446392`;
 export const PLANS = plans;
 
 // Site plan coordinates (metres, x east, y north) -> scene (x, z) with the complex at the origin.

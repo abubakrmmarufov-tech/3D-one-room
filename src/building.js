@@ -1,4 +1,4 @@
-// The retained residential tower, shared podium and surroundings, from the Blender export.
+// The retained residential tower and landscaped courtyard, from the derived Blender export.
 // Floors are separate objects so they can be hidden for the cut-away view,
 // and every apartment has an invisible pick volume used for hovering and highlighting.
 import * as THREE from 'three';
@@ -51,7 +51,7 @@ function tuneMaterial(m,landscape) {
     m.roughness = Math.max(0.06, Math.min(m.roughness, 0.12));
   }
   if(['River','Pool water'].includes(m.name))tuneWater(m);
-  if(['Asphalt','Paving','Sidewalk','Promenade','Deck paving','Deck stone','Embankment','Neighbour','Neighbour solid'].includes(m.name))tuneSiteSurface(m,m.name==='Asphalt'?'asphalt':m.name==='Embankment'?'stone':m.name.startsWith('Neighbour')?'context':'paving');
+  if(['Asphalt','Paving','Sidewalk','Promenade','Deck paving','Deck stone','Courtyard stone','Embankment','Neighbour','Neighbour solid'].includes(m.name))tuneSiteSurface(m,m.name==='Asphalt'?'asphalt':m.name==='Embankment'?'stone':m.name.startsWith('Neighbour')?'context':'paving');
   if(['Leaves','Leaves light','Shrub'].includes(m.name))tuneSourceFoliage(m);
   if(m.name==='Foam'){m.transparent=true;m.opacity=.10;m.depthWrite=false;}
   if (m.name.startsWith('Stained')) m.emissiveIntensity = 0.25;

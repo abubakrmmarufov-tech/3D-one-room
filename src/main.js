@@ -16,6 +16,7 @@ import {STATUSES,emptyInventory,recordFor,priceText,dateText,apartmentUrl} from 
 import {createInventoryReader} from './inventory-reader.js';
 import {createSelectionControls} from './selection-controls.js';
 import {interiorNearPlane} from './camera-clearance.js';
+import {pickApartment} from './apartment-picking.js';
 const $=s=>document.querySelector(s),reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -201,7 +202,7 @@ const joy=$('#joystick'),knob=joy.querySelector('.knob');let joyId=null;function
 function joyEnd(){joyId=null;knob.style.transform='';walk.setJoystick(0,0);}
 joy.addEventListener('pointerdown',e=>{joyId=e.pointerId;joy.setPointerCapture(joyId);joyMove(e);});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)joyMove(e);});for(const ev of ['pointerup','pointercancel','lostpointercapture'])joy.addEventListener(ev,joyEnd);addEventListener('blur',joyEnd);addEventListener('pointerdown',e=>{if(e.pointerType==='touch')document.body.classList.add('touch');});
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2(),tooltip=$('#tooltip');let down=null;
-function pick(e){if(!ready||transitioning)return null;ndc.set(e.clientX/innerWidth*2-1,1-e.clientY/innerHeight*2);ray.setFromCamera(ndc,camera);return ray.intersectObjects(building.pickables.filter(o=>{const a=o.userData.apt;return(!a||matches(a))&&!(state.mode==='floor'&&a?.tower===state.tower&&a.floor>state.floor);}),false)[0]?.object.userData;}
+function pick(e){if(!ready||transitioning)return null;ndc.set(e.clientX/innerWidth*2-1,1-e.clientY/innerHeight*2);ray.setFromCamera(ndc,camera);return pickApartment(ray,building.pickables,state,matches);}
 canvas.addEventListener('pointerdown',e=>{down=selection.dismissFromCanvas()?null:{x:e.clientX,y:e.clientY};tooltip.style.opacity=0;});canvas.addEventListener('pointercancel',()=>down=null);
 canvas.addEventListener('pointermove',e=>{if(state.mode==='walk'||e.pointerType==='touch'||e.buttons||transitioning)return;const hit=pick(e),a=hit?.apt;if(state.previewFloor||state.hoverApt!==(a??null)){state.previewFloor=null;state.hoverApt=a??null;updateOverlays();}canvas.style.cursor=a?'pointer':'';if(a||hit?.hotel){tooltip.textContent=a?`${a.towerLabel} · ${a.floor} этаж · квартира № ${a.number}`:'';const box=tooltip.getBoundingClientRect();tooltip.style.left=`${Math.max(8,Math.min(e.clientX+16,innerWidth-box.width-8))}px`;tooltip.style.top=`${Math.max(8,Math.min(e.clientY+12,innerHeight-box.height-8))}px`;tooltip.style.opacity=1;}else tooltip.style.opacity=0;});
 canvas.addEventListener('pointerleave',()=>{tooltip.style.opacity=0;state.hoverApt=null;updateOverlays();});canvas.addEventListener('pointerup',e=>{if(state.mode==='walk'||!down||transitioning)return;const moved=Math.hypot(e.clientX-down.x,e.clientY-down.y)>6;down=null;if(moved)return;const hit=pick(e);tooltip.style.opacity=0;const a=hit?.apt;if(!a)return;if(state.mode!=='floor'||a.tower!==state.tower||a.floor!==state.floor)selectFloor(a.tower,a.floor);else selectApt(a);});
