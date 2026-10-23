@@ -126,8 +126,14 @@ discreet tag: **«Независимый концепт Jomi Studio · Неоф�
 
 ## 6. Business facts and integrity
 
-Verify only from public sources: official Instagram, its linked channels. Candidate WhatsApp contact from
-the prototype: +992 807676796 (taken from the account's own tour posts; **re-verify before using**). If it
+Verify only from public sources: official Instagram https://www.instagram.com/amirtour.tajikistan/ and its
+linked channels. Starting leads from earlier research (treat as unverified until you confirm them):
+a recent tour announcement https://imginn.com/p/DeaJEa-ETWT/ and an older post that includes the Alaudin tour
+https://imginn.com/p/DboH5XaiEjH/ (third-party mirrors; confirm against the official account). Candidate
+WhatsApp contact printed in the account's tour posts: +992 807676796 (**re-verify before using**).
+Candidate destinations from those posts: Искандеркуль, Алаудинские озёра, Сангтуда.
+Known limitations to keep honest: package availability, inclusions, dates and prices are not confirmed;
+terrain and routes are illustrative unless you obtain verified data; this is not navigation data. If it
 cannot be verified, the only CTA is the public Instagram profile. If Instagram blocks automated access,
 say so plainly and mark facts unverified. Never invent prices, dates, itineraries, elevations, safety
 claims, reviews or phone numbers. No scraped Instagram photos or logos. Everything goes in
@@ -173,8 +179,10 @@ audit. Reading a skill is not doing the work.
 
 **A. Audit (short).** Open Fold Line live and its source; write `REFERENCE_NOTES.md` (10+ mechanics and why
 each works). Note: the live page now shows a single fictional "Valmora Round" while the README describes
-five treks, so trust what you observe. Read the attached prototype (`index.html`, `README.md`): it is a 2D
-canvas fake; table Keep/Replace/Missing in `AUDIT.md`. Build the source ledger. Write `ART_DIRECTION.md`.
+five treks, so trust what you observe. There is no prior prototype in this folder: an earlier 2D-canvas
+mock (fake terrain, destination switch, WhatsApp inquiry) was discarded, so build from scratch. Keep only its
+ideas: Russian-first copy, a destination switch and a contact-intent CTA. Record this and the Fold Line
+comparison (what it does that we must reach) in `AUDIT.md`. Build the source ledger. Write `ART_DIRECTION.md`.
 **B. One excellent destination (Искандеркуль).** Scaffold, lit scene, two-plus hinged panels, baked terrain
 card stack growing under a lamp, dive, scroll walk with 3 beats, return, rapid-click abuse test. Screenshot
 at 1440x900 and 390x844, list **5 visual defects**, fix them before expanding.
@@ -199,6 +207,13 @@ accurate route progress | Back returns to a stable atlas pose, no stuck scroll |
 state | CTA carries the selected destination, no invented prices | 360/390 px: no overflow, CTA reachable
 | reduced motion works | no-WebGL fallback works | build, typecheck, lint and tests pass.
 Never report a test you did not run. Never fabricate screenshots.
+
+## 10b. Standing rules (also save a short `AGENTS.md` with these so future sessions inherit them)
+
+Read this brief fully first. Russian-first. Always disclose "unofficial concept". No fake prices,
+availability, testimonials or ratings. No unlicensed Instagram imagery. No fabricated geography. No copied
+Fold Line code or assets. Report only tests you ran and URLs you verified. Priority: P0 functional and
+bespoke visual quality > P1 polish > P2 extras.
 
 ## 11. Deliverables
 
